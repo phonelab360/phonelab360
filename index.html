@@ -7,24 +7,31 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 50px; }
-        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
-        input { display: block; width: 250px; margin: 10px auto; padding: 10px; border: 1px solid #ddd; }
-        button { background: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; width: 300px; }
+        input { display: block; width: 90%; margin: 10px auto; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn { width: 95%; padding: 10px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
+        .login-btn { background: #007bff; }
+        .signup-btn { background: #28a745; }
         .hidden { display: none; }
+        .product-card { border: 1px solid #ddd; padding: 15px; margin: 10px; background: white; border-radius: 8px; }
     </style>
 </head>
 <body>
 
     <div class="box" id="auth-section">
-        <h2>PhoneLab360 লগইন</h2>
-        <input type="email" id="email" placeholder="ইমেইল">
+        <h2>PhoneLab360</h2>
+        <input type="email" id="email" placeholder="আপনার ইমেইল">
         <input type="password" id="password" placeholder="পাসওয়ার্ড">
-        <button onclick="login()">লগইন</button>
+        <button class="btn login-btn" onclick="login()">লগইন করুন</button>
+        <p>অথবা</p>
+        <button class="btn signup-btn" onclick="signup()">নতুন অ্যাকাউন্ট খুলুন</button>
     </div>
 
     <div id="shop-section" class="hidden">
-        <h2>স্বাগতম! আপনার আইটেমগুলো নিচে দেখুন:</h2>
+        <h2>স্বাগতম! আমাদের আইটেমগুলো দেখুন:</h2>
         <div id="product-list"></div>
+        <br>
+        <button onclick="location.reload()" style="padding: 10px;">লগআউট</button>
     </div>
 
     <script>
@@ -32,11 +39,21 @@
         const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // নতুন অ্যাকাউন্ট খোলার ফাংশন
+        async function signup() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { error } = await supabaseClient.auth.signUp({ email, password });
+            if (error) alert("ভুল: " + error.message);
+            else alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
+        }
+
+        // লগইন করার ফাংশন
         async function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            if (error) alert("ভুল ইমেইল বা পাসওয়ার্ড");
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) alert("লগইন ব্যর্থ: " + error.message);
             else {
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('shop-section').classList.remove('hidden');
@@ -44,17 +61,17 @@
             }
         }
 
+        // ডাটাবেস থেকে প্রোডাক্ট দেখানোর ফাংশন
         async function loadProducts() {
             const { data, error } = await supabaseClient.from('products').select('*');
+            const productContainer = document.getElementById('product-list');
             if (data) {
-                let html = '';
-                data.forEach(p => {
-                    html += `<div style="border:1px solid #ccc; margin:10px; padding:10px;">
-                                <h3>${p.name}</h3>
-                                <p>দাম: ৳ ${p.price}</p>
-                             </div>`;
-                });
-                document.getElementById('product-list').innerHTML = html;
+                productContainer.innerHTML = data.map(p => `
+                    <div class="product-card">
+                        <h3>${p.name}</h3>
+                        <p>মূল্য: ৳ ${p.price}</p>
+                    </div>
+                `).join('');
             }
         }
     </script>

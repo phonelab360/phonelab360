@@ -1,34 +1,62 @@
-// অথেন্টিকেশন হ্যান্ডেলিং
-    async function handleLogin() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) alert("ভুল তথ্য: " + error.message);
-    }
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoneLab360</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 50px; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
+        input { display: block; width: 250px; margin: 10px auto; padding: 10px; border: 1px solid #ddd; }
+        button { background: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
 
-    async function handleSignUp() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const { error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) alert("সমস্যা: " + error.message);
-        else alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
-    }
+    <div class="box" id="auth-section">
+        <h2>PhoneLab360 লগইন</h2>
+        <input type="email" id="email" placeholder="ইমেইল">
+        <input type="password" id="password" placeholder="পাসওয়ার্ড">
+        <button onclick="login()">লগইন</button>
+    </div>
 
-    async function handleLogout() {
-        await supabaseClient.auth.signOut();
-        location.reload();
-    }
+    <div id="shop-section" class="hidden">
+        <h2>স্বাগতম! আপনার আইটেমগুলো নিচে দেখুন:</h2>
+        <div id="product-list"></div>
+    </div>
 
-    // ইউজার লগইন আছে কি না চেক করা
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-        if (session) {
-            document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('shop-section').classList.remove('hidden');
-            document.getElementById('user-status').innerText = লগইন: ${session.user.email};
-            loadProducts(); // লগইন থাকলে প্রোডাক্ট লোড করো
+    <script>
+        const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) alert("ভুল ইমেইল বা পাসওয়ার্ড");
+            else {
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('shop-section').classList.remove('hidden');
+                loadProducts();
+            }
         }
-    });
-</script>
 
+        async function loadProducts() {
+            const { data, error } = await supabaseClient.from('products').select('*');
+            if (data) {
+                let html = '';
+                data.forEach(p => {
+                    html += `<div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                                <h3>${p.name}</h3>
+                                <p>দাম: ৳ ${p.price}</p>
+                             </div>`;
+                });
+                document.getElementById('product-list').innerHTML = html;
+            }
+        }
+    </script>
 </body>
 </html>

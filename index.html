@@ -6,32 +6,42 @@
     <title>PhoneLab360</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 50px; }
-        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; width: 300px; }
-        input { display: block; width: 90%; margin: 10px auto; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        .btn { width: 95%; padding: 10px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
+        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 20px; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; width: 320px; margin-top: 50px; }
+        input { display: block; width: 90%; margin: 10px auto; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn { width: 95%; padding: 12px; margin: 10px 5px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
         .login-btn { background: #007bff; }
         .signup-btn { background: #28a745; }
         .hidden { display: none; }
-        .product-card { border: 1px solid #ddd; padding: 15px; margin: 10px; background: white; border-radius: 8px; }
+        .product-card { border: 1px solid #ddd; padding: 15px; margin: 10px; background: white; border-radius: 8px; display: inline-block; width: 250px; }
     </style>
 </head>
 <body>
 
-    <div class="box" id="auth-section">
-        <h2>PhoneLab360</h2>
-        <input type="email" id="email" placeholder="আপনার ইমেইল">
-        <input type="password" id="password" placeholder="পাসওয়ার্ড">
-        <button class="btn login-btn" onclick="login()">লগইন করুন</button>
-        <p>অথবা</p>
-        <button class="btn signup-btn" onclick="signup()">নতুন অ্যাকাউন্ট খুলুন</button>
+    <div class="box" id="login-section">
+        <h2>PhoneLab360 লগইন</h2>
+        <input type="email" id="login-email" placeholder="ইমেইল">
+        <input type="password" id="login-password" placeholder="পাসওয়ার্ড">
+        <button class="btn login-btn" onclick="handleLogin()">লগইন করুন</button>
+        <p>অ্যাকাউন্ট নেই? <a href="#" onclick="showSection('signup-section')">নতুন খুলুন</a></p>
+    </div>
+
+    <div class="box hidden" id="signup-section">
+        <h2>নতুন অ্যাকাউন্ট</h2>
+        <input type="text" id="user-mobile" placeholder="মোবাইল নাম্বার">
+        <input type="email" id="signup-email" placeholder="ইমেইল">
+        <input type="password" id="signup-password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ সংখ্যার)">
+        <button class="btn signup-btn" onclick="handleSignUp()">রেজিস্ট্রেশন করুন</button>
+        <p><a href="#" onclick="showSection('login-section')">লগইন পেজে ফিরে যান</a></p>
     </div>
 
     <div id="shop-section" class="hidden">
-        <h2>স্বাগতম! আমাদের আইটেমগুলো দেখুন:</h2>
-        <div id="product-list"></div>
-        <br>
-        <button onclick="location.reload()" style="padding: 10px;">লগআউট</button>
+        <header style="background:#333; color:white; padding:10px; display:flex; justify-content:space-around; align-items:center;">
+            <h3>PhoneLab360</h3>
+            <button onclick="logout()" style="padding:5px 15px;">লগআউট</button>
+        </header>
+        <h2>আমাদের আইটেমগুলো:</h2>
+        <div id="product-list">লোডিং...</div>
     </div>
 
     <script>
@@ -39,41 +49,64 @@
         const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // নতুন অ্যাকাউন্ট খোলার ফাংশন
-        async function signup() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        function showSection(id) {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('signup-section').classList.add('hidden');
+            document.getElementById('shop-section').classList.add('hidden');
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        async function handleSignUp() {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const mobile = document.getElementById('user-mobile').value;
+
+            if (password.length < 6 || !mobile) {
+                alert("মোবাইল নাম্বার দিন এবং পাসওয়ার্ড কমপক্ষে ৬ সংখ্যার হতে হবে!");
+                return;
+            }
+
             const { error } = await supabaseClient.auth.signUp({ email, password });
             if (error) alert("ভুল: " + error.message);
-            else alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
+            else {
+                alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
+                showSection('login-section');
+            }
         }
 
-        // লগইন করার ফাংশন
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) alert("লগইন ব্যর্থ: " + error.message);
-            else {
-                document.getElementById('auth-section').classList.add('hidden');
-                document.getElementById('shop-section').classList.remove('hidden');
-                loadProducts();
+        }
+
+        async function loadProducts() {
+            const { data, error } = await supabaseClient.from('products').select('*');
+            const list = document.getElementById('product-list');
+            if (data && data.length > 0) {
+                list.innerHTML = data.map(p => `
+                    <div class="product-card">
+                        <h3>${p.name}</h3>
+                        <p style="color:#e44d26; font-size:1.2rem; font-weight:bold;">৳ ${p.price}</p>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = "<p>কোনো প্রোডাক্ট পাওয়া যায়নি। Supabase-এ Policy চেক করুন।</p>";
             }
         }
 
-        // ডাটাবেস থেকে প্রোডাক্ট দেখানোর ফাংশন
-        async function loadProducts() {
-            const { data, error } = await supabaseClient.from('products').select('*');
-            const productContainer = document.getElementById('product-list');
-            if (data) {
-                productContainer.innerHTML = data.map(p => `
-                    <div class="product-card">
-                        <h3>${p.name}</h3>
-                        <p>মূল্য: ৳ ${p.price}</p>
-                    </div>
-                `).join('');
-            }
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            location.reload();
         }
+
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                showSection('shop-section');
+                loadProducts();
+            }
+        });
     </script>
 </body>
 </html>

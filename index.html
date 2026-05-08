@@ -1,67 +1,17 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhoneLab360 - Admin & User Panel</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f0f2f5; }
-        header { background: #1c1e21; color: white; padding: 1rem; text-align: center; }
-        .container { max-width: 600px; margin: 50px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .auth-form { display: flex; flex-direction: column; gap: 15px; }
-        input, button { padding: 12px; border-radius: 5px; border: 1px solid #ddd; font-size: 16px; }
-        button { background: #007bff; color: white; cursor: pointer; border: none; font-weight: bold; }
-        button:hover { background: #0056b3; }
-        .hidden { display: none; }
-        #user-info { margin-top: 10px; font-size: 14px; color: #ccc; }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>PhoneLab360</h1>
-    <div id="user-info"></div>
-</header>
-
-<div class="container">
-    <div id="auth-section">
-        <h3 style="text-align: center;">লগইন / রেজিস্ট্রেশন</h3>
-        <div class="auth-form">
-            <input type="email" id="email" placeholder="আপনার ইমেইল">
-            <input type="password" id="password" placeholder="পাসওয়ার্ড">
-            <button onclick="handleLogin()">লগইন করুন</button>
-            <button style="background: #28a745;" onclick="handleSignUp()">নতুন অ্যাকাউন্ট খুলুন</button>
-        </div>
-    </div>
-
-    <div id="shop-section" class="hidden">
-        <h3 style="text-align: center;">স্বাগতম PhoneLab360 এ!</h3>
-        <p style="text-align: center;">আপনি সফলভাবে লগইন করেছেন।</p>
-        <button style="width: 100%; background: #dc3545;" onclick="handleLogout()">লগআউট</button>
-    </div>
-</div>
-
-<script>
-    // আপনার দেওয়া Supabase তথ্য এখানে বসানো হয়েছে
-    const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+// অথেন্টিকেশন হ্যান্ডেলিং
     async function handleLogin() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) alert("ভুল ইমেইল বা পাসওয়ার্ড: " + error.message);
-        else alert("লগইন সফল!");
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) alert("ভুল তথ্য: " + error.message);
     }
 
     async function handleSignUp() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) alert("সমস্যা হয়েছে: " + error.message);
-        else alert("আপনার ইমেইল চেক করুন এবং কনফার্ম করুন!");
+        const { error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) alert("সমস্যা: " + error.message);
+        else alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
     }
 
     async function handleLogout() {
@@ -69,11 +19,13 @@
         location.reload();
     }
 
+    // ইউজার লগইন আছে কি না চেক করা
     supabaseClient.auth.onAuthStateChange((event, session) => {
         if (session) {
             document.getElementById('auth-section').classList.add('hidden');
             document.getElementById('shop-section').classList.remove('hidden');
-            document.getElementById('user-info').innerText = লগইন আছেন: ${session.user.email};
+            document.getElementById('user-status').innerText = লগইন: ${session.user.email};
+            loadProducts(); // লগইন থাকলে প্রোডাক্ট লোড করো
         }
     });
 </script>

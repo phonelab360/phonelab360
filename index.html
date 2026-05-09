@@ -3,120 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhoneLab360 - Best Mobile Parts</title>
+    <title>PhoneLab360 - Mobile Parts Shop</title>
+    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --primary: #2d3436; --accent: #00b894; --price: #d63031; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
-        
-        /* Header Style */
-        header { background: var(--primary); color: white; padding: 15px 20px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
-        #user-info { font-size: 12px; color: #00b894; margin-top: 5px; }
-
+        body { font-family: Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
         .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-
-        /* Auth Box Style */
-        .auth-box { background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 380px; margin: 80px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .main-btn { background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .main-btn:hover { background: #019477; }
         
-        /* Product Grid Style */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px 0; }
-        .card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; border: 1px solid #eee; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; background: #f9f9f9; }
-        .card h3 { font-size: 18px; color: #333; margin: 10px 0; height: 45px; overflow: hidden; }
-        .card .price { font-size: 20px; color: var(--price); font-weight: bold; margin-bottom: 15px; }
-        
-        .wa-btn { background: #25D366; color: white; text-decoration: none; padding: 10px; border-radius: 6px; display: block; font-weight: bold; transition: 0.3s; }
-        .wa-btn:hover { background: #128C7E; }
+        /* Auth Box */
+        .auth-box { background: white; padding: 25px; border-radius: 12px; max-width: 350px; margin: 50px auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .main-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
 
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: contain; border-radius: 5px; background: #fff; }
+        .card h3 { font-size: 18px; margin: 10px 0; color: #333; }
+        .card .price { color: var(--price); font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+        
+        .wa-btn { background: #25D366; color: white; text-decoration: none; padding: 10px; border-radius: 5px; display: block; font-weight: bold; }
         .hidden { display: none; }
-        .logout-btn { background: #ff7675; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; float: right; }
+        
+        /* Mobile adjustment */
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>PhoneLab360</h1>
-        <div id="user-info"></div>
+        <div id="user-display" style="font-size: 12px; color: #00b894;"></div>
     </header>
 
     <div class="container">
+        <!-- Auth Section -->
         <div id="auth-section" class="auth-box">
             <h2 id="auth-title">লগইন করুন</h2>
-            <input type="email" id="email" placeholder="আপনার ইমেইল">
+            <input type="email" id="email" placeholder="ইমেইল">
             <input type="password" id="password" placeholder="পাসওয়ার্ড">
-            <button class="main-btn" id="submit-btn" onclick="handleAuth()">লগইন করুন</button>
-            <p style="margin-top:15px; font-size:14px;" id="toggle-text">
-                অ্যাকাউন্ট নেই? <a href="#" onclick="toggleAuth()" style="color:var(--accent); font-weight:bold;">নতুন অ্যাকাউন্ট খুলুন</a>
-            </p>
+            <button class="main-btn" onclick="handleAuth()">লগইন / সাইন-আপ</button>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">অ্যাকাউন্ট না থাকলে তথ্য দিয়ে বাটনে ক্লিক করুন</p>
         </div>
 
+        <!-- Shop Section -->
         <div id="shop-section" class="hidden">
-            <div style="margin-bottom: 20px; overflow: hidden;">
-                <h2 style="display:inline-block; margin:0;">আমাদের স্পেয়ার পার্টস</h2>
-                <button class="logout-btn" onclick="logout()">লগআউট</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">স্পেয়ার পার্টস</h2>
+                <button onclick="logout()" style="background:#ff7675; color:white; border:none; padding:5px 10px; border-radius:4px;">লগআউট</button>
             </div>
             <div class="product-grid" id="product-list">
-                </div>
+                <!-- Products load here -->
+            </div>
         </div>
     </div>
 
     <script>
-        // Supabase Configuration
         const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V';
+        const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'; 
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let isLoginMode = true;
-
-        function toggleAuth() {
-            isLoginMode = !isLoginMode;
-            document.getElementById('auth-title').innerText = isLoginMode ? "লগইন করুন" : "নতুন অ্যাকাউন্ট";
-            document.getElementById('submit-btn').innerText = isLoginMode ? "লগইন করুন" : "রেজিস্ট্রেশন করুন";
-            document.getElementById('toggle-text').innerHTML = isLoginMode ? 
-                'অ্যাকাউন্ট নেই? <a href="#" onclick="toggleAuth()" style="color:var(--accent); font-weight:bold;">নতুন অ্যাকাউন্ট খুলুন</a>' : 
-                'আগে থেকেই অ্যাকাউন্ট আছে? <a href="#" onclick="toggleAuth()" style="color:var(--accent); font-weight:bold;">লগইন করুন</a>';
-        }
 
         async function handleAuth() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            if (!email || !password) return alert("ইমেইল ও পাসওয়ার্ড দিন");
 
-            if (!email || !password) return alert("দয়া করে সব ঘর পূরণ করুন।");
-
-            if (isLoginMode) {
-                const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) alert("লগইন ব্যর্থ: " + error.message);
-            } else {
-                const { error } = await supabaseClient.auth.signUp({ email, password });
-                if (error) alert("রেজিস্ট্রেশন ব্যর্থ: " + error.message);
-                else alert("রেজিস্ট্রেশন সফল! এখন লগইন করুন।");
+            // প্রথমে লগইন চেষ্টা করবে, না হলে সাইন-আপ করবে
+            const { data, error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
+            
+            if (loginError) {
+                const { error: signUpError } = await supabaseClient.auth.signUp({ email, password });
+                if (signUpError) alert("ভুল হয়েছে: " + signUpError.message);
+                else alert("অ্যাকাউন্ট তৈরি হয়েছে! এখন লগইন করুন।");
             }
         }
 
         async function loadProducts() {
-            const { data: products, error } = await supabaseClient.from('products').select('*');
-            
-            if (error) {
-                console.error("Error loading products:", error);
-                return;
-            }
+            try {
+                const { data: products, error } = await supabaseClient.from('products').select('*');
+                if (error) throw error;
 
-            const list = document.getElementById('product-list');
-            list.innerHTML = products.map(p => `
-                <div class="card">
-                    <img src="${p.image || 'https://via.placeholder.com/300?text=No+Image'}" alt="${p.name}">
-                    <h3>${p.name}</h3>
-                    <div class="price">৳ ${p.price}</div>
-                    <a href="https://wa.me/8801878877746?text=আমি এই প্রোডাক্টটি অর্ডার করতে চাই: ${p.name}" target="_blank" class="wa-btn">
-                        WhatsApp অর্ডার
-                    </a>
-                </div>
-            `).join('');
+                const list = document.getElementById('product-list');
+                list.innerHTML = products.map(p => `
+                    <div class="card">
+                        <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <div class="price">৳ ${p.price}</div>
+                        <a href="https://wa.me/8801878877746?text=অর্ডার: ${p.name}" target="_blank" class="wa-btn">WhatsApp অর্ডার</a>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Error:", err);
+            }
         }
 
         async function logout() {
@@ -124,16 +106,17 @@
             location.reload();
         }
 
-        // Listen for Auth changes
+        // Auth State Change - এই অংশটি মোবাইল লোডিং ঠিক করবে
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (session) {
                 document.getElementById('auth-section').classList.add('hidden');
                 document.getElementById('shop-section').classList.remove('hidden');
-                document.getElementById('user-info').innerText = "লগইন আছেন: " + session.user.email;
+                document.getElementById('user-display').innerText = "লগইন: " + session.user.email;
                 loadProducts();
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('shop-section').classList.add('hidden');
+                document.getElementById('user-display').innerText = "";
             }
         });
     </script>

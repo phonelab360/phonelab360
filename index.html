@@ -15,7 +15,6 @@
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
         
-        /* Header & Logo Section */
         header { 
             background: var(--primary); 
             color: white; 
@@ -32,7 +31,6 @@
         header h1 { margin: 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
         header p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; letter-spacing: 1px; }
         
-        /* Controls Container */
         .controls-container { max-width: 850px; margin: -25px auto 30px; padding: 0 15px; text-align: center; }
         #searchBar { 
             width: 100%; 
@@ -48,7 +46,6 @@
         }
         #searchBar:focus { box-shadow: 0 8px 25px rgba(5, 196, 107, 0.2); }
         
-        /* Category Buttons */
         .filter-group { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .filter-btn { 
             background: white; 
@@ -65,11 +62,9 @@
         .filter-btn:hover, .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
         .stats-counter { font-size: 13px; color: #7f8c8d; margin-bottom: 15px; font-weight: 500; }
 
-        /* Container & Grid */
         .container { max-width: 1200px; margin: 0 auto; padding: 10px 20px 40px; min-height: 50vh; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
         
-        /* Card Style */
         .card { 
             background: white; 
             border-radius: 16px; 
@@ -88,7 +83,6 @@
         .card h3 { font-size: 16px; color: #2c3e50; margin: 10px 0; min-height: 44px; line-height: 1.4; font-weight: 600; text-align: left; }
         .card .price { color: var(--price); font-size: 20px; font-weight: 700; margin-bottom: 15px; display: block; text-align: left; }
         
-        /* Order Button */
         .order-btn { 
             background: #05c46b; 
             color: white; 
@@ -103,6 +97,121 @@
             transition: 0.2s; 
             margin-top: auto;
             font-size: 15px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .order-btn:hover { background: #04a75b; box-shadow: 0 4px 15px rgba(5, 196, 107, 0.3); }
+
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.5); 
+            justify-content: center; 
+            align-items: center; 
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .modal-content { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 16px; 
+            max-width: 450px; 
+            width: 100%; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .close-btn { 
+            position: absolute; 
+            right: 15px; top: 15px; 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: #7f8c8d; 
+        }
+        .payment-info { 
+            background: #f8f9fa; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            font-size: 14px; 
+            border-left: 4px solid #05c46b;
+        }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 5px; font-weight: 600; color: #333; }
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 14px;
+        }
+
+        footer { background: var(--primary); color: white; padding: 40px 20px; text-align: center; margin-top: 60px; border-top: 4px solid var(--accent); }
+        .footer-links a { color: var(--accent); text-decoration: none; margin: 0 12px; font-weight: 600; }
+        .copy-right { margin-top: 25px; font-size: 13px; opacity: 0.6; }
+        #loading { text-align: center; padding: 60px; font-size: 18px; color: #7f8c8d; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="PhoneLab360 Logo">
+    </div>
+    <h1>PhoneLab360</h1>
+    <p>আপনার ফোনের বিশ্বস্ত পার্টস শপ</p>
+</header>
+
+<div class="controls-container">
+    <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Power Bank...)" onkeyup="filterProducts()">
+    
+    <div class="filter-group">
+        <button class="filter-btn active" onclick="filterByCategory('All', this)">সব পণ্য</button>
+        <button class="filter-btn" onclick="onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
+        <button class="filter-btn" onclick="filterByCategory('Display', this)">ডিসপ্লে</button>
+        <button class="filter-btn" onclick="filterByCategory('Power Bank', this)">পাওয়ার ব্যাংক</button>
+        <button class="filter-btn" onclick="filterByCategory('Charger', this)">চার্জার</button>
+        <button class="filter-btn" onclick="filterByCategory('Bluetooth', this)">ব্লুটুথ</button>
+        <button class="filter-btn" onclick="filterByCategory('mobile', this)">মোবাইল</button>
+    </div>
+    
+    <div class="stats-counter" id="itemCount">মোট পণ্য দেখাচ্ছে: ০ টি</div>
+</div>
+
+<div class="container">
+    <div id="loading">পণ্যগুলো সাজানো হচ্ছে...</div>
+    <div class="product-grid" id="product-list"></div>
+</div>
+
+<div class="modal" id="orderModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 style="margin-top: 0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
+        
+        <div class="payment-info">
+            <strong>💵 আমাদের পেমেন্ট নম্বরসমূহ:</strong><br>
+            বিকাশ (Personal): 01878877746<br>
+            নগদ (Personal): 01878877746<br>
+            <span style="font-size: 12px; color: #e74c3c;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি নিচে দিন।</span>
+        </div>
+
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <input type="hidden" id="modalProdName">
+            <input type="hidden" id="modalProdPrice">
+
+            <div class="form-group">
+                <label>আপনার নাম *</label>
+                <input type="text" id="custName" required placeholder="নাম লিখুন">
+            </div>
+            <div class="form-group">
+                <label>মোবাইল নম্বর *</label>
+                <input type="tel" id="custPhone" required placeholder="১১ ডিজিটের নম্বর">
+            </div>
             border: none;
             cursor: pointer;
             width: 100%;

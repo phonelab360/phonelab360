@@ -129,33 +129,6 @@
 </header>
 
 <div class="controls-container">
-    <input type="text" id="
-            margin-top: auto;
-            font-size: 15px;
-        }
-        .wa-btn:hover { background: #27ae60; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
-
-        /* Footer */
-        footer { background: var(--primary); color: white; padding: 40px 20px; text-align: center; margin-top: 60px; border-top: 4px solid var(--accent); }
-        .footer-content { max-width: 1200px; margin: 0 auto; }
-        .footer-links a { color: var(--accent); text-decoration: none; margin: 0 12px; font-weight: 600; transition: 0.2s; }
-        .footer-links a:hover { color: white; }
-        .copy-right { margin-top: 25px; font-size: 13px; opacity: 0.6; }
-
-        #loading { text-align: center; padding: 60px; font-size: 18px; color: #7f8c8d; font-weight: 500; }
-    </style>
-</head>
-<body>
-
-<header>
-    <div class="logo-container">
-        <img src="https://i.ibb.co/3mN689p/1000008500.png" alt="PhoneLab360 Logo">
-    </div>
-    <h1>PhoneLab360</h1>
-    <p>আপনার ফোনের বিশ্বস্ত পার্টস শপ</p>
-</header>
-
-<div class="controls-container">
     <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Power Bank...)" onkeyup="filterProducts()">
     
     <div class="filter-group">
@@ -221,6 +194,7 @@
             return;
         }
         
+        // এখানে সাধারণ কোটেশনের বদলে ব্যাকটিক (`) ব্যবহার করে কোড সম্পূর্ণ ঠিক করা হয়েছে 
         list.innerHTML = products.map(p => `
             <div class="card">
                 <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name}">
@@ -238,7 +212,6 @@
         const query = document.getElementById('searchBar').value.toLowerCase();
         const filtered = allProducts.filter(p => {
             const matchesSearch = p.name.toLowerCase().includes(query);
-            // ডাটাবেসের ক্যাটাগরি এবং ফিল্টার ম্যাচিং (কেস সেন্সিটিভ ইস্যু দূর করা হয়েছে)
             const pCategory = p.category ? p.category.toLowerCase().trim() : '';
             const fCategory = currentCategory.toLowerCase().trim();
             const matchesCategory = currentCategory === 'All' || pCategory === fCategory;
@@ -251,47 +224,6 @@
         currentCategory = category;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        filterProducts();
-    }
-
-    window.onload = loadProducts;
-</script>
-
-</body>
-</html>
-        if(products.length === 0) {
-            list.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #999;">কোনো পণ্য খুঁজে পাওয়া যায়নি।</p>`;
-            return;
-        }
-        list.innerHTML = products.map(p => `
-            <div class="card">
-                <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name}">
-                <h3>${p.name}</h3>
-                <span class="price">৳ ${p.price}</span>
-                <a href="https://wa.me/${WHATSAPP_NUMBER}?text=সালাম, আমি এই পণ্যটি নিতে চাই:%0Aনাম: ${p.name}%0Aদাম: ${p.price} টাকা" target="_blank" class="wa-btn">
-                    WhatsApp অর্ডার
-                </a>
-            </div>
-        `).join('');
-    }
-
-    function filterProducts() {
-        const query = document.getElementById('searchBar').value.toLowerCase();
-        const filtered = allProducts.filter(p => {
-            const matchesSearch = p.name.toLowerCase().includes(query);
-            const matchesCategory = currentCategory === 'All' || (p.category && p.category === currentCategory);
-            return matchesSearch && matchesCategory;
-        });
-        displayProducts(filtered);
-    }
-
-    function filterByCategory(category, btn) {
-        currentCategory = category;
-        
-        // বাটন কালার পরিবর্তন
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
         filterProducts();
     }
 

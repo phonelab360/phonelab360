@@ -172,7 +172,7 @@
     
     <div class="filter-group">
         <button class="filter-btn active" onclick="filterByCategory('All', this)">সব পণ্য</button>
-        <button class="filter-btn" onclick="onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
+        <button class="filter-btn" onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
         <button class="filter-btn" onclick="filterByCategory('Display', this)">ডিসপ্লে</button>
         <button class="filter-btn" onclick="filterByCategory('Power Bank', this)">পাওয়ার ব্যাংক</button>
         <button class="filter-btn" onclick="filterByCategory('Charger', this)">চার্জার</button>
@@ -212,3 +212,195 @@
                 <label>মোবাইল নম্বর *</label>
                 <input type="tel" id="custPhone" required placeholder="১১ ডিজিটের নম্বর">
             </div>
+            <div class="form-group">
+                <label>পূর্ণাঙ্গ ঠিকানা *</label>
+                <textarea id="custAddress" rows="3" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea>
+            </div>
+            <div class="form-group">
+                <label>পেমেন্ট মেথড *</label>
+                <select id="payMethod" required>
+                    <option value="Bkash">বিকাশ (Bkash)</option>
+                    <option value="Nagad">নগদ (Nagad)</option>
+                    <option value="Rocket">রকেট (Rocket)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ট্রানজেকশন আইডি (TrxID) *</label>
+                <input type="text" id="trxId" required placeholder="যেমন: 8N7X9W2Z">
+            </div>
+            <button type="submit" class="order-btn" id="submitBtn">অর্ডারটি সম্পন্ন করুন</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <h3>PhoneLab360</h3>
+        <p style="opacity: 0.8; max-width: 500px; margin: 10px auto 20px;">আমরা প্রদান করি ১০০% কোয়ালিটি সম্পন্ন অরিজিনাল মোবাইল পার্টস ও অ্যাক্সেসরিজ।</p>
+        <div class="footer-links">
+            <a href="https://wa.me/8801878877746" target="_blank">সরাসরি যোগাযোগ</a> | 
+            <a href="https://facebook.com/phonelab360" target="_blank">ফেসবুক পেজ</a>
+        </div>
+        <div class="copy-right">
+            &copy; 2026 PhoneLab360 - সর্বস্বত্ব সংরক্ষিত।
+        </div>
+    </div>
+</footer>
+
+<script>
+    const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ⚡ টেলিগ্রাম বট কনফিগারেশন 
+    const TELEGRAM_BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
+
+    let allProducts = [];
+    let currentCategory = 'All';
+
+    async function loadProducts() {
+        try {
+            const { data: products, error } = await supabaseClient.from('products').select('*');
+            if (error) throw error;
+            allProducts = products;
+            displayProducts(products);
+            document.getElementById('loading').style.display = 'none';
+        } catch (err) {
+            document.getElementById('loading').innerText = "পণ্য লোড করতে সমস্যা হচ্ছে। পেজটি রিফ্রেশ দিন।";
+        }
+    }
+
+    function displayProducts(products) {
+        const list = document.getElementById('product-list');
+        const counter = document.getElementById('itemCount');
+        counter.innerText = `মোট পণ্য দেখাচ্ছে: ${products.length} টি`;
+
+        if(products.length === 0) {
+            list.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px 0;">কোনো পণ্য খুঁজে পাওয়া যায়নি।</div>`;
+            return;
+        }
+        
+        list.innerHTML = products.map(p => `
+            <div class="card">
+                <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <span class="price">৳ ${p.price}</span>
+                <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">
+                    অর্ডার করুন
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function openModal(name, price) {
+        document.getElementById('modalProdName').value = name;
+        document.getElementById('modalProdPrice').value = price;
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('orderModal').style.display = 'none';
+        document.getElementById('orderForm').reset();
+    }
+
+    async function sendTelegramNotification(order) {
+        const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n` +
+                     `📦 *পণ্য:* ${order.product_name}\n` +
+                     `💰 *মূল্য:* ৳ ${order.price}\n\n` +
+                     `👤 *কাস্টমার:* ${order.customer_name}\n` +
+                     `📞 *ফোন:* ${order.phone}\n` +
+                     `📍 *ঠিকানা:* ${order.address}\n\n` +
+                     `💳 *পেমেন্ট:* ${order.payment_method}\n` +
+                     `🆔 *TrxID:* \`${order.transaction_id}\``;
+
+        // আপনার চ্যাট আইডি সরাসরি সার্ভার থেকে নেওয়ার অটোমেটিক সিস্টেম
+        try {
+            const updatesResp = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`);
+            const updatesData = await updatesResp.json();
+            
+            let chatId = null;
+            if (updatesData.result && updatesData.result.length > 0) {
+                chatId = updatesData.result[updatesData.result.length - 1].message.chat.id;
+            }
+
+            if (!chatId) {
+                console.error("টেলিগ্রাম চ্যাট আইডি পাওয়া যায়নি। অনুগ্রহ করে আপনার বটে ঢুকে একবার /start দিন।");
+                return;
+            }
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text,
+                    parse_mode: 'Markdown'
+                })
+            });
+        } catch (e) {
+            console.error("টেলিগ্রাম নোটিফিকেশন পাঠাতে ব্যর্থ:", e);
+        }
+    }
+
+    async function submitOrder(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerText = "অর্ডার প্রসেস হচ্ছে...";
+        submitBtn.disabled = true;
+
+        const rawPrice = document.getElementById('modalProdPrice').value;
+        const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
+
+        const orderData = {
+            product_name: document.getElementById('modalProdName').value,
+            price: parsedPrice, 
+            customer_name: document.getElementById('custName').value,
+            phone: document.getElementById('custPhone').value,
+            address: document.getElementById('custAddress').value,
+            payment_method: document.getElementById('payMethod').value,
+            transaction_id: document.getElementById('trxId').value
+        };
+
+        try {
+            const { error } = await supabaseClient.from('orders').insert([orderData]);
+            if (error) throw error;
+            
+            // টেলিগ্রামে নোটিফিকেশন পাঠানো
+            await sendTelegramNotification(orderData);
+            
+            alert("ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।");
+            closeModal();
+        } catch (err) {
+            alert("অর্ডার করতে সমস্যা হয়েছে! আবার চেষ্টা করুন বা ওয়াটসঅ্যাপে জানান।");
+            console.error(err);
+        } finally {
+            submitBtn.innerText = "অর্ডারটি সম্পন্ন করুন";
+            submitBtn.disabled = false;
+        }
+    }
+
+    function filterProducts() {
+        const query = document.getElementById('searchBar').value.toLowerCase();
+        const filtered = allProducts.filter(p => {
+            const matchesSearch = p.name.toLowerCase().includes(query);
+            const pCategory = p.category ? p.category.toLowerCase().trim() : '';
+            const fCategory = currentCategory.toLowerCase().trim();
+            const matchesCategory = currentCategory === 'All' || pCategory === fCategory;
+            return matchesSearch && matchesCategory;
+        });
+        displayProducts(filtered);
+    }
+
+    function filterByCategory(category, btn) {
+        currentCategory = category;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterProducts();
+    }
+
+    window.onload = loadProducts;
+</script>
+
+</body>
+</html>

@@ -6,60 +6,142 @@
     <title>PhoneLab360 - Official Parts Store</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root { --primary: #1e272e; --accent: #05c46b; --price: #eb4d4b; --bg: #f5f6fa; }
+        :root { 
+            --primary: #1e272e; 
+            --accent: #05c46b; 
+            --price: #eb4d4b; 
+            --bg: #f5f6fa; 
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; }
         
-        /* Header */
-        header { background: var(--primary); color: white; padding: 40px 20px; text-align: center; }
-        header h1 { margin: 0; font-size: 36px; text-transform: uppercase; letter-spacing: 2px; }
+        /* Header & Logo Section */
+        header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 35px 20px; 
+            text-align: center; 
+            border-bottom: 4px solid var(--accent);
+        }
+        .logo-container img { 
+            max-width: 90px; 
+            height: auto; 
+            margin-bottom: 10px; 
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3)); 
+        }
+        header h1 { margin: 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+        header p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; letter-spacing: 1px; }
         
-        /* Search & Filter Section */
-        .controls-container { max-width: 800px; margin: -25px auto 30px; padding: 0 15px; text-align: center; }
-        #searchBar { width: 100%; padding: 15px 25px; border-radius: 50px; border: none; box-shadow: 0 5px 20px rgba(0,0,0,0.1); font-size: 16px; outline: none; margin-bottom: 20px; }
+        /* Controls Container */
+        .controls-container { max-width: 850px; margin: -25px auto 30px; padding: 0 15px; text-align: center; }
+        #searchBar { 
+            width: 100%; 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            border: none; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08); 
+            font-size: 16px; 
+            outline: none; 
+            margin-bottom: 20px; 
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+        #searchBar:focus { box-shadow: 0 8px 25px rgba(5, 196, 107, 0.2); }
         
-        .filter-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-        .filter-btn { background: white; border: 1px solid #ddd; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-weight: 500; }
+        /* Category Buttons */
+        .filter-group { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .filter-btn { 
+            background: white; 
+            border: 1px solid #e0e0e0; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            transition: 0.2s ease-in-out; 
+            font-weight: 600; 
+            font-size: 13px;
+            color: #485460;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
         .filter-btn:hover, .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 60vh; }
+        /* Product Counter */
+        .stats-counter { font-size: 13px; color: #7f8c8d; margin-bottom: 15px; font-weight: 500; }
+
+        /* Container & Grid */
+        .container { max-width: 1200px; margin: 0 auto; padding: 10px 20px 40px; min-height: 50vh; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
         
-        /* Product Card */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
-        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 200px; object-fit: contain; border-radius: 10px; margin-bottom: 15px; background: #f9f9f9; }
-        .card h3 { font-size: 18px; color: #2d3436; margin: 10px 0; min-height: 44px; }
-        .card .price { color: var(--price); font-size: 22px; font-weight: bold; margin-bottom: 20px; display: block; }
+        /* Premium Card Style */
+        .card { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 20px; 
+            box-shadow: var(--card-shadow); 
+            text-align: center; 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; 
+            border: 1px solid #f1f2f6; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; 
+            box-sizing: border-box; 
+        }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .card img { width: 100%; height: 180px; object-fit: contain; border-radius: 12px; margin-bottom: 15px; background: #fafafa; padding: 5px; box-sizing: border-box;}
+        .card h3 { font-size: 16px; color: #2c3e50; margin: 10px 0; min-height: 44px; line-height: 1.4; font-weight: 600; text-align: left; }
+        .card .price { color: var(--price); font-size: 20px; font-weight: 700; margin-bottom: 15px; display: block; text-align: left; }
         
-        .wa-btn { background: #2ecc71; color: white; text-decoration: none; padding: 12px; border-radius: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; margin-top: auto; }
-        .wa-btn:hover { background: #27ae60; }
+        /* WhatsApp Order Button */
+        .wa-btn { 
+            background: #2ecc71; 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            transition: 0.2s; 
+            margin-top: auto;
+            font-size: 15px;
+        }
+        .wa-btn:hover { background: #27ae60; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); }
 
         /* Footer */
-        footer { background: var(--primary); color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
+        footer { background: var(--primary); color: white; padding: 40px 20px; text-align: center; margin-top: 60px; border-top: 4px solid var(--accent); }
         .footer-content { max-width: 1200px; margin: 0 auto; }
-        .footer-links a { color: #05c46b; text-decoration: none; margin: 0 10px; }
-        .copy-right { margin-top: 20px; font-size: 14px; opacity: 0.7; }
+        .footer-links a { color: var(--accent); text-decoration: none; margin: 0 12px; font-weight: 600; transition: 0.2s; }
+        .footer-links a:hover { color: white; }
+        .copy-right { margin-top: 25px; font-size: 13px; opacity: 0.6; }
 
-        #loading { text-align: center; padding: 50px; font-size: 18px; color: #7f8c8d; }
+        #loading { text-align: center; padding: 60px; font-size: 18px; color: #7f8c8d; font-weight: 500; }
     </style>
 </head>
 <body>
 
 <header>
+    <div class="logo-container">
+        <img src="https://i.ibb.co/3mN689p/1000008500.png" alt="PhoneLab360 Logo">
+    </div>
     <h1>PhoneLab360</h1>
     <p>আপনার ফোনের বিশ্বস্ত পার্টস শপ</p>
 </header>
 
 <div class="controls-container">
-    <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Display...)" onkeyup="filterProducts()">
+    <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Power Bank...)" onkeyup="filterProducts()">
     
     <div class="filter-group">
         <button class="filter-btn active" onclick="filterByCategory('All', this)">সব পণ্য</button>
         <button class="filter-btn" onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
         <button class="filter-btn" onclick="filterByCategory('Display', this)">ডিসপ্লে</button>
-        <button class="filter-btn" onclick="filterByCategory('Tools', this)">টুলস</button>
-        <button class="filter-btn" onclick="filterByCategory('Accessories', this)">অন্যান্য</button>
+        <button class="filter-btn" onclick="filterByCategory('Power Bank', this)">পাওয়ার ব্যাংক</button>
+        <button class="filter-btn" onclick="filterByCategory('Charger', this)">চার্জার</button>
+        <button class="filter-btn" onclick="filterByCategory('Bluetooth', this)">ব্লুটুথ</button>
+        <button class="filter-btn" onclick="filterByCategory('mobile', this)">মোবাইল</button>
     </div>
+    
+    <div class="stats-counter" id="itemCount">মোট পণ্য দেখাচ্ছে: ০ টি</div>
 </div>
 
 <div class="container">
@@ -70,13 +152,13 @@
 <footer>
     <div class="footer-content">
         <h3>PhoneLab360</h3>
-        <p>আমরা প্রদান করি ১০০% কোয়ালিটি সম্পন্ন মোবাইল পার্টস।</p>
+        <p style="opacity: 0.8; max-width: 500px; margin: 10px auto 20px;">আমরা প্রদান করি ১০০% কোয়ালিটি সম্পন্ন অরিজিনাল মোবাইল পার্টস ও অ্যাক্সেসরিজ।</p>
         <div class="footer-links">
-            <a href="https://wa.me/8801878877746">সরাসরি যোগাযোগ</a> | 
-            <a href="https://facebook.com/phonelab360">ফেসবুক পেজ</a>
+            <a href="https://wa.me/8801878877746" target="_blank">সরাসরি যোগাযোগ</a> | 
+            <a href="https://facebook.com/phonelab360" target="_blank">ফেসবুক পেজ</a>
         </div>
         <div class="copy-right">
-            &copy; 2024 PhoneLab360 - সর্বস্বত্ব সংরক্ষিত।
+            &copy; 2026 PhoneLab360 - সর্বস্বত্ব সংরক্ষিত।
         </div>
     </div>
 </footer>
@@ -97,12 +179,59 @@
             displayProducts(products);
             document.getElementById('loading').style.display = 'none';
         } catch (err) {
-            document.getElementById('loading').innerText = "পণ্য লোড করতে সমস্যা হচ্ছে।";
+            document.getElementById('loading').innerText = "পণ্য লোড করতে সমস্যা হচ্ছে। পেজটি রিফ্রেশ দিন।";
         }
     }
 
     function displayProducts(products) {
         const list = document.getElementById('product-list');
+        const counter = document.getElementById('itemCount');
+        
+        counter.innerText = `মোট পণ্য দেখাচ্ছে: ${products.length} টি`;
+
+        if(products.length === 0) {
+            list.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px 0;">কোনো পণ্য খুঁজে পাওয়া যায়নি।</div>`;
+            return;
+        }
+        
+        list.innerHTML = products.map(p => `
+            <div class="card">
+                <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <span class="price">৳ ${p.price}</span>
+                <a href="https://wa.me/${WHATSAPP_NUMBER}?text=সালাম ভাই, আমি এই প্রোডাক্টটি অর্ডার করতে চাই:%0A%0A📦 নাম: ${encodeURIComponent(p.name)}%0A💰 দাম: ৳ ${p.price}" target="_blank" class="wa-btn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom:-2px;"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.907h.003c4.366 0 7.925-3.559 7.929-7.929a7.905 7.905 0 0 0-2.326-5.645zm-5.607 11.366A6.518 6.518 0 0 1 4.988 13l-.234-.14-2.504.656.668-2.44-.153-.245A6.51 6.51 0 0 1 1.812 7.93c.003-3.6 2.949-6.544 6.555-6.544a6.513 6.513 0 0 1 4.607 1.91 6.513 6.513 0 0 1 1.91 4.611c-.003 3.605-2.949 6.548-6.554 6.548zM11.72 9.213c-.204-.103-1.21-.597-1.396-.665-.187-.068-.322-.102-.457.102-.136.204-.527.665-.647.802-.119.137-.238.154-.443.051-.205-.102-.867-.32-1.652-1.018-.61-.544-1.022-1.218-1.142-1.423-.119-.204-.013-.315.089-.417.093-.092.205-.24.307-.36.102-.12.137-.2.205-.333.068-.133.034-.252-.017-.355-.05-.102-.456-1.1-.625-1.507-.164-.397-.33-.342-.457-.349-.119-.007-.254-.007-.39-.007-.136 0-.356.05-.542.253-.187.2-.714.697-.714 1.7 0 1.004.731 1.977.833 2.11.102.133 1.438 2.196 3.484 3.078.487.21 1.014.34 1.4.363.504.03.96-.182 1.322-.236.403-.06 1.211-.496 1.379-1.053.169-.556.169-1.03.12-1.13-.05-.1-.186-.153-.39-.256z"/></svg>
+                    WhatsApp অর্ডার
+                </a>
+            </div>
+        `).join('');
+    }
+
+    function filterProducts() {
+        const query = document.getElementById('searchBar').value.toLowerCase();
+        const filtered = allProducts.filter(p => {
+            const matchesSearch = p.name.toLowerCase().includes(query);
+            // ডাটাবেসের ক্যাটাগরি এবং ফিল্টার ম্যাচিং (কেস সেন্সিটিভ ইস্যু দূর করা হয়েছে)
+            const pCategory = p.category ? p.category.toLowerCase().trim() : '';
+            const fCategory = currentCategory.toLowerCase().trim();
+            const matchesCategory = currentCategory === 'All' || pCategory === fCategory;
+            return matchesSearch && matchesCategory;
+        });
+        displayProducts(filtered);
+    }
+
+    function filterByCategory(category, btn) {
+        currentCategory = category;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterProducts();
+    }
+
+    window.onload = loadProducts;
+</script>
+
+</body>
+</html>
         if(products.length === 0) {
             list.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #999;">কোনো পণ্য খুঁজে পাওয়া যায়নি।</p>`;
             return;

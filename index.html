@@ -18,20 +18,73 @@
         header { 
             background: var(--primary); 
             color: white; 
-            padding: 35px 20px; 
+            padding: 30px 20px 15px; 
             text-align: center; 
-            border-bottom: 4px solid var(--accent);
         }
         .logo-container img { 
-            max-width: 95px; 
+            max-width: 90px; 
             height: auto; 
             margin-bottom: 10px; 
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
         }
-        header h1 { margin: 0; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
-        header p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; letter-spacing: 1px; }
+        header h1 { margin: 0; font-size: 30px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+        header p { margin: 5px 0 15px; font-size: 14px; opacity: 0.8; letter-spacing: 1px; }
         
-        .controls-container { max-width: 850px; margin: -25px auto 30px; padding: 0 15px; text-align: center; }
+        /* 📱 মডার্ন নেভিগেশন ট্যাব মেনু */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: var(--primary);
+            border-bottom: 4px solid var(--accent);
+            padding-bottom: 10px;
+        }
+        .tab-link {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 8px 8px 0 0;
+            margin: 0 5px;
+        }
+        .tab-link:hover { color: white; }
+        .tab-link.active {
+            color: white;
+            background: var(--accent);
+        }
+
+        /* 📄 পেজ কন্ট্রোল (Page Content Visibility) */
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        /* 🖼️ হোম পেজের ফিচারড ব্যানার ও গ্যালারি স্টাইল */
+        .home-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; text-align: center; }
+        .welcome-box { background: white; padding: 30px; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
+        .welcome-box h2 { color: var(--primary); margin-top: 0; }
+        
+        .promo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .promo-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e0e0e0;
+            transition: 0.3s;
+        }
+        .promo-card:hover { transform: translateY(-4px); }
+        .promo-card img { width: 100%; height: 200px; object-fit: cover; }
+        .promo-card .info { padding: 15px; font-weight: 600; color: #485460; }
+
+        /* 🛒 শপ পেজের কন্ট্রোল ও গ্রিড স্টাইল */
+        .controls-container { max-width: 850px; margin: 30px auto 20px; padding: 0 15px; text-align: center; }
         #searchBar { 
             width: 100%; 
             padding: 15px 25px; 
@@ -103,6 +156,7 @@
         }
         .order-btn:hover { background: #04a75b; box-shadow: 0 4px 15px rgba(5, 196, 107, 0.3); }
 
+        /* 🛍️ অর্ডার পপআপ ফর্ম */
         .modal { 
             display: none; 
             position: fixed; 
@@ -167,25 +221,59 @@
     <p>আপনার ফোনের বিশ্বস্ত পার্টস শপ</p>
 </header>
 
-<div class="controls-container">
-    <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Power Bank...)" onkeyup="filterProducts()">
-    
-    <div class="filter-group">
-        <button class="filter-btn active" onclick="filterByCategory('All', this)">সব পণ্য</button>
-        <button class="filter-btn" onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
-        <button class="filter-btn" onclick="filterByCategory('Display', this)">ডিসপ্লে</button>
-        <button class="filter-btn" onclick="filterByCategory('Power Bank', this)">পাওয়ার ব্যাংক</button>
-        <button class="filter-btn" onclick="filterByCategory('Charger', this)">চার্জার</button>
-        <button class="filter-btn" onclick="filterByCategory('Bluetooth', this)">ব্লুটুথ</button>
-        <button class="filter-btn" onclick="filterByCategory('mobile', this)">মোবাইল</button>
-    </div>
-    
-    <div class="stats-counter" id="itemCount">মোট পণ্য দেখাচ্ছে: ০ টি</div>
+<div class="nav-tabs">
+    <button class="tab-link active" onclick="switchPage('home', this)">🏠 হোম (Home)</button>
+    <button class="tab-link" onclick="switchPage('shop', this)">🛍️ সব প্রোডাক্ট (Shop)</button>
 </div>
 
-<div class="container">
-    <div id="loading">পণ্যগুলো সাজানো হচ্ছে...</div>
-    <div class="product-grid" id="product-list"></div>
+<div id="homePage" class="page-content active">
+    <div class="home-container">
+        <div class="welcome-box">
+            <h2>স্বাগতম PhoneLab360-এ! ✨</h2>
+            <p>আপনার ফোনের ১০০% অরিজিনাল ডিসপ্লে, ব্যাটারি এবং গ্যাজেট আইটেম পেয়ে যাবেন এক জায়গাতেই। নিচের অফার গ্যালারিটি দেখুন অথবা সরাসরি 'সব প্রোডাক্ট' ট্যাবে ক্লিক করে অর্ডার করুন।</p>
+            <button onclick="document.querySelectorAll('.tab-link')[1].click();" class="order-btn" style="max-width: 200px; margin: 15px auto 0;">শপে প্রবেশ করুন ➔</button>
+        </div>
+
+        <h3 style="color: var(--primary); text-align: left; border-left: 4px solid var(--accent); padding-left: 10px;">🔥 আমাদের বিশেষ কালেকশন</h3>
+        
+        <div class="promo-gallery">
+            <div class="promo-card">
+                <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=500" alt="Display Offer">
+                <div class="info">📱 ১০০% অরিজিনাল ডিসপ্লে কালেকশন</div>
+            </div>
+            <div class="promo-card">
+                <img src="https://images.unsplash.com/photo-1619119069172-857e1c4df82a?w=500" alt="Battery Offer">
+                <div class="info">🔋 হাই-ক্যাপাসিটি প্রিমিয়াম ব্যাটারি</div>
+            </div>
+            <div class="promo-card">
+                <img src="https://images.unsplash.com/photo-1608248597481-496100c8c836?w=500" alt="Power Bank Offer">
+                <div class="info">⚡ ফাস্ট চার্জিং পাওয়ার ব্যাংক ও চার্জার</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="shopPage" class="page-content">
+    <div class="controls-container">
+        <input type="text" id="searchBar" placeholder="কি খুঁজছেন? (যেমন: Battery, Power Bank...)" onkeyup="filterProducts()">
+        
+        <div class="filter-group">
+            <button class="filter-btn active" onclick="filterByCategory('All', this)">সব পণ্য</button>
+            <button class="filter-btn" onclick="filterByCategory('Battery', this)">ব্যাটারি</button>
+            <button class="filter-btn" onclick="filterByCategory('Display', this)">ডিসপ্লে</button>
+            <button class="filter-btn" onclick="filterByCategory('Power Bank', this)">পাওয়ার ব্যাংক</button>
+            <button class="filter-btn" onclick="filterByCategory('Charger', this)">চার্জার</button>
+            <button class="filter-btn" onclick="filterByCategory('Bluetooth', this)">ব্লুটুথ</button>
+            <button class="filter-btn" onclick="filterByCategory('mobile', this)">মোবাইল</button>
+        </div>
+        
+        <div class="stats-counter" id="itemCount">মোট পণ্য দেখাচ্ছে: ০ টি</div>
+    </div>
+
+    <div class="container">
+        <div id="loading">পণ্যগুলো সাজানো হচ্ছে...</div>
+        <div class="product-grid" id="product-list"></div>
+    </div>
 </div>
 
 <div class="modal" id="orderModal">
@@ -252,12 +340,25 @@
     const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // ⚡ টেলিগ্রাম বট কনফিগারেশন 
+    // ⚡ টেলিগ্রাম বট কনফিগারেশন
     const TELEGRAM_BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
     const TELEGRAM_CHAT_ID = "5821767982"; 
 
     let allProducts = [];
     let currentCategory = 'All';
+
+    // 🔄 পেজ পরিবর্তনের ফাংশন (Page Switcher)
+    function switchPage(pageName, btn) {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
+        
+        btn.classList.add('active');
+        if(pageName === 'home') {
+            document.getElementById('homePage').classList.add('active');
+        } else if(pageName === 'shop') {
+            document.getElementById('shopPage').classList.add('active');
+        }
+    }
 
     async function loadProducts() {
         try {
@@ -355,9 +456,7 @@
             const { error } = await supabaseClient.from('orders').insert([orderData]);
             if (error) throw error;
             
-            // টেলিগ্রামে নোটিফিকেশন পাঠানো
             await sendTelegramNotification(orderData);
-            
             alert("ধন্যবাদ! আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে।");
             closeModal();
         } catch (err) {

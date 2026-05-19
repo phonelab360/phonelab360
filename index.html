@@ -22,7 +22,7 @@
         .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🔝 প্রিমিয়াম হেডার (নেভি ব্লুর বদলে আপনার দেওয়া ব্যানার ইমেজ সেট করা হয়েছে) */
+        /* 🔝 প্রিমিয়াম হেডার (আপনার দেওয়া সঠিক এবং সম্পূর্ণ লিংক এখানে যুক্ত করা হয়েছে) */
         header { 
             background-image: url('https://i.postimg.cc/tJYm1mvf/1779200037853.png') !important;
             background-size: cover !important;
@@ -215,7 +215,7 @@
         
         <div class="payment-info" id="paymentInstructions">
             <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
-            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
+            প্রোداشت হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
         </div>
         
         <form id="orderForm" onsubmit="submitOrder(event)">
@@ -380,7 +380,6 @@
         const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
         const currentMethod = document.getElementById('payMethod').value;
 
-        // এখানে status কলামটি আপনার ডাটাবেজ আপডেট অনুযায়ী অ্যাড করা হয়েছে
         const order = {
             product_name: document.getElementById('prodName').value,
             price: parsedPrice,
@@ -402,69 +401,4 @@
                 return;
             }
 
-            // টেলিগ্রাম নোটিফিকেশন লজিক
-            const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
-            
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
-            });
-
-            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
-            closeModal();
-            document.getElementById('orderForm').reset();
-        } catch (err) {
-            alert("سিস্টেম এরর: " + err.message);
-        } finally {
-            btn.innerText = "কনফার্ম অর্ডার";
-            btn.disabled = false;
-        }
-    }
-
-    async function trackOrder() {
-        const phone = document.getElementById('trackPhone').value.trim();
-        const resultDiv = document.getElementById('trackResult');
-        
-        if(!phone) {
-            alert("অনুগ্রহ করে মোবাইল নম্বরটি দিন");
-            return;
-        }
-        
-        resultDiv.style.display = 'block';
-        resultDiv.style.background = '#f8fafc';
-        resultDiv.innerHTML = '<p style="text-align:center; color:#64748b; margin:0;">অর্ডার খোঁজা হচ্ছে...</p>';
-        
-        try {
-            const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
-            
-            if(error) throw error;
-            
-            if(!data || data.length === 0) {
-                resultDiv.style.background = '#fef2f2';
-                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
-                return;
-            }
-            
-            resultDiv.style.background = '#f0fdf4';
-            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
-                data.map((ord, idx) => `
-                    <div style="padding:10px; border-bottom:1px solid #e2e8f0; margin-bottom:5px; font-size:13px;">
-                        <strong>অর্ডার #${idx+1}</strong><br>
-                        📦 প্রোডাক্ট: ${ord.product_name}<br>
-                        💰 মূল্য: ৳ ${ord.price}<br>
-                        ⏱️ স্ট্যাটাস: <span style="background:#bbf7d0; color:#16a34a; padding:2px 6px; border-radius:4px; font-weight:bold;">${ord.status || 'Pending'}</span>
-                    </div>
-                `).join('');
-                
-        } catch(e) {
-            resultDiv.style.background = '#fef2f2';
-            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>';
-        }
-    }
-
-    window.onload = getProducts;
-</script>
-
-</body>
-</html>
+            const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *

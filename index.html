@@ -19,14 +19,14 @@
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
         
-        /* 📣 অ্যানিমেটেড নোটিশ বার */
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 600; }
+        /* 📣 হেডারের সাথে নোটিশ বার ফিক্স করা হয়েছে */
+        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; }
         .top-notice marquee { vertical-align: middle; }
 
         /* 🔝 প্রিমিয়াম হেডার */
-        header { background: var(--primary); color: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; }
+        header { background: var(--primary); color: white; padding: 15px 15px 5px 15px; text-align: center; border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .logo-container img { max-width: 50px; height: auto; }
-        header h1 { margin: 5px 0 0; font-size: 22px; letter-spacing: 1px; }
+        header h1 { margin: 5px 0 5px; font-size: 22px; letter-spacing: 1px; }
         
         .page-content { display: none; animation: fadeIn 0.3s ease; }
         .page-content.active { display: block; }
@@ -44,11 +44,15 @@
         .badge-item i { color: var(--accent); font-size: 14px; }
 
         /* 🔘 গোল ক্যাটাগরি ডিজাইন */
-        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; }
+        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; text-align: left; }
         .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
         .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
         .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
-        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 20px; color: var(--primary); transition: 0.2s; }
+        
+        /* 🔄 ক্যাটাগরি এবং ব্র্যান্ড সার্কেল সাইজ ও আইকন সাইজ ফিক্স করা হয়েছে */
+        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
+        .brand-item .circle-icon { font-size: 24px; color: #334155; } /* ব্র্যান্ড আইকন বড় করা হয়েছে */
+        
         .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
         .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
 
@@ -72,14 +76,15 @@
         .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
 
-        /* 📋 নতুন ট্র্যাক বক্স স্টাইল */
-        .track-box { background: white; padding: 20px; border-radius: 12px; box-shadow: var(--card-shadow); text-align: center; margin-top: 20px; }
-        .track-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 10px; outline: none; }
-        .track-result { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
+        /* 📋 মডার্ন ট্র্যাক বক্স স্টাইল */
+        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
+        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
+        .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
+        .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
 
         /* 📱 বটম ন্যাভ বার */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; }
+        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
 
@@ -95,12 +100,11 @@
 </head>
 <body>
 
-<div class="top-notice">
-    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
-</div>
-
 <header>
-    <div class="logo-container">
+    <div class="top-notice">
+        <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরিহোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+    </div>
+    <div class="logo-container" style="margin-top: 10px;">
         <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="Logo">
     </div>
     <h1>PhoneLab360</h1>
@@ -147,7 +151,7 @@
     <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
     <div class="brand-scroll">
         <div class="brand-item" onclick="selectBrand('Apple', this)"><div class="circle-icon"><i class="fa-brands fa-apple"></i></div><span>Apple</span></div>
-        <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-mobile-button text-primary"></i></div><span>Samsung</span></div>
+        <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-solid fa-mobile-screen"></i></div><span>Samsung</span></div>
         <div class="brand-item" onclick="selectBrand('Xiaomi', this)"><div class="circle-icon"><i class="fa-solid fa-m"></i></div><span>Xiaomi</span></div>
         <div class="brand-item" onclick="selectBrand('Vivo', this)"><div class="circle-icon"><i class="fa-solid fa-v"></i></div><span>Vivo</span></div>
         <div class="brand-item" onclick="selectBrand('Oppo', this)"><div class="circle-icon"><i class="fa-solid fa-o"></i></div><span>Oppo</span></div>
@@ -170,13 +174,13 @@
 </div>
 
 <div id="trackPage" class="page-content">
-    <div class="container" style="max-width: 500px; margin-top: 30px;">
+    <div class="container" style="max-width: 500px; margin-top: 10px;">
         <div class="track-box">
-            <i class="fa-solid fa-route" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
-            <h2 style="margin: 0 0 10px 0; color: var(--primary);">আপনার অর্ডার ট্র্যাক করুন</h2>
+            <i class="fa-solid fa-route" style="font-size: 45px; color: var(--primary); margin-bottom: 15px;"></i>
+            <h2 style="margin: 0 0 10px 0; color: var(--primary); font-size: 20px;">আপনার অর্ডার ট্র্যাক করুন</h2>
             <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে লিখুন।</p>
             <input type="tel" id="trackPhone" class="track-input" placeholder="যেমন: 01878877746">
-            <button onclick="trackOrder()" class="order-btn" style="padding: 12px;">অর্ডার খুঁজুন</button>
+            <button onclick="trackOrder()" class="order-btn" style="padding: 14px; font-size: 14px; border-radius: 8px;">অর্ডার খুঁজুন</button>
             <div id="trackResult" class="track-result"></div>
         </div>
     </div>
@@ -185,7 +189,7 @@
 <div class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>হোম</button>
     <button class="nav-item" onclick="switchTab('shop', this)"><i class="fa-solid fa-bag-shopping"></i>শপ</button>
-    <button class="nav-item" onclick="switchTab('track', this)"><i class="fa-solid fa-truck-ramp-box"></i>ট্র্যাকিং</button>
+    <button class="nav-item" onclick="switchTab('track', this)"><i class="fa-solid fa-truck-fast"></i>ট্র্যাকিং</button>
     <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
 
@@ -303,7 +307,6 @@
         renderGrids(filtered);
     }
 
-    // 🔍 নতুন ফাংশন: অর্ডার ট্র্যাকিং সিস্টেম
     async function trackOrder() {
         const phone = document.getElementById('trackPhone').value.trim();
         const resultDiv = document.getElementById('trackResult');
@@ -312,30 +315,37 @@
         resultDiv.style.display = 'block';
         resultDiv.style.background = '#f1f5f9';
         resultDiv.style.color = '#1e293b';
-        resultDiv.innerHTML = "খোঁজা হচ্ছে...";
+        resultDiv.innerHTML = "<div style='text-align:center; padding: 10px;'><i class='fa-solid fa-spinner fa-spin'></i> আপনার অর্ডারটি খোঁজা হচ্ছে...</div>";
 
         const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
 
         if(error || !data || data.length === 0) {
             resultDiv.style.background = '#fef2f2';
             resultDiv.style.color = '#991b1b';
-            resultDiv.innerHTML = "❌ এই নম্বরে কোনো অর্ডার খুঁজে পাওয়া যায়নি।";
+            resultDiv.style.border = '1px solid #fee2e2';
+            resultDiv.innerHTML = "❌ এই নম্বরে কোনো অর্ডার খুঁজে পাওয়া যায়নি। আপনার সঠিক মোবাইল নম্বরটি লিখুন।";
             return;
         }
 
-        let html = `<h4 style="margin:0 0 10px 0; color:var(--primary);">📦 আপনার অর্ডারসমূহ (${data.length}টি):</h4>`;
+        let html = `<h4 style="margin:5px 0 12px 0; color:var(--primary); font-size:15px; border-bottom:1px dashed #cbd5e1; padding-bottom:5px;">📦 আপনার অর্ডারের বর্তমান অবস্থা (${data.length}টি):</h4>`;
         data.forEach((order, index) => {
-            // যদি আপনার টেবিলে status কলাম না থাকে তবে ডিফল্ট 'Pending' দেখাবে
             const status = order.status || 'Pending'; 
-            let statusColor = '#eab308'; // হলুদ (Pending)
-            if(status.toLowerCase() === 'delivered') statusColor = '#05c46b'; // সবুজ
-            if(status.toLowerCase() === 'cancelled') statusColor = '#eb4d4b'; // লাল
+            let statusColor = '#d97706'; 
+            let statusBg = '#fef3c7';
+            if(status.toLowerCase() === 'delivered') { statusColor = '#05c46b'; statusBg = '#dcfce7'; }
+            if(status.toLowerCase() === 'cancelled') { statusColor = '#eb4d4b'; statusBg = '#fee2e2'; }
 
             html += `
-            <div style="background:white; padding:10px; border-radius:6px; margin-bottom:10px; border:1px solid #e2e8f0;">
-                <strong>অর্ডার #${index+1}:</strong> ${order.product_name}<br>
-                <strong>মূল্য:</strong> ৳ ${order.price}<br>
-                <strong>অবস্থা:</strong> <span style="color:${statusColor}; font-weight:700;">${status}</span>
+            <div style="background:white; padding:12px; border-radius:10px; margin-bottom:12px; border:1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <strong style="color:#334155;">অর্ডার #${index+1}</strong>
+                    <span style="color:${statusColor}; background:${statusBg}; font-weight:700; font-size:11px; padding:2px 8px; border-radius:50px;">${status}</span>
+                </div>
+                <div style="font-size:13px; color:#475569;">
+                    <strong>আইটেম:</strong> ${order.product_name}<br>
+                    <strong>মোট মূল্য:</strong> ৳ ${order.price}<br>
+                    <strong>পেমেন্ট মেথড:</strong> ${order.payment_method}
+                </div>
             </div>`;
         });
         resultDiv.innerHTML = html;
@@ -366,7 +376,7 @@
             address: document.getElementById('custAddress').value,
             payment_method: document.getElementById('payMethod').value,
             transaction_id: document.getElementById('trxId').value,
-            status: 'Pending' // ট্র্যাকিং-এর সুবিধার্থে ডিফল্ট স্ট্যাটাস যোগ করা হলো
+            status: 'Pending'
         };
 
         try {

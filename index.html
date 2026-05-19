@@ -51,7 +51,7 @@
         
         /* 🔄 ক্যাটাগরি এবং ব্র্যান্ড সার্কেল সাইজ ও আইকন সাইজ ফিক্স করা হয়েছে */
         .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
-        .brand-item .circle-icon { font-size: 24px; color: #334155; } /* ব্র্যান্ড আইকন বড় করা হয়েছে */
+        .brand-item .circle-icon { font-size: 24px; color: #334155; }
         
         .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
         .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
@@ -76,7 +76,7 @@
         .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
 
-        /* 📋 মডার্ন ট্র্যাক বক্স স্টাইল */
+        /* 📋 মডার่น ট্র্যাক বক্স স্টাইল */
         .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
         .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
         .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
@@ -102,7 +102,7 @@
 
 <header>
     <div class="top-notice">
-        <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরিহোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+        <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
     </div>
     <div class="logo-container" style="margin-top: 10px;">
         <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="Logo">
@@ -197,25 +197,33 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h3 style="margin-top:0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
-        <div class="payment-info">
-            <strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>
-            বিকাশ / নগদ (Personal): 01878877746<br>
-            <span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি নিচে দিন।</span>
+        
+        <div class="payment-info" id="paymentInstructions">
+            <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
+            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
         </div>
+        
         <form id="orderForm" onsubmit="submitOrder(event)">
             <input type="hidden" id="prodName">
             <input type="hidden" id="prodPrice">
             <div class="form-group"><label>আপনার নাম *</label><input type="text" id="custName" required placeholder="নাম লিখুন"></div>
             <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" id="custPhone" required placeholder="১১ ডিজিটের নম্বর"></div>
             <div class="form-group"><label>পূর্ণাঙ্গ ঠিকানা *</label><textarea id="custAddress" rows="2" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea></div>
+            
             <div class="form-group">
                 <label>পেমেন্ট মেথড *</label>
-                <select id="payMethod">
+                <select id="payMethod" onchange="toggleTrxField()">
+                    <option value="COD">ক্যাশ অন ডেলিভারি (Cash on Delivery)</option>
                     <option value="Bkash">বিকাশ (Bkash)</option>
                     <option value="Nagad">নগদ (Nagad)</option>
                 </select>
             </div>
-            <div class="form-group"><label>ট্রানজেকশন আইডি (TrxID) *</label><input type="text" id="trxId" required placeholder="যেমন: 8N7X9W2Z"></div>
+            
+            <div class="form-group" id="trxGroup" style="display: none;">
+                <label>ট্রানজেকশন আইডি (TrxID) *</label>
+                <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z">
+            </div>
+            
             <button type="submit" class="order-btn" id="submitBtn">কনফার্ম অর্ডার</button>
         </form>
     </div>
@@ -307,6 +315,35 @@
         renderGrids(filtered);
     }
 
+    // 🔄 নতুন ফাংশন: পেমেন্ট মেথড অনুযায়ী ফিল্ড ও নির্দেশাবলী পরিবর্তন
+    function toggleTrxField() {
+        const method = document.getElementById('payMethod').value;
+        const trxGroup = document.getElementById('trxGroup');
+        const trxInput = document.getElementById('trxId');
+        const payInfo = document.getElementById('paymentInstructions');
+
+        if (method === 'COD') {
+            trxGroup.style.display = 'none';
+            trxInput.required = false;
+            trxInput.value = '';
+            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!`;
+        } else {
+            trxGroup.style.display = 'block';
+            trxInput.required = true;
+            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি নিচে দিন।</span>`;
+        }
+    }
+
+    function openModal(name, price) {
+        document.getElementById('prodName').value = name;
+        document.getElementById('prodPrice').value = price;
+        document.getElementById('payMethod').value = 'COD'; // ডিফল্ট ক্যাশ অন ডেলিভারি সিলেক্ট থাকবে
+        toggleTrxField();
+        document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
+
     async function trackOrder() {
         const phone = document.getElementById('trackPhone').value.trim();
         const resultDiv = document.getElementById('trackResult');
@@ -338,7 +375,7 @@
             html += `
             <div style="background:white; padding:12px; border-radius:10px; margin-bottom:12px; border:1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
                 <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <strong style="color:#334155;">অর্ডার #${index+1}</strong>
+                    <strong style="color:#334155;">অर्डर #${index+1}</strong>
                     <span style="color:${statusColor}; background:${statusBg}; font-weight:700; font-size:11px; padding:2px 8px; border-radius:50px;">${status}</span>
                 </div>
                 <div style="font-size:13px; color:#475569;">
@@ -351,14 +388,6 @@
         resultDiv.innerHTML = html;
     }
 
-    function openModal(name, price) {
-        document.getElementById('prodName').value = name;
-        document.getElementById('prodPrice').value = price;
-        document.getElementById('orderModal').style.display = 'flex';
-    }
-
-    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
-
     async function submitOrder(e) {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
@@ -367,6 +396,7 @@
 
         const rawPrice = document.getElementById('prodPrice').value;
         const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
+        const currentMethod = document.getElementById('payMethod').value;
 
         const order = {
             product_name: document.getElementById('prodName').value,
@@ -374,8 +404,8 @@
             customer_name: document.getElementById('custName').value,
             phone: document.getElementById('custPhone').value,
             address: document.getElementById('custAddress').value,
-            payment_method: document.getElementById('payMethod').value,
-            transaction_id: document.getElementById('trxId').value,
+            payment_method: currentMethod,
+            transaction_id: currentMethod === 'COD' ? 'Cash on Delivery' : document.getElementById('trxId').value,
             status: 'Pending'
         };
 

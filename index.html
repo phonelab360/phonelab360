@@ -22,10 +22,25 @@
         .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🔝 প্রিমিয়াম হেডার */
-        header { background: var(--primary); color: white; padding: 15px 15px 5px 15px; text-align: center; border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .logo-container img { max-width: 50px; height: auto; }
-        header h1 { margin: 5px 0 5px; font-size: 22px; letter-spacing: 1px; }
+        /* 🔝 প্রিমিয়াম হেডার (নেভি ব্লুর বদলে আপনার দেওয়া ব্যানার ইমেজ সেট করা হয়েছে) */
+        header { 
+            background-image: url('https://i.postimg.cc/tJYm1mvf/1779200037853.png') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            color: white; 
+            padding: 15px 15px 15px 15px; 
+            text-align: center; 
+            border-bottom: 3px solid var(--accent); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+        }
+        
+        /* লোগো এবং লেখা সুন্দরভাবে ফুটিয়ে তোলার জন্য ওভারলে ও শ্যাডো এফেক্ট */
+        .logo-container img { max-width: 65px; height: auto; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5)); }
+        header h1 { margin: 5px 0 0px; font-size: 24px; font-weight: bold; letter-spacing: 1px; text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8); }
         
         /* পেজ কন্টেন্ট ডিফল্টভাবে ব্লক রাখা হলো যাতে সাদা স্ক্রিন না আসে */
         .page-content { display: none; }
@@ -60,7 +75,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* 📦 প্রোডাক্টカード */
+        /* 📦 প্রোডাক্ট কার্ড */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -105,7 +120,7 @@
         <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
     </div>
     <div class="logo-container" style="margin-top: 10px;">
-        <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="Logo">
+        <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="Logo">
     </div>
     <h1>PhoneLab360</h1>
 </header>
@@ -339,67 +354,20 @@
         } else {
             trxGroup.style.display = 'block';
             trxInput.required = true;
-            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি নিচে দিন।</span>`;
+            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।</span>`;
         }
     }
 
     function openModal(name, price) {
         document.getElementById('prodName').value = name;
         document.getElementById('prodPrice').value = price;
-        document.getElementById('payMethod').value = 'COD'; 
-        toggleTrxField();
         document.getElementById('orderModal').style.display = 'flex';
+        toggleTrxField();
     }
 
-    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
-
-    async function trackOrder() {
-        if(!supabaseClient) return;
-        const phone = document.getElementById('trackPhone').value.trim();
-        const resultDiv = document.getElementById('trackResult');
-        if(!phone) { alert("দয়া করে একটি মোবাইল নম্বর দিন"); return; }
-        
-        resultDiv.style.display = 'block';
-        resultDiv.style.background = '#f1f5f9';
-        resultDiv.style.color = '#1e293b';
-        resultDiv.innerHTML = "<div style='text-align:center; padding: 10px;'><i class='fa-solid fa-spinner fa-spin'></i> আপনার অর্ডারটি খোঁজা হচ্ছে...</div>";
-
-        try {
-            const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
-
-            if(error || !data || data.length === 0) {
-                resultDiv.style.background = '#fef2f2';
-                resultDiv.style.color = '#991b1b';
-                resultDiv.style.border = '1px solid #fee2e2';
-                resultDiv.innerHTML = "❌ এই নম্বরে কোনো অর্ডার খুঁজে পাওয়া যায়নি। আপনার সঠিক মোবাইল নম্বরটি লিখুন।";
-                return;
-            }
-
-            let html = `<h4 style="margin:5px 0 12px 0; color:var(--primary); font-size:15px; border-bottom:1px dashed #cbd5e1; padding-bottom:5px;">📦 আপনার অর্ডারের বর্তমান অবস্থা (${data.length}টি):</h4>`;
-            data.forEach((order, index) => {
-                const status = order.status || 'Pending'; 
-                let statusColor = '#d97706'; 
-                let statusBg = '#fef3c7';
-                if(status.toLowerCase() === 'delivered') { statusColor = '#05c46b'; statusBg = '#dcfce7'; }
-                if(status.toLowerCase() === 'cancelled') { statusColor = '#eb4d4b'; statusBg = '#fee2e2'; }
-
-                html += `
-                <div style="background:white; padding:12px; border-radius:10px; margin-bottom:12px; border:1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                        <strong style="color:#334155;">অর্ডার #${index+1}</strong>
-                        <span style="color:${statusColor}; background:${statusBg}; font-weight:700; font-size:11px; padding:2px 8px; border-radius:50px;">${status}</span>
-                    </div>
-                    <div style="font-size:13px; color:#475569;">
-                        <strong>আইটেম:</strong> ${order.product_name || order.product || 'N/A'}<br>
-                        <strong>মোট মূল্য:</strong> ৳ ${order.price}<br>
-                        <strong>পেমেন্ট মেথড:</strong> ${order.payment_method || order.method || 'N/A'}
-                    </div>
-                </div>`;
-            });
-            resultDiv.innerHTML = html;
-        } catch(err) {
-            resultDiv.innerHTML = "একটি সমস্যা হয়েছে: " + err.message;
-        }
+    function closeModal() {
+        document.getElementById('orderModal').style.display = 'none';
+        document.getElementById('orderForm').reset();
     }
 
     async function submitOrder(e) {
@@ -412,6 +380,7 @@
         const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
         const currentMethod = document.getElementById('payMethod').value;
 
+        // এখানে status কলামটি আপনার ডাটাবেজ আপডেট অনুযায়ী অ্যাড করা হয়েছে
         const order = {
             product_name: document.getElementById('prodName').value,
             price: parsedPrice,
@@ -426,14 +395,14 @@
         try {
             const { error } = await supabaseClient.from('orders').insert([order]);
             
-            // যদি সুপাবেস কোনো এরর দেয়, তবে সেটা সরাসরি স্ক্রিনে পপআপ হবে
             if (error) {
-                alert("🚨 সুপাবেস টেবিল এরর:\n" + error.message + "\n\n(টিপস: চেক করুন আপনার orders টেবিলের কলামগুলোর নাম ঠিক এই কোডের সাথে মিলছে কিনা)");
+                alert("🚨 সুপাবেস টেবিল এরর:\n" + error.message);
                 btn.innerText = "কনফার্ম অর্ডার";
                 btn.disabled = false;
                 return;
             }
 
+            // টেলিগ্রাম নোটিফিকেশন লজিক
             const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
             
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -446,17 +415,56 @@
             closeModal();
             document.getElementById('orderForm').reset();
         } catch (err) {
-            alert("সিস্টেম এরর: " + err.message);
+            alert("سিস্টেম এরর: " + err.message);
         } finally {
             btn.innerText = "কনফার্ম অর্ডার";
             btn.disabled = false;
         }
     }
 
-    window.onload = function() {
-        document.getElementById('homePage').style.display = 'block';
-        getProducts();
-    };
+    async function trackOrder() {
+        const phone = document.getElementById('trackPhone').value.trim();
+        const resultDiv = document.getElementById('trackResult');
+        
+        if(!phone) {
+            alert("অনুগ্রহ করে মোবাইল নম্বরটি দিন");
+            return;
+        }
+        
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = '#f8fafc';
+        resultDiv.innerHTML = '<p style="text-align:center; color:#64748b; margin:0;">অর্ডার খোঁজা হচ্ছে...</p>';
+        
+        try {
+            const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
+            
+            if(error) throw error;
+            
+            if(!data || data.length === 0) {
+                resultDiv.style.background = '#fef2f2';
+                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
+                return;
+            }
+            
+            resultDiv.style.background = '#f0fdf4';
+            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
+                data.map((ord, idx) => `
+                    <div style="padding:10px; border-bottom:1px solid #e2e8f0; margin-bottom:5px; font-size:13px;">
+                        <strong>অর্ডার #${idx+1}</strong><br>
+                        📦 প্রোডাক্ট: ${ord.product_name}<br>
+                        💰 মূল্য: ৳ ${ord.price}<br>
+                        ⏱️ স্ট্যাটাস: <span style="background:#bbf7d0; color:#16a34a; padding:2px 6px; border-radius:4px; font-weight:bold;">${ord.status || 'Pending'}</span>
+                    </div>
+                `).join('');
+                
+        } catch(e) {
+            resultDiv.style.background = '#fef2f2';
+            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>';
+        }
+    }
+
+    window.onload = getProducts;
 </script>
+
 </body>
 </html>

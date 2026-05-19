@@ -1,109 +1,316 @@
-<div class="top-notification-bar">
-    <div class="scrolling-text">
-        🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে ক্যাশ অন ডেলিভারি! 🔥
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoneLab360 - Mobile Parts & Accessories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 🎨 গ্লোবাল স্টাইল এবং ভেরিয়েবল */
+        :root {
+            --primary-color: #2ecc71; /* আপনার সাইটের সবুজ বাটন কালার */
+            --dark-blue: #002447;
+            --text-color: #333;
+            --bg-light: #f9f9f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            padding-bottom: 70px; /* বটম মেনুর জন্য নিচের খালি জায়গা */
+        }
+
+        /* 🚨 ১. টপ নোটিফিকেশন বার (লাল অফার বার) */
+        .top-notification-bar {
+            background-color: #ff3b30;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll-left 25s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* 🖼️ ২. নতুন কাস্টম ফুল-উইডথ ব্যানার (নেভি ব্লুর পরিবর্তে) */
+        .phonelab-main-banner {
+            background-image: url('https://i.postimg.cc/tJYm1mvf/1779200037853.png'); /* আপনার পাঠানো ব্যাকগ্রাউন্ড */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 350px; /* ডেস্কটপ হাইট */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* টেক্সট ফুটিয়ে তোলার জন্য ডার্ক ওভারলে */
+        .banner-overlay {
+            background: rgba(0, 0, 0, 0.45); 
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* লোগো স্টাইল */
+        .brand-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        /* ব্র্যান্ড নাম */
+        .brand-title {
+            color: #ffffff;
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* 🔍 ৩. সার্চ বার সেকশন */
+        .search-container {
+            max-width: 600px;
+            margin: -25px auto 20px auto;
+            padding: 0 15px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        /* 📦 ৪. মেইন কন্টেন্ট এবং প্রোডাক্ট গ্রিড */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--dark-blue);
+            margin: 25px 0 15px 0;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        /* প্রোডাক্ট গ্রিড লেআউট (যা আপনার সাইটে আছে) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* প্রোডাক্ট কার্ড */
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .order-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .order-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* 📱 ৫. বটম নেভিগেশন বার (মোবাইল মেনু) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #7f8c8d;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* 📱 মোবাইল রেসপনসিভ মিডিয়া কোয়েরি */
+        @media (max-width: 768px) {
+            .phonelab-main-banner {
+                height: 200px; /* মোবাইলে ব্যানারের উচ্চতা অটো কমে যাবে */
+            }
+
+            .brand-logo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 6px;
+            }
+
+            .brand-title {
+                font-size: 26px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr); /* মোবাইলে এক লাইনে ২টি করে প্রোডাক্ট */
+                gap: 10px;
+            }
+            
+            .top-notification-bar {
+                font-size: 12px;
+                padding: 7px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-notification-bar">
+        <div class="scrolling-text">
+            🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে ক্যাশ অন ডেলিভারি! 🔥
+        </div>
     </div>
-</div>
 
-<div class="phonelab-main-banner">
-    <div class="banner-overlay">
-        <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="PhoneLab360 Logo" class="brand-logo">
-        <h1 class="brand-title">PhoneLab360</h1>
+    <div class="phonelab-main-banner">
+        <div class="banner-overlay">
+            <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="PhoneLab360 Logo" class="brand-logo">
+            <h1 class="brand-title">PhoneLab360</h1>
+        </div>
     </div>
-</div>
 
-<style>
-/* লাল নোটিফিকেশন বারের স্টাইল */
-.top-notification-bar {
-    background-color: #ff3b30;
-    color: #ffffff;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    overflow: hidden;
-    white-space: nowrap;
-}
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="সার্চ করুন আপনার পছন্দের প্রোডাক্ট...">
+    </div>
 
-.scrolling-text {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scroll-left 20s linear infinite;
-}
+    <div class="main-container">
+        <h2 class="section-title">আজকের আকর্ষণীয় অফারসমূহ</h2>
+        
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product" class="product-image">
+                <div class="product-name">Samsung A51 Battery (Original)</div>
+                <div class="product-price">৳ ১১৯৯</div>
+                <button class="order-btn">অর্ডার করুন</button>
+            </div>
+            
+            <div class="product-card">
+                <img src="https://via.placeholder.com/150" alt="Product" class="product-image">
+                <div class="product-name">iPhone 11 Display (Original)</div>
+                <div class="product-price">৳ ১৫০০০</div>
+                <button class="order-btn">অর্ডার করুন</button>
+            </div>
+        </div>
+    </div>
 
-@keyframes scroll-left {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
-}
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>হোম</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>শপ</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-truck"></i>
+            <span>ট্র্যাকিং</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-headset"></i>
+            <span>হেল্প</span>
+        </a>
+    </div>
 
-/* আপনার পাঠানো ইমেজ দিয়ে তৈরি রেসপনসিভ ব্যানার */
-.phonelab-main-banner {
-    /* আপনার ব্যাকগ্রাউন্ড ইমেজের লিংক এখানে দেওয়া হয়েছে */
-    background-image: url('https://i.postimg.cc/tJYm1mvf/1779200037853.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    /* কম্পিউটারের জন্য স্ট্যান্ডার্ড হাইট */
-    height: 380px; 
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ব্যানারের ওপরে লেখা ও লোগো ফুটিয়ে তোলার জন্য হালকা ডার্ক ওভারলে */
-.banner-overlay {
-    background: rgba(0, 0, 0, 0.4); /* ৪% ডার্ক শেড যা টেক্সট পড়তে সাহায্য করবে */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-}
-
-/* লোগোর সাইজ এবং স্টাইল */
-.brand-logo {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    margin-bottom: 12px;
-    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
-}
-
-/* PhoneLab360 লেখার স্টাইল */
-.brand-title {
-    color: #ffffff;
-    font-size: 36px;
-    font-weight: 800;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 1px;
-    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7);
-}
-
-/* 📱 মোবাইল স্ক্রিনের জন্য অটোমেটিক অ্যাডজাস্টমেন্ট (Media Query) */
-@media (max-width: 768px) {
-    .phonelab-main-banner {
-        /* মোবাইলের স্ক্রিন অনুযায়ী ব্যানারের হাইট কিছুটা কমে যাবে যেন কেটে না যায় */
-        height: 220px; 
-    }
-    
-    .brand-logo {
-        width: 65px;
-        height: 65px;
-        margin-bottom: 8px;
-    }
-    
-    .brand-title {
-        font-size: 24px;
-    }
-    
-    .top-notification-bar {
-        font-size: 12px;
-        padding: 8px 0;
-    }
-}
-</style>
+</body>
+</html>

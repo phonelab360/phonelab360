@@ -18,39 +18,41 @@
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
         
-        /* 📣 নোটিউট বার */
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; }
+        /* 📣 নোটিশ বার */
+        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; position: sticky; top: 0; z-index: 101; }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🔝 ডার্ক ব্লু প্রিমিয়াম হেডার */
-        header { 
-            background: var(--primary);
-            color: white; 
-            padding: 15px; 
+        /* 🎪 হুবহু আগের মতো হিরো ব্যানার ও লোগো ওভারলে ডিজাইন */
+        .hero-section { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; box-shadow: var(--card-shadow); }
+        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
+        .slide { width: 33.333%; }
+        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
+        .brand-overlay { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
             text-align: center; 
-            border-bottom: 3px solid var(--accent); 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+            z-index: 10; 
+            background: rgba(0, 0, 0, 0.45); 
+            padding: 15px 25px; 
+            border-radius: 16px; 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
         }
-        
-        .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
-        .logo-container img { max-width: 55px; height: auto; border-radius: 8px; }
-        header h1 { margin: 5px 0 0px; font-size: 22px; font-weight: bold; letter-spacing: 0.5px; }
+        .brand-overlay img { max-width: 55px; height: auto; border-radius: 8px; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .brand-overlay h1 { margin: 0; font-size: 24px; color: white; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         
         /* পেজ কন্টেন্ট */
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* 🎪 কাস্টম ব্যানার স্লাইডার */
-        .slider-container { width: 92%; max-width: 800px; margin: 15px auto 5px auto; overflow: hidden; border-radius: 12px; box-shadow: var(--card-shadow); }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
-        .slide { width: 33.333%; }
-        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
-
         /* 🛡️ ট্রাস্ট ইনফো ব্যাজ */
-        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 10px 5px; margin: 10px 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
+        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 12px 5px; margin: 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
         .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
         .badge-item i { color: var(--accent); font-size: 14px; }
 
@@ -72,7 +74,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* 📦 প্রোডাক্ট কার্ড */
+        /* 📦 প্রোডাক্টカード */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -116,15 +118,12 @@
     <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
 </div>
 
-<header>
-    <div class="logo-container">
-        <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="PhoneLab360 Logo">
-        <h1>PhoneLab360</h1>
-    </div>
-</header>
-
 <div id="homePage" class="page-content active">
-    <div class="slider-container">
+    <div class="hero-section">
+        <div class="brand-overlay">
+            <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="Logo">
+            <h1>PhoneLab360</h1>
+        </div>
         <div class="slider" id="slider">
             <div class="slide"><img src="https://i.postimg.cc/tJYm1mvf/1779200037853.png" alt="Main Banner"></div>
             <div class="slide"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg" alt="Banner 2"></div>
@@ -162,7 +161,7 @@
         </div>
     </div>
 
-    <div class="section-title">জনপ্রিয়ブランド সমূহ (Shop by Brand)</div>
+    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
     <div class="brand-scroll">
         <div class="brand-item" onclick="selectBrand('Apple', this)"><div class="circle-icon"><i class="fa-brands fa-apple"></i></div><span>Apple</span></div>
         <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-solid fa-mobile-screen"></i></div><span>Samsung</span></div>
@@ -179,7 +178,7 @@
 </div>
 
 <div id="shopPage" class="page-content">
-    <div class="controls-container">
+    <div class="controls-container" style="margin-top: 20px;">
         <input type="text" id="searchBar" placeholder="সার্চ করুন আপনার পছন্দের প্রোডাক্ট..." onkeyup="filterProducts()">
     </div>
     <div class="container">
@@ -188,7 +187,7 @@
 </div>
 
 <div id="trackPage" class="page-content">
-    <div class="container" style="max-width: 500px; margin-top: 10px;">
+    <div class="container" style="max-width: 500px; margin-top: 20px;">
         <div class="track-box">
             <i class="fa-solid fa-route" style="font-size: 45px; color: var(--primary); margin-bottom: 15px;"></i>
             <h2 style="margin: 0 0 10px 0; color: var(--primary); font-size: 20px;">আপনার অর্ডার ট্র্যাক করুন</h2>
@@ -258,7 +257,7 @@
     let activeCat = 'All';
     let activeBrand = 'All';
 
-    // ব্যানার স্লাইডার অটোমেটিক চেঞ্জ লজিক
+    // ব্যানার স্লাইডার অটো চেঞ্জ লজিক
     let currentSlide = 0;
     setInterval(() => {
         const slider = document.getElementById('slider');

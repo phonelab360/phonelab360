@@ -76,4 +76,40 @@
         .order-btn:hover { background: #04a75b; }
 
         /* 📋 ট্র্যাক বক্স */
-        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow
+        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
+        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
+        .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
+        .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
+
+        /* 📱 বটম ন্যাভ বার */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
+        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
+        .nav-item i { font-size: 18px; margin-bottom: 4px; }
+        .nav-item.active { color: var(--accent); }
+
+        /* 🛍️ অর্ডার মডাল */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="top-notice">
+        <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+    </div>
+    <div class="logo-container" style="margin-top: 10px;">
+        <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="Logo">
+    </div>
+    <h1>PhoneLab360</h1>
+</header>
+
+<div id="homePage" class="page-content active">
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <div class="slide"><img src="https://i.

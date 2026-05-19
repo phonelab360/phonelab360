@@ -19,7 +19,7 @@
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
         
-        /* হেডার */
+        /* 🔝 প্রিমিয়াম হেডার */
         header { 
             background: var(--primary); color: white; padding: 15px; 
             text-align: center; border-bottom: 3px solid var(--accent);
@@ -32,13 +32,13 @@
         .page-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* ব্যানার স্লাইডার */
+        /* 🎪 ব্যানার স্লাইডার */
         .slider-container { width: 92%; max-width: 800px; margin: 15px auto; overflow: hidden; border-radius: 12px; box-shadow: var(--card-shadow); }
         .slider { display: flex; transition: transform 0.5s ease-in-out; width: 200%; }
         .slide { width: 50%; }
         .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* গোল ক্যাটাগরি ডিজাইন (ইমেজের বদলে আইকন দিয়ে ফিক্সড করা, যাতে মিস না হয়) */
+        /* 🔘 গোল ক্যাটাগরি ডিজাইন (আইকন দিয়ে ফিক্সড, যাতে কখনো ইমেজ নট ফাউন্ড না দেখায়) */
         .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; }
         .category-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
         .category-scroll::-webkit-scrollbar { display: none; }
@@ -47,32 +47,32 @@
         .cat-item.active .circle-icon, .cat-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
         .cat-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
 
-        /* সার্চ ও গ্রিড */
+        /* 🔍 সার্চ ও গ্রিড */
         .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
-        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #e2e8f0; font-size: 14px; outline: none; }
+        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* প্রোডাক্ট কার্ড */
+        /* 📦 প্রোডাক্ট কার্ড */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; }
         .card img { width: 100%; height: 130px; object-fit: contain; background: #f8fafc; border-radius: 8px; }
-        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 5px; min-height: 38px; line-height: 1.4; }
-        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 5px; min-height: 38px; line-height: 1.4; text-align: left; }
+        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; text-align: left; display: block; }
         
         .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
 
-        /* বটম ন্যাভ বার */
+        /* 📱 বটম ন্যাভ বার */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; }
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
 
-        /* অর্ডার মডাল */
+        /* 🛍️ অর্ডার মডাল পপআপ */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; }
+        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
-        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); }
+        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; line-height: 1.5; }
         .form-group { margin-bottom: 12px; text-align: left; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="section-title">পপুলার ক্যাটাগরি</div>
+    <div class="section-title">পপুলার ক্যাটাগরি ব্রাউজ করুন</div>
     <div class="category-scroll">
         <div class="cat-item active" onclick="selectCategory('All', this)">
             <div class="circle-icon"><i class="fa-solid fa-border-all"></i></div>
@@ -109,13 +109,17 @@
             <div class="circle-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
             <span>ডিসপ্লে</span>
         </div>
+        <div class="cat-item" onclick="selectCategory('Power Bank', this)">
+            <div class="circle-icon"><i class="fa-solid fa-charging-station"></i></div>
+            <span>পাওয়ার ব্যাংক</span>
+        </div>
         <div class="cat-item" onclick="selectCategory('Charger', this)">
             <div class="circle-icon"><i class="fa-solid fa-bolt"></i></div>
             <span>চার্জার</span>
         </div>
     </div>
 
-    <div class="section-title">আজকের অফারসমূহ</div>
+    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
     <div class="container">
         <div class="product-grid" id="home-products"></div>
     </div>
@@ -123,7 +127,7 @@
 
 <div id="shopPage" class="page-content">
     <div class="controls-container">
-        <input type="text" id="searchBar" placeholder="সার্চ করুন আপনার পার্টস..." onkeyup="filterProducts()">
+        <input type="text" id="searchBar" placeholder="সার্চ করুন আপনার পছন্দের প্রোডাক্ট..." onkeyup="filterProducts()">
     </div>
     <div class="container">
         <div class="product-grid" id="shop-products"></div>
@@ -133,55 +137,66 @@
 <div class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>হোম</button>
     <button class="nav-item" onclick="switchTab('shop', this)"><i class="fa-solid fa-bag-shopping"></i>শপ</button>
-    <a href="https://wa.me/8801878877746" target="_blank" class="nav-item" style="text-decoration:none;"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
+    <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
 
 <div class="modal" id="orderModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3 style="margin-top:0;">অর্ডার কনফার্ম করুন</h3>
+        <h3 style="margin-top:0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
         <div class="payment-info">
-            <strong>💵 পেমেন্ট নম্বর:</strong><br>
-            বিকাশ / নগদ (Personal): 01878877746
+            <strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>
+            বিকাশ / নগদ (Personal): 01878877746<br>
+            <span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি নিচে দিন।</span>
         </div>
         <form id="orderForm" onsubmit="submitOrder(event)">
             <input type="hidden" id="prodName">
             <input type="hidden" id="prodPrice">
-            <div class="form-group"><label>আপনার নাম *</label><input type="text" id="custName" required></div>
-            <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" id="custPhone" required></div>
-            <div class="form-group"><label>ঠিকানা *</label><textarea id="custAddress" rows="2" required></textarea></div>
-            <div class="form-group"><label>পেমেন্ট মেথড *</label><select id="payMethod"><option>Bkash</option><option>Nagad</option></select></div>
-            <div class="form-group"><label>TrxID *</label><input type="text" id="trxId" required></div>
-            <button type="submit" class="order-btn" id="submitBtn">কনফার্ম করুন</button>
+            <div class="form-group"><label>আপনার নাম *</label><input type="text" id="custName" required placeholder="নাম লিখুন"></div>
+            <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" id="custPhone" required placeholder="১১ ডিজিটের নম্বর"></div>
+            <div class="form-group"><label>পূর্ণাঙ্গ ঠিকানা *</label><textarea id="custAddress" rows="2" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea></div>
+            <div class="form-group">
+                <label>পেমেন্ট মেথড *</label>
+                <select id="payMethod">
+                    <option value="Bkash">বিকাশ (Bkash)</option>
+                    <option value="Nagad">নগদ (Nagad)</option>
+                </select>
+            </div>
+            <div class="form-group"><label>ট্রানজেকশন আইডি (TrxID) *</label><input type="text" id="trxId" required placeholder="যেমন: 8N7X9W2Z"></div>
+            <button type="submit" class="order-btn" id="submitBtn">কনফার্ম অর্ডার</button>
         </form>
     </div>
 </div>
 
 <script>
-    // আপনার সুপাবেস এবং টেলিগ্রাম ক্রেডেনশিয়ালস
+    // সুপাবেস কানেকশন
     const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // আপনার নতুন টেলিগ্রাম বট ক্রেডেনশিয়ালস
     const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
     const CHAT_ID = "5821767982"; 
 
     let productsData = [];
     let activeCat = 'All';
 
-    // ব্যানার স্লাইডার অটোমেটিক চলা
+    // অটো ব্যানার স্লাইডার
     let currentSlide = 0;
     setInterval(() => {
         const slider = document.getElementById('slider');
-        currentSlide = currentSlide === 0 ? 1 : 0;
-        slider.style.transform = `translateX(-${currentSlide * 50}%)`;
+        if(slider) {
+            currentSlide = currentSlide === 0 ? 1 : 0;
+            slider.style.transform = `translateX(-${currentSlide * 50}%)`;
+        }
     }, 4000);
 
     function switchTab(tab, btn) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.getElementById(`${tab}Page`).classList.add('active');
-        btn.classList.add('active');
+        if(btn) btn.classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function selectCategory(cat, elem) {
@@ -208,7 +223,7 @@
                 <span class="price">৳ ${p.price}</span>
                 <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
             </div>`;
-        document.getElementById('shop-products').innerHTML = data.map(createHTML).join('');
+        document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
         document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
     }
 
@@ -216,7 +231,7 @@
         const search = document.getElementById('searchBar').value.toLowerCase();
         const filtered = productsData.filter(p => {
             const matchesSearch = p.name.toLowerCase().includes(search);
-            const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase() === activeCat.toLowerCase());
+            const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase().trim() === activeCat.toLowerCase().trim());
             return matchesSearch && matchesCat;
         });
         renderGrids(filtered);
@@ -236,9 +251,12 @@
         btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
         btn.disabled = true;
 
+        const rawPrice = document.getElementById('prodPrice').value;
+        const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
+
         const order = {
             product_name: document.getElementById('prodName').value,
-            price: parseInt(document.getElementById('prodPrice').value) || 0,
+            price: parsedPrice,
             customer_name: document.getElementById('custName').value,
             phone: document.getElementById('custPhone').value,
             address: document.getElementById('custAddress').value,
@@ -250,20 +268,21 @@
             const { error } = await supabaseClient.from('orders').insert([order]);
             if (error) throw error;
 
-            const text = `🛍️ *নতুন অর্ডার এসেছে!*\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
+            const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
+            
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
             });
 
-            alert("অর্ডারটি সফল হয়েছে!");
+            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
             closeModal();
             document.getElementById('orderForm').reset();
         } catch (err) {
-            alert("অর্ডার সাবমিট হয়নি। দয়া করে সুপাবেসের RLS পলিসি 'true' করে দিন।");
+            alert("অর্ডার সাবমিট করতে সমস্যা হয়েছে। দয়া করে Supabase RLS Policy চেক করুন।");
         } finally {
-            btn.innerText = "কনফার্ম করুন";
+            btn.innerText = "কনফার্ম অর্ডার";
             btn.disabled = false;
         }
     }

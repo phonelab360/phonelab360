@@ -19,24 +19,12 @@
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
         
-        /* 📣 নতুন আপডেট: অ্যানিমেটেড নোটিশ বার */
-        .top-notice {
-            background: #eb4d4b;
-            color: white;
-            font-size: 13px;
-            padding: 6px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            font-weight: 600;
-        }
+        /* 📣 অ্যানিমেটেড নোটিশ বার */
+        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 6px 0; overflow: hidden; white-space: nowrap; font-weight: 600; }
         .top-notice marquee { vertical-align: middle; }
 
         /* 🔝 প্রিমিয়াম হেডার */
-        header { 
-            background: var(--primary); color: white; padding: 15px; 
-            text-align: center; border-bottom: 3px solid var(--accent);
-            position: sticky; top: 0; z-index: 100;
-        }
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; }
         .logo-container img { max-width: 50px; height: auto; }
         header h1 { margin: 5px 0 0; font-size: 22px; letter-spacing: 1px; }
         
@@ -50,27 +38,19 @@
         .slide { width: 50%; }
         .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* 🛡️ নতুন আপডেট: ট্রাস্ট ইনফো ব্যাজ */
-        .trust-badges {
-            display: flex;
-            justify-content: space-around;
-            background: white;
-            padding: 10px 5px;
-            margin: 10px 15px;
-            border-radius: 8px;
-            box-shadow: var(--card-shadow);
-        }
+        /* 🛡️ ট্রাস্ট ইনফো ব্যাজ */
+        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 10px 5px; margin: 10px 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
         .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
         .badge-item i { color: var(--accent); font-size: 14px; }
 
         /* 🔘 গোল ক্যাটাগরি ডিজাইন */
         .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; }
-        .category-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .cat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
-        .cat-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 20px; color: var(--primary); transition: 0.2s; }
-        .cat-item.active .circle-icon, .cat-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
-        .cat-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
+        .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
+        .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
+        .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
+        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 20px; color: var(--primary); transition: 0.2s; }
+        .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
+        .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
 
         /* 🔍 সার্চ ও গ্রিড */
         .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
@@ -78,21 +58,24 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* 📦 প্রোডাক্ট কার্ড (ইমেজ সাইজ ফিক্সড করা হয়েছে) */
+        /* 📦 প্রোডাক্ট কার্ড */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
         
-        /* নতুন আপডেট: ইন-স্টক ও ওয়ারেন্টি ট্যাগ */
         .product-meta { display: flex; gap: 5px; margin-bottom: 8px; font-size: 11px; font-weight: 600; }
         .tag-stock { color: #05c46b; background: rgba(5,196,107,0.1); padding: 1px 5px; border-radius: 4px; }
         .tag-warranty { color: #002c4b; background: rgba(0,44,75,0.06); padding: 1px 5px; border-radius: 4px; }
-
         .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; text-align: left; display: block; }
         
         .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
+
+        /* 📋 নতুন ট্র্যাক বক্স স্টাইল */
+        .track-box { background: white; padding: 20px; border-radius: 12px; box-shadow: var(--card-shadow); text-align: center; margin-top: 20px; }
+        .track-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 10px; outline: none; }
+        .track-result { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
 
         /* 📱 বটম ন্যাভ বার */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
@@ -100,11 +83,11 @@
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
 
-        /* 🛍️ অর্ডার মডাল পপআপ */
+        /* 🛍️ অর্ডার মডাল */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
         .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
-        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; line-height: 1.5; }
+        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
         .form-group { margin-bottom: 12px; text-align: left; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
@@ -161,6 +144,16 @@
         </div>
     </div>
 
+    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
+    <div class="brand-scroll">
+        <div class="brand-item" onclick="selectBrand('Apple', this)"><div class="circle-icon"><i class="fa-brands fa-apple"></i></div><span>Apple</span></div>
+        <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-mobile-button text-primary"></i></div><span>Samsung</span></div>
+        <div class="brand-item" onclick="selectBrand('Xiaomi', this)"><div class="circle-icon"><i class="fa-solid fa-m"></i></div><span>Xiaomi</span></div>
+        <div class="brand-item" onclick="selectBrand('Vivo', this)"><div class="circle-icon"><i class="fa-solid fa-v"></i></div><span>Vivo</span></div>
+        <div class="brand-item" onclick="selectBrand('Oppo', this)"><div class="circle-icon"><i class="fa-solid fa-o"></i></div><span>Oppo</span></div>
+        <div class="brand-item" onclick="selectBrand('Realme', this)"><div class="circle-icon"><i class="fa-solid fa-r"></i></div><span>Realme</span></div>
+    </div>
+
     <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
     <div class="container">
         <div class="product-grid" id="home-products"></div>
@@ -176,9 +169,23 @@
     </div>
 </div>
 
+<div id="trackPage" class="page-content">
+    <div class="container" style="max-width: 500px; margin-top: 30px;">
+        <div class="track-box">
+            <i class="fa-solid fa-route" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
+            <h2 style="margin: 0 0 10px 0; color: var(--primary);">আপনার অর্ডার ট্র্যাক করুন</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে লিখুন।</p>
+            <input type="tel" id="trackPhone" class="track-input" placeholder="যেমন: 01878877746">
+            <button onclick="trackOrder()" class="order-btn" style="padding: 12px;">অর্ডার খুঁজুন</button>
+            <div id="trackResult" class="track-result"></div>
+        </div>
+    </div>
+</div>
+
 <div class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>হোম</button>
     <button class="nav-item" onclick="switchTab('shop', this)"><i class="fa-solid fa-bag-shopping"></i>শপ</button>
+    <button class="nav-item" onclick="switchTab('track', this)"><i class="fa-solid fa-truck-ramp-box"></i>ট্র্যাকিং</button>
     <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
 
@@ -211,7 +218,6 @@
 </div>
 
 <script>
-    // সুপাবেস ও টেলিগ্রাম কনফিগারেশন
     const SUPABASE_URL = 'https://rohbfyqbpxmhwkjljqdw.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -221,8 +227,8 @@
 
     let productsData = [];
     let activeCat = 'All';
+    let activeBrand = 'All';
 
-    // অটো ব্যানার স্লাইডার
     let currentSlide = 0;
     setInterval(() => {
         const slider = document.getElementById('slider');
@@ -242,8 +248,20 @@
 
     function selectCategory(cat, elem) {
         document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
         elem.classList.add('active');
         activeCat = cat;
+        activeBrand = 'All';
+        switchTab('shop', document.querySelectorAll('.nav-item')[1]);
+        filterProducts();
+    }
+
+    function selectBrand(brand, elem) {
+        document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+        elem.classList.add('active');
+        activeBrand = brand;
+        activeCat = 'All';
         switchTab('shop', document.querySelectorAll('.nav-item')[1]);
         filterProducts();
     }
@@ -265,7 +283,7 @@
                 <h3>${p.name}</h3>
                 <div class="product-meta">
                     <span class="tag-stock">In Stock</span>
-                    <span class="tag-warranty">Premium</span>
+                    <span class="tag-warranty">${p.brand || 'Premium'}</span>
                 </div>
                 <span class="price">৳ ${p.price}</span>
                 <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
@@ -279,9 +297,48 @@
         const filtered = productsData.filter(p => {
             const matchesSearch = p.name.toLowerCase().includes(search);
             const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase().trim() === activeCat.toLowerCase().trim());
-            return matchesSearch && matchesCat;
+            const matchesBrand = activeBrand === 'All' || (p.brand && p.brand.toLowerCase().trim() === activeBrand.toLowerCase().trim());
+            return matchesSearch && matchesCat && matchesBrand;
         });
         renderGrids(filtered);
+    }
+
+    // 🔍 নতুন ফাংশন: অর্ডার ট্র্যাকিং সিস্টেম
+    async function trackOrder() {
+        const phone = document.getElementById('trackPhone').value.trim();
+        const resultDiv = document.getElementById('trackResult');
+        if(!phone) { alert("দয়া করে একটি মোবাইল নম্বর দিন"); return; }
+        
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = '#f1f5f9';
+        resultDiv.style.color = '#1e293b';
+        resultDiv.innerHTML = "খোঁজা হচ্ছে...";
+
+        const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
+
+        if(error || !data || data.length === 0) {
+            resultDiv.style.background = '#fef2f2';
+            resultDiv.style.color = '#991b1b';
+            resultDiv.innerHTML = "❌ এই নম্বরে কোনো অর্ডার খুঁজে পাওয়া যায়নি।";
+            return;
+        }
+
+        let html = `<h4 style="margin:0 0 10px 0; color:var(--primary);">📦 আপনার অর্ডারসমূহ (${data.length}টি):</h4>`;
+        data.forEach((order, index) => {
+            // যদি আপনার টেবিলে status কলাম না থাকে তবে ডিফল্ট 'Pending' দেখাবে
+            const status = order.status || 'Pending'; 
+            let statusColor = '#eab308'; // হলুদ (Pending)
+            if(status.toLowerCase() === 'delivered') statusColor = '#05c46b'; // সবুজ
+            if(status.toLowerCase() === 'cancelled') statusColor = '#eb4d4b'; // লাল
+
+            html += `
+            <div style="background:white; padding:10px; border-radius:6px; margin-bottom:10px; border:1px solid #e2e8f0;">
+                <strong>অর্ডার #${index+1}:</strong> ${order.product_name}<br>
+                <strong>মূল্য:</strong> ৳ ${order.price}<br>
+                <strong>অবস্থা:</strong> <span style="color:${statusColor}; font-weight:700;">${status}</span>
+            </div>`;
+        });
+        resultDiv.innerHTML = html;
     }
 
     function openModal(name, price) {
@@ -308,7 +365,8 @@
             phone: document.getElementById('custPhone').value,
             address: document.getElementById('custAddress').value,
             payment_method: document.getElementById('payMethod').value,
-            transaction_id: document.getElementById('trxId').value
+            transaction_id: document.getElementById('trxId').value,
+            status: 'Pending' // ট্র্যাকিং-এর সুবিধার্থে ডিফল্ট স্ট্যাটাস যোগ করা হলো
         };
 
         try {

@@ -8,6 +8,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* নামাজের সময়সূচীর নতুন সুন্দর ডিজাইন */
+.prayer-time-box { 
+    background: #ffffff; 
+    margin: 15px; 
+    padding: 15px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+    border: 1px solid #e2e8f0; 
+}
+.prayer-time-box h3 { 
+    margin: 0 0 12px 0; 
+    color: #002c4b; 
+    font-size: 16px; 
+    text-align: center; 
+    border-bottom: 2px solid #05c46b; 
+    padding-bottom: 5px; 
+}
+.prayer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+}
+.prayer-item { 
+    background: #f8fafc; 
+    padding: 8px; 
+    border-radius: 8px; 
+    text-align: center; 
+}
+.prayer-item span { display: block; font-size: 11px; color: #64748b; font-weight: 600; }
+.prayer-item b { font-size: 14px; color: #1e293b; }
+        
         :root { 
             --primary: #002c4b; 
             --accent: #05c46b; 
@@ -126,6 +157,12 @@
         <p>সময়সূচী লোড হচ্ছে...</p>
     </div>
     </div>
+    <div class="prayer-time-box">
+    <h3>🕌 নামাজের সময়সূচী</h3>
+    <div class="prayer-grid" id="prayer-container">
+        </div>
+    </div>
+    
     
         <div class="slider" id="slider" style="width: 100%;">
             <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/t4xWCKbd/01878877746-20260520-221103-0000.jpg" alt="Banner 1"></div>
@@ -261,6 +298,26 @@
 </div>
 
 <script>
+    async function fetchPrayerTimes() {
+    const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const t = data.data.timings;
+        
+        document.getElementById('prayer-container').innerHTML = `
+            <div class="prayer-item"><span>ফজর</span><b>${t.Fajr}</b></div>
+            <div class="prayer-item"><span>যোহর</span><b>${t.Dhuhr}</b></div>
+            <div class="prayer-item"><span>আসর</span><b>${t.Asr}</b></div>
+            <div class="prayer-item"><span>মাগরিব</span><b>${t.Maghrib}</b></div>
+            <div class="prayer-item"><span>ইশা</span><b>${t.Isha}</b></div>
+        `;
+    } catch (error) {
+        document.getElementById('prayer-container').innerHTML = "<p>সময় আপডেট করা সম্ভব হয়নি</p>";
+    }
+}
+fetchPrayerTimes();
+
     async function fetchPrayerTimes() {
     // এখানে 'Dhaka' এর বদলে আপনার শহরের নাম দিতে পারেন
     const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";

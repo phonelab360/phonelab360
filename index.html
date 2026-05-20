@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* নতুন ফিচারের স্টাইল */
+.sorting-box { padding: 10px 15px; display: flex; justify-content: center; }
+.fav-btn { position: absolute; top: 10px; right: 10px; border: none; background: #fff; cursor: pointer; font-size: 18px; color: #ff4757; z-index: 10; }
+.share-btn { display: block; margin-top: 8px; background: #25d366; color: white; padding: 6px; border-radius: 6px; text-decoration: none; font-size: 12px; text-align: center; }
+        
         :root { 
             --primary: #002c4b; 
             --accent: #05c46b; 
@@ -186,7 +191,14 @@
 </div>
 
 <div id="shopPage" class="page-content">
-    <div class="controls-container" style="margin-top: 20px;">
+    <div class="controls-container" style="margin-top: 20px;"> <div class="sorting-box">
+    <select id="sortSelect" onchange="filterProducts()" style="padding: 10px; border-radius: 8px;">
+        <option value="default">নতুন প্রোডাক্ট</option>
+        <option value="priceLow">দাম: কম থেকে বেশি</option>
+        <option value="priceHigh">দাম: বেশি থেকে কম</option>
+    </select>
+</div>
+
         <input type="text" id="searchBar" placeholder="সার্চ করুন আপনার পছন্দের প্রোডাক্ট..." onkeyup="filterProducts()">
     </div>
     <div class="container">
@@ -335,6 +347,27 @@
     }
 
     function filterProducts() {
+    const search = document.getElementById('searchBar').value.toLowerCase();
+    const sortSelect = document.getElementById('sortSelect'); // নতুন ড্রপডাউনটি এখান থেকে ভ্যালু নেবে
+    const sortType = sortSelect ? sortSelect.value : 'default';
+    
+    let filtered = productsData.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(search);
+        const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase().trim() === activeCat.toLowerCase().trim());
+        const matchesBrand = activeBrand === 'All' || (p.brand && p.brand.toLowerCase().trim() === activeBrand.toLowerCase().trim());
+        return matchesSearch && matchesCat && matchesBrand;
+    });
+
+    // শর্টিং লজিক
+    if (sortType === 'priceLow') {
+        filtered.sort((a, b) => a.price - b.price);
+    } else if (sortType === 'priceHigh') {
+        filtered.sort((a, b) => b.price - a.price);
+    }
+    
+    renderGrids(filtered);
+}
+
         const search = document.getElementById('searchBar').value.toLowerCase();
         const filtered = productsData.filter(p => {
             const matchesSearch = p.name.toLowerCase().includes(search);

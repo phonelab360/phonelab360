@@ -13,265 +13,123 @@
             --accent: #05c46b; 
             --price: #eb4d4b; 
             --bg: #f8fafc; 
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
-        body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
+        body { background: var(--bg); margin: 0; padding-bottom: 80px; }
         
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; }
-        .top-notice marquee { vertical-align: middle; }
-
-        header { background: var(--primary); color: white; padding: 15px 15px 5px 15px; text-align: center; border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .logo-container img { max-width: 50px; height: auto; }
-        header h1 { margin: 5px 0 5px; font-size: 22px; letter-spacing: 1px; }
-        
+        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; font-weight: 600; }
+        header { background: var(--primary); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        .slider-container { width: 92%; max-width: 800px; margin: 15px auto 5px auto; overflow: hidden; border-radius: 12px; box-shadow: var(--card-shadow); }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 200%; }
-        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
-
-        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 10px 5px; margin: 10px 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
-        .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
-        .badge-item i { color: var(--accent); font-size: 14px; }
-
-        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; text-align: left; }
-        .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
-        .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
-        .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
+        .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+        #searchBar { flex: 1; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; }
         
-        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
-        .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
-        .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
-
-        .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
-        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
-        .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; position: relative; }
-        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
-        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0 15px; }
+        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card-img-wrapper { height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; position: relative; overflow: hidden; }
+        .card img { max-height: 100%; max-width: 100%; object-fit: contain; }
         .price { color: var(--price); font-size: 16px; font-weight: 700; margin: 8px 0; }
-        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; flex: 1; }
+        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; flex: 1; }
         
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
-        .nav-item.active { color: var(--accent); }
-
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 999; }
     </style>
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
 <header>
     <div class="top-notice">
-        <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
-    </div>
-    <div class="logo-container" style="margin-top: 10px;">
-        <img src="https://i.postimg.cc/TP3dx5Mx/1000016196-removebg-preview.png" alt="Logo">
+        <marquee>🔥 অফার! যেকোনো তথ্যের জন্য হোয়াটসঅ্যাপ করুন - 01878-877746</marquee>
     </div>
     <h1>PhoneLab360</h1>
 </header>
 
-<div id="homePage" class="page-content active">
-    <!-- আপনার আগের হোমপেজ কন্টেন্ট এখানে থাকবে -->
-    <div class="slider-container"> ... </div>
-    <div class="trust-badges"> ... </div>
-    <div class="section-title">পপুলার ক্যাটাগরি ব্রাউজ করুন</div>
-    <!-- ... বাকি হোমপেজ কন্টেন্ট ... -->
-</div>
-
-<div id="shopPage" class="page-content">
-    <div class="controls-container" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:15px;">
-        <input type="text" id="searchBar" list="product-list" placeholder="সার্চ করুন আপনার পছন্দের প্রোডাক্ট..." onkeyup="filterProducts()" style="flex:1; min-width:250px;">
+<div id="shopPage" class="page-content active">
+    <div class="controls-container">
+        <input type="text" id="searchBar" list="product-list" placeholder="প্রোডাক্ট সার্চ করুন..." onkeyup="filterProducts()">
         
-        <select id="sortSelect" onchange="filterProducts()" style="padding:10px 12px; border-radius:8px; border:1px solid #cbd5e1;">
-            <option value="default">সাধারণ শর্টিং</option>
-            <option value="priceLow">দাম কম থেকে বেশি</option>
-            <option value="priceHigh">দাম বেশি থেকে কম</option>
+        <select id="sortSelect" onchange="filterProducts()" style="padding:10px; border-radius:8px;">
+            <option value="default">সাধারণ</option>
+            <option value="priceLow">দাম কম → বেশি</option>
+            <option value="priceHigh">দাম বেশি → কম</option>
         </select>
     </div>
 
     <datalist id="product-list"></datalist>
 
-    <div class="container">
-        <div class="product-grid" id="shop-products"></div>
-    </div>
+    <div class="product-grid" id="shop-products"></div>
 </div>
-
-<!-- Track Page & Bottom Nav & Modal আগের মতোই রাখুন -->
-
-<div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>হোম</button>
-    <button class="nav-item" onclick="switchTab('shop', this)"><i class="fa-solid fa-bag-shopping"></i>শপ</button>
-    <button class="nav-item" onclick="switchTab('track', this)"><i class="fa-solid fa-truck-fast"></i>ট্র্যাকিং</button>
-    <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
-</div>
-
-<!-- Order Modal -->
-<div class="modal" id="orderModal"> ... (আগের মতোই) </div>
 
 <script>
-// ==================== আপনার স্ক্রিপ্ট শুরু ====================
+    let productsData = [];
+    let activeCat = 'All';
+    let activeBrand = 'All';
 
-const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
-const CHAT_ID = "5821767982"; 
+    const supabaseClient = supabase.createClient(
+        'https://rohbfyqbpxmhwkjljqdw.supabase.co', 
+        'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'
+    );
 
-let productsData = [];
-let activeCat = 'All';
-let activeBrand = 'All';
+    function renderGrids(data) {
+        const sortType = document.getElementById('sortSelect').value;
+        let sorted = [...data];
 
-let supabaseClient;
-try {
-    supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
-} catch(e) {
-    console.error("Supabase client failed:", e);
-}
+        if (sortType === 'priceLow') sorted.sort((a,b) => a.price - b.price);
+        if (sortType === 'priceHigh') sorted.sort((a,b) => b.price - a.price);
 
-// ব্যানার স্লাইডার
-let currentSlide = 0;
-setInterval(() => {
-    const slider = document.getElementById('slider');
-    if(slider) {
-        currentSlide = currentSlide === 0 ? 1 : 0;
-        slider.style.transform = `translateX(-${currentSlide * 50}%)`;
+        const html = sorted.map(p => `
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="\( {p.image || 'https://via.placeholder.com/150'}" alt=" \){p.name}">
+                    <button onclick="toggleWishlist('${p.name}')" style="position:absolute;top:8px;right:8px;background:none;border:none;font-size:20px;cursor:pointer;">❤️</button>
+                </div>
+                <h3>${p.name}</h3>
+                <span class="price">৳ ${Number(p.price).toLocaleString('bn-BD')}</span>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <button onclick="openModal('${p.name}', ${p.price})" class="order-btn">অর্ডার করুন</button>
+                    <a href="https://wa.me/8801878877746?text=${encodeURIComponent('আমি এই প্রোডাক্টটি কিনতে চাই: ' + p.name)}" 
+                       target="_blank" style="background:#25D366;color:white;padding:10px 12px;border-radius:8px;text-decoration:none;">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('shop-products').innerHTML = html || '<p style="text-align:center;padding:40px;color:gray;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
     }
-}, 4000);
 
-// Tab Switch
-function switchTab(tab, btn) {
-    document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(`${tab}Page`).style.display = 'block';
-    if(btn) btn.classList.add('active');
-    window.scrollTo(0,0);
-}
+    function filterProducts() {
+        const search = document.getElementById('searchBar').value.toLowerCase();
+        const filtered = productsData.filter(p => 
+            p.name.toLowerCase().includes(search)
+        );
+        renderGrids(filtered);
+    }
 
-// Category & Brand Select
-function selectCategory(cat, elem) {
-    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-    document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
-    elem.classList.add('active');
-    activeCat = cat;
-    activeBrand = 'All';
-    switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-    filterProducts();
-}
+    function toggleWishlist(name) {
+        alert(name + " উইশলিস্টে যোগ হয়েছে ❤️");
+    }
 
-function selectBrand(brand, elem) {
-    document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-    elem.classList.add('active');
-    activeBrand = brand;
-    activeCat = 'All';
-    switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-    filterProducts();
-}
+    function openModal(name, price) {
+        alert(`অর্ডার মডাল খুলছে:\n\( {name} - ৳ \){price}\n\n(আপনার মডাল কোড এখানে যোগ করুন)`);
+    }
 
-// নতুন রেন্ডার ফাংশন (Sorting + Wishlist + WhatsApp)
-function renderGrids(data) {
-    const sortType = document.getElementById('sortSelect').value;
-    let sortedData = [...data];
-
-    if (sortType === 'priceLow') sortedData.sort((a, b) => a.price - b.price);
-    if (sortType === 'priceHigh') sortedData.sort((a, b) => b.price - a.price);
-
-    const createHTML = p => `
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="\( {p.image || 'https://via.placeholder.com/150'}" alt=" \){p.name}">
-                <button onclick="toggleWishlist('${p.name.replace(/'/g, "\\'")}')" 
-                        style="position:absolute; top:8px; right:8px; border:none; background:none; font-size:20px; cursor:pointer; z-index:10;">
-                    ❤️
-                </button>
-            </div>
-            <h3>${p.name}</h3>
-            <span class="price">৳ ${Number(p.price).toLocaleString('bn-BD')}</span>
-            <div style="display:flex; gap:6px; margin-top:8px;">
-                <button onclick="openModal('\( {p.name.replace(/'/g, "\\'")}', ' \){p.price}')" class="order-btn">অর্ডার করুন</button>
-                <a href="https://wa.me/8801878877746?text=আমি এই প্রোডাক্টটি কিনতে চাই:%20${encodeURIComponent(p.name)}" 
-                   target="_blank" 
-                   style="background:#25d366; color:white; padding:10px; border-radius:8px; text-decoration:none; display:flex; align-items:center; justify-content:center; min-width:44px;">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-            </div>
-        </div>`;
-
-    document.getElementById('shop-products').innerHTML = sortedData.length 
-        ? sortedData.map(createHTML).join('') 
-        : '<p style="grid-column:1/-1; text-align:center; padding:30px; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
-}
-
-// Search + Filter
-function filterProducts() {
-    const search = document.getElementById('searchBar').value.toLowerCase().trim();
-    
-    const filtered = productsData.filter(p => {
-        const matchesSearch = !search || p.name.toLowerCase().includes(search);
-        const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase() === activeCat.toLowerCase());
-        const matchesBrand = activeBrand === 'All' || (p.brand && p.brand.toLowerCase() === activeBrand.toLowerCase());
-        return matchesSearch && matchesCat && matchesBrand;
-    });
-
-    renderGrids(filtered);
-    updateDatalist(filtered);
-}
-
-// Datalist Update
-function updateDatalist(data) {
-    const datalist = document.getElementById('product-list');
-    datalist.innerHTML = data.slice(0, 15).map(p => `<option value="${p.name}">`).join('');
-}
-
-// Wishlist (এখন শুধু অ্যালার্ট, পরে লোকালস্টোরেজ যোগ করতে পারবেন)
-function toggleWishlist(name) {
-    alert(`❤️ ${name} উইশলিস্টে যোগ করা হয়েছে!`);
-    // পরবর্তীতে লোকালস্টোরেজ ব্যবহার করে উন্নত করা যাবে
-}
-
-// Supabase থেকে প্রোডাক্ট লোড
-async function getProducts() {
-    if(!supabaseClient) return;
-    try {
-        const { data, error } = await supabaseClient.from('products').select('*');
-        if (!error && data) {
-            productsData = data;
-            renderGrids(data);
+    // লোড প্রোডাক্ট
+    async function loadProducts() {
+        try {
+            const { data, error } = await supabaseClient.from('products').select('*');
+            if (data) {
+                productsData = data;
+                renderGrids(data);
+            }
+        } catch(e) {
+            console.error(e);
+            document.getElementById('shop-products').innerHTML = "<p style='text-align:center;padding:30px;'>প্রোডাক্ট লোড করতে সমস্যা হয়েছে</p>";
         }
-    } catch(e) {
-        console.error(e);
     }
-}
 
-// Modal Functions
-function openModal(name, price) {
-    document.getElementById('prodName').value = name;
-    document.getElementById('prodPrice').value = price;
-    document.getElementById('orderModal').style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('orderModal').style.display = 'none';
-}
-
-// Page Load
-window.onload = () => {
-    getProducts();
-    // প্রথমবার রেন্ডার
-    setTimeout(() => {
-        if (productsData.length > 0) renderGrids(productsData);
-    }, 800);
-};
+    window.onload = loadProducts;
 </script>
 </body>
 </html>

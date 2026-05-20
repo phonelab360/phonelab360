@@ -429,6 +429,26 @@
             color: #94a3b8;
             padding: 40px 20px;
         }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #10b981;
+            display: none;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ef4444;
+            display: none;
+        }
     </style>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -533,6 +553,9 @@
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">&times;</button>
         <h3 style="margin-top:0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
+        
+        <div class="alert-success" id="successAlert">✅ অর্ডার সফলভাবে জমা দেওয়া হয়েছে!</div>
+        <div class="alert-error" id="errorAlert">❌ অর্ডার জমা দিতে সমস্যা হয়েছে।</div>
         
         <div class="payment-info" id="paymentInstructions">
             <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
@@ -723,6 +746,8 @@
         document.getElementById('prodName').value = name;
         document.getElementById('prodPrice').value = price;
         document.getElementById('orderModal').style.display = 'flex';
+        document.getElementById('successAlert').style.display = 'none';
+        document.getElementById('errorAlert').style.display = 'none';
         toggleTrxField();
     }
 
@@ -735,6 +760,36 @@
         const modal = document.getElementById('orderModal');
         if (event.target === modal) {
             closeModal();
+        }
+    }
+
+    async function sendTelegramNotification(order) {
+        try {
+            console.log("📤 টেলিগ্রাম নোটিফিকেশন পাঠানো হচ্ছে...", {BOT_TOKEN, CHAT_ID});
+            
+            const telegramText = `🛍️ নতুন অর্ডার এসেছে!\n\n📦 প্রোডাক্ট: ${order.product_name}\n💰 মূল্য: ৳ ${order.price}\n👤 গ্রাহক: ${order.customer_name}\n📱 ফোন: ${order.phone}\n📍 ঠিকানা: ${order.address}\n💳 পেমেন্ট: ${order.payment_method}\n🔑 TrxID: ${order.transaction_id}`;
+            
+            const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    chat_id: CHAT_ID, 
+                    text: telegramText,
+                    parse_mode: 'HTML'
+                })
+            });
+
+            const result = await response.json();
+            console.log("✅ টেলিগ্রাম রেসপন্স:", result);
+            
+            if(!result.ok) {
+                console.error("❌ টেলিগ্রাম এরর:", result.description);
+                return false;
+            }
+            return true;
+        } catch(error) {
+            console.error("❌ টেলিগ্রাম পাঠাতে ব্যর্থ:", error);
+            return false;
         }
     }
 
@@ -761,35 +816,41 @@
             };
 
             if(!supabaseClient) {
-                alert("❌ ডেটাবেস সংযোগ ব্যর্থ। পরে চেষ্টা করুন।");
                 throw new Error("Supabase client not initialized");
             }
 
+            console.log("💾 অর্ডার সেভ করা হচ্ছে...", order);
             const { error } = await supabaseClient.from('orders').insert([order]);
             
             if (error) {
-                alert("🚨 অর্ডার সেভ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-                console.error("Database error:", error);
+                console.error("❌ ডাটাবেস এরর:", error);
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').innerText = "❌ ডাটাবেসে সংরক্ষণ ব্যর্থ: " + error.message;
                 return;
             }
 
-            const telegramText = `🛍️ নতুন অর্ডার এসেছে!\n\n📦 প্রোডাক্ট: ${order.product_name}\n💰 মূল্য: ৳ ${order.price}\n👤 গ্রাহক: ${order.customer_name}\n📱 ফোন: ${order.phone}\n📍 ঠিকানা: ${order.address}\n💳 পেমেন্ট: ${order.payment_method}`;
-            
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    chat_id: CHAT_ID, 
-                    text: telegramText,
-                    parse_mode: 'HTML'
-                })
-            }).catch(err => console.error("Telegram notification failed:", err));
+            console.log("✅ অর্ডার ডাটাবেসে সংরক্ষিত হয়েছে");
 
-            alert("✅ অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
-            closeModal();
+            // টেলিগ্রাম নোটিফিকেশন পাঠানোর চেষ্টা করুন
+            const telegramSent = await sendTelegramNotification(order);
+
+            if(telegramSent) {
+                document.getElementById('successAlert').style.display = 'block';
+                document.getElementById('successAlert').innerText = "✅ আপনার অর্ডার সফলভাবে সম্পন্ন হয়েছে!";
+            } else {
+                document.getElementById('successAlert').style.display = 'block';
+                document.getElementById('successAlert').innerText = "✅ অর্ডার সংরক্ষিত! (টেলিগ্রাম নোটিফিকেশন সমস্যা - WhatsApp এ যোগাযোগ করুন)";
+            }
+
+            setTimeout(() => {
+                closeModal();
+                document.getElementById('orderForm').reset();
+            }, 2000);
+
         } catch (err) {
-            alert("❌ অর্ডার করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-            console.error("Order submission error:", err);
+            console.error("❌ অর্ডার জমা দিতে এরর:", err);
+            document.getElementById('errorAlert').style.display = 'block';
+            document.getElementById('errorAlert').innerText = "❌ অর্ডার করতে সমস্যা হয়েছে: " + err.message;
         } finally {
             btn.innerText = "কনফার্ম অর্ডার";
             btn.disabled = false;

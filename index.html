@@ -22,21 +22,30 @@
         .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; position: sticky; top: 0; z-index: 101; }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🎪 হিরো ব্যানার সেকশন */
+        /* 🎪 হুবহু আগের মতো হিরো ব্যানার ও লোগো ওভারলে ডিজাইন */
         .hero-section { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; box-shadow: var(--card-shadow); }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; }
-        .slide { flex-shrink: 0; width: 100%; }
-        .slide img { width: 100%; height: 200px; display: block; object-fit: cover; }
+        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
+        .slide { width: 33.333%; }
+        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* লোগো ওভারলে */
+        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
         .brand-overlay { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            text-align: center; z-index: 10; background: rgba(0, 0, 0, 0.45); 
-            padding: 15px 25px; border-radius: 16px; backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2); min-width: 200px;
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            z-index: 10; 
+            background: rgba(0, 0, 0, 0.45); 
+            padding: 15px 25px; 
+            border-radius: 16px; 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
         }
-        .brand-overlay img { max-width: 55px; height: auto; border-radius: 8px; margin-bottom: 5px; }
-        .brand-overlay h1 { margin: 0; font-size: 24px; color: white; font-weight: bold; }
+        .brand-overlay img { max-width: 55px; height: auto; border-radius: 8px; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .brand-overlay h1 { margin: 0; font-size: 24px; color: white; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         
         /* পেজ কন্টেন্ট */
         .page-content { display: none; }
@@ -52,52 +61,57 @@
         .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
         .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
         .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
+        
         .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
-        .cat-item.active .circle-icon, .brand-item.active .circle-icon { border-color: var(--accent); color: var(--accent); }
+        .brand-item .circle-icon { font-size: 24px; color: #334155; }
+        
+        .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
         .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
 
         /* 🔍 সার্চ ও গ্রিড */
         .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
-        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; box-shadow: var(--card-shadow); }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
+        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
         /* 📦 প্রোডাক্ট কার্ড */
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; }
+        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; }
-        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; width: 100%; margin-top: auto; }
+        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
+        
+        .product-meta { display: flex; gap: 5px; margin-bottom: 8px; font-size: 11px; font-weight: 600; }
+        .tag-stock { color: #05c46b; background: rgba(5,196,107,0.1); padding: 1px 5px; border-radius: 4px; }
+        .tag-warranty { color: #002c4b; background: rgba(0,44,75,0.06); padding: 1px 5px; border-radius: 4px; }
+        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; text-align: left; display: block; }
+        
+        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
+        .order-btn:hover { background: #04a75b; }
 
         /* 📋 ট্র্যাক বক্স */
-        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin: 20px; border: 1px solid #e2e8f0; }
-        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; text-align: center; font-weight: bold; }
-        .track-result { margin-top: 20px; text-align: left; font-size: 14px; }
+        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
+        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
+        .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
+        .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
 
         /* 📱 বটম ন্যাভ বার */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; width: 25%; }
+        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
+        .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
+
+        /* 🛍️ অর্ডার মডাল */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
     </style>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
-<div class="top-notice">
-    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক চেক করুন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
-</div>
-
-<div class="hero-section">
-    <div class="slider" id="slider">
-        <div class="slide"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg"></div>
-        <div class="slide"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg"></div>
-        <div class="slide"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg"></div>
-    </div>
-    <div class="brand-overlay">
-        <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="Logo">
-        <h1>PhoneLab360</h1>
-    </div>
-</div>
-
-</body>
+    </body>
 </html>

@@ -6,52 +6,61 @@
     <title>PhoneLab360 - Premium Parts Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
+        :root { --primary: #002c4b; --accent: #05c46b; --bg: #f8fafc; }
         * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
-        body { background: #f8fafc; margin: 0; padding: 0; padding-bottom: 80px; }
+        body { background: var(--bg); margin: 0; padding-bottom: 80px; }
         
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; text-align: center; font-weight: 600; }
         .hero-section { width: 100%; height: 200px; overflow: hidden; position: relative; }
-        .slider { display: flex; width: 100%; height: 100%; }
-        .slide { min-width: 100%; height: 100%; }
+        .slider { display: flex; width: 300%; height: 100%; transition: transform 0.5s ease-in-out; }
+        .slide { width: 33.33%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
         
-        .section-title { font-size: 16px; font-weight: bold; padding: 15px; color: #002c4b; }
-        .brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 15px; }
-        .brand-card { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; }
+        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px; }
+        .card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .order-btn { background: var(--accent); color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-    <div class="top-notice">অর্ডার করার আগে অবশ্যই যোগাযোগ করুন!</div>
 
     <div class="hero-section">
         <div class="slider" id="slider">
             <div class="slide"><img src="https://i.postimg.cc/tRj1m9ef/1779200037853.png"></div>
             <div class="slide"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg"></div>
+            <div class="slide"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg"></div>
         </div>
     </div>
 
-    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ</div>
-    <div class="brand-grid">
-        <div class="brand-card">Apple</div>
-        <div class="brand-card">Samsung</div>
-        <div class="brand-card">Xiaomi</div>
-        <div class="brand-card">Vivo</div>
-    </div>
-
-    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
-    <div class="product-grid" id="home-products"></div>
+    <div class="section-title">আজকের আকর্ষণীয় অফার</div>
+    <div class="grid" id="home-products"></div>
 
     <script>
         // স্লাইডার
-        let index = 0;
+        let currentSlide = 0;
         setInterval(() => {
-            index = (index + 1) % 2;
-            document.getElementById('slider').style.transform = `translateX(-${index * 100}%)`;
+            currentSlide = (currentSlide + 1) % 3;
+            document.getElementById('slider').style.transform = `translateX(-${currentSlide * 33.33}%)`;
         }, 3000);
+
+        // Supabase ডাটা লোড
+        const supabase = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
+        async function loadProducts() {
+            const { data } = await supabase.from('products').select('*');
+            if(data) {
+                document.getElementById('home-products').innerHTML = data.map(p => `
+                    <div class="card">
+                        <img src="${p.image}" style="width:100%; height:100px; object-fit:contain;">
+                        <p>${p.name}</p>
+                        <p>৳ ${p.price}</p>
+                        <button class="order-btn">অর্ডার করুন</button>
+                    </div>
+                `).join('');
+            }
+        }
+        loadProducts();
     </script>
 </body>
 </html>

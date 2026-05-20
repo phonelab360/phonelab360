@@ -19,16 +19,51 @@
         body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
         
         /* 📣 নোটিশ বার */
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; position: sticky; top: 0; z-index: 101; }
+        .top-notice { 
+            background: #eb4d4b; 
+            color: white; 
+            font-size: 13px; 
+            padding: 8px 0; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            font-weight: 600; 
+            width: 100%; 
+            position: sticky; 
+            top: 0; 
+            z-index: 101;
+        }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🎪 হুবহু আগের মতো হিরো ব্যানার ও লোগো ওভারলে ডিজাইন */
-        .hero-section { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; box-shadow: var(--card-shadow); }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
-        .slide { width: 33.333%; }
-        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
+        /* 🎪 হিরো ব্যানার ও লোগো ওভারলে ডিজাইন */
+        .hero-section { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            overflow: hidden; 
+            box-shadow: var(--card-shadow);
+            height: 280px;
+        }
+        .slider { 
+            display: flex; 
+            transition: transform 0.6s ease-in-out; 
+            height: 100%;
+        }
+        .slide { 
+            min-width: 100%; 
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide img { 
+            width: 100%; 
+            height: 100%;
+            display: block; 
+            object-fit: cover; 
+        }
 
-        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
+        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
         .brand-overlay { 
             position: absolute; 
             top: 50%; 
@@ -44,98 +79,378 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             min-width: 200px;
         }
-        .brand-overlay img { max-width: 55px; height: auto; border-radius: 8px; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-        .brand-overlay h1 { margin: 0; font-size: 24px; color: white; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .brand-overlay img { 
+            max-width: 55px; 
+            height: auto; 
+            border-radius: 8px; 
+            margin-bottom: 5px; 
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); 
+        }
+        .brand-overlay h1 { 
+            margin: 0; 
+            font-size: 24px; 
+            color: white; 
+            font-weight: bold; 
+            letter-spacing: 0.5px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+        }
         
         /* পেজ কন্টেন্ট */
         .page-content { display: none; }
         .page-content.active { display: block; }
 
         /* 🛡️ ট্রাস্ট ইনফো ব্যাজ */
-        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 12px 5px; margin: 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
-        .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
+        .trust-badges { 
+            display: flex; 
+            justify-content: space-around; 
+            background: white; 
+            padding: 12px 5px; 
+            margin: 15px; 
+            border-radius: 8px; 
+            box-shadow: var(--card-shadow); 
+        }
+        .badge-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            color: #475569; 
+        }
         .badge-item i { color: var(--accent); font-size: 14px; }
 
         /* 🔘 গোল ক্যাটাগরি ডিজাইন */
-        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; text-align: left; }
-        .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
+        .section-title { 
+            font-size: 16px; 
+            color: var(--primary); 
+            margin: 20px 15px 10px; 
+            font-weight: 700; 
+            border-left: 4px solid var(--accent); 
+            padding-left: 8px; 
+            text-align: left; 
+        }
+        .category-scroll, .brand-scroll { 
+            display: flex; 
+            gap: 15px; 
+            overflow-x: auto; 
+            padding: 10px 15px; 
+        }
         .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
-        .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
+        .cat-item, .brand-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            cursor: pointer; 
+            min-width: 70px; 
+        }
         
-        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
+        .cat-item .circle-icon, .brand-item .circle-icon { 
+            width: 55px; 
+            height: 55px; 
+            border-radius: 50%; 
+            background: white; 
+            box-shadow: var(--card-shadow); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 24px; 
+            color: #334155; 
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
         .brand-item .circle-icon { font-size: 24px; color: #334155; }
         
-        .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
-        .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
+        .cat-item.active .circle-icon, 
+        .cat-item:hover .circle-icon, 
+        .brand-item.active .circle-icon, 
+        .brand-item:hover .circle-icon { 
+            border-color: var(--accent); 
+            color: var(--accent); 
+            transform: scale(1.1);
+        }
+        .cat-item span, .brand-item span { 
+            font-size: 12px; 
+            margin-top: 6px; 
+            font-weight: 600; 
+            color: #475569; 
+        }
 
         /* 🔍 সার্চ ও গ্রিড */
-        .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
-        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .controls-container { 
+            max-width: 800px; 
+            margin: 15px auto; 
+            padding: 0 15px; 
+        }
+        #searchBar { 
+            width: 100%; 
+            padding: 12px 20px; 
+            border-radius: 50px; 
+            border: 1px solid #cbd5e1; 
+            font-size: 14px; 
+            outline: none; 
+            box-shadow: var(--card-shadow); 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 15px; 
+        }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            gap: 15px; 
+        }
         
-        /* 📦 প্রোডাক্টカード */
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
-        .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
-        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
+        /* 📦 প্রোডাক্ট কার্ড */
+        .card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 12px; 
+            box-shadow: var(--card-shadow); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; 
+            position: relative; 
+        }
+        .card-img-wrapper { 
+            width: 100%; 
+            height: 130px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #f8fafc; 
+            border-radius: 8px; 
+            overflow: hidden; 
+        }
+        .card img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+        }
+        .card h3 { 
+            font-size: 13px; 
+            color: #1e293b; 
+            margin: 10px 0 3px; 
+            min-height: 38px; 
+            line-height: 1.4; 
+            text-align: left; 
+        }
         
-        .product-meta { display: flex; gap: 5px; margin-bottom: 8px; font-size: 11px; font-weight: 600; }
-        .tag-stock { color: #05c46b; background: rgba(5,196,107,0.1); padding: 1px 5px; border-radius: 4px; }
-        .tag-warranty { color: #002c4b; background: rgba(0,44,75,0.06); padding: 1px 5px; border-radius: 4px; }
-        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 12px; text-align: left; display: block; }
+        .product-meta { 
+            display: flex; 
+            gap: 5px; 
+            margin-bottom: 8px; 
+            font-size: 11px; 
+            font-weight: 600; 
+        }
+        .tag-stock { 
+            color: #05c46b; 
+            background: rgba(5,196,107,0.1); 
+            padding: 1px 5px; 
+            border-radius: 4px; 
+        }
+        .tag-warranty { 
+            color: #002c4b; 
+            background: rgba(0,44,75,0.06); 
+            padding: 1px 5px; 
+            border-radius: 4px; 
+        }
+        .card .price { 
+            color: var(--price); 
+            font-size: 16px; 
+            font-weight: 700; 
+            margin-bottom: 12px; 
+            text-align: left; 
+            display: block; 
+        }
         
-        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
+        .order-btn { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            font-size: 13px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: auto; 
+            transition: 0.2s;
+        }
         .order-btn:hover { background: #04a75b; }
+        .order-btn:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
 
         /* 📋 ট্র্যাক বক্স */
-        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
-        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
-        .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
-        .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
+        .track-box { 
+            background: white; 
+            padding: 25px 20px; 
+            border-radius: 16px; 
+            box-shadow: var(--card-shadow); 
+            text-align: center; 
+            margin-top: 30px; 
+            border: 1px solid #e2e8f0; 
+        }
+        .track-input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            margin-bottom: 15px; 
+            outline: none; 
+            transition: 0.2s; 
+            text-align: center; 
+            font-weight: 600;
+        }
+        .track-input:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px rgba(0,44,75,0.1); 
+        }
+        .track-result { 
+            margin-top: 20px; 
+            padding: 5px; 
+            border-radius: 8px; 
+            display: none; 
+            text-align: left; 
+            font-size: 14px; 
+            line-height: 1.6; 
+        }
 
         /* 📱 বটম ন্যাভ বার */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 10px 0; 
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.06); 
+            z-index: 100;
+        }
+        .nav-item { 
+            background: none; 
+            border: none; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            color: #94a3b8; 
+            font-size: 12px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .nav-item i { 
+            font-size: 18px; 
+            margin-bottom: 4px; 
+        }
         .nav-item.active { color: var(--accent); }
 
         /* 🛍️ অর্ডার মডাল */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; }
-        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
-        .form-group { margin-bottom: 12px; text-align: left; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            justify-content: center; 
+            align-items: center; 
+            padding: 15px;
+        }
+        .modal-content { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 16px; 
+            max-width: 400px; 
+            width: 100%; 
+            position: relative; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .close-btn { 
+            position: absolute; 
+            right: 15px; 
+            top: 15px; 
+            font-size: 20px; 
+            cursor: pointer; 
+            color: #94a3b8; 
+            background: none;
+            border: none;
+        }
+        .close-btn:hover { color: var(--primary); }
+        .payment-info { 
+            background: #f1f5f9; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            font-size: 13px; 
+            border-left: 4px solid var(--accent); 
+            text-align: left; 
+        }
+        .form-group { 
+            margin-bottom: 12px; 
+            text-align: left; 
+        }
+        .form-group label { 
+            display: block; 
+            font-size: 13px; 
+            margin-bottom: 4px; 
+            font-weight: 600; 
+        }
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 13px; 
+            outline: none;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+        }
+
+        .no-products {
+            grid-column: 1/-1;
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px 20px;
+        }
     </style>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-        <div class="slider" id="slider" style="width: 600%;">
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/tJYm1mvf/1779200037853.png" alt="Banner 1"></div>
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg" alt="Banner 2"></div>
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg" alt="Banner 3"></div>
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" alt="Banner 4"></div>
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/1zz6ZgW2/01878877746-20260519-212303-0000.jpg" alt="Banner 5"></div>
-            <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg" alt="Banner 6"></div>
-        </div>
-    
 <div class="top-notice">
-    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য আমাদের সাথে যোগাযোগ করুন। ফোন: 01878877746</marquee>
 </div>
 
 <div id="homePage" class="page-content active">
     <div class="hero-section">
+        <div class="slider" id="slider">
+            <div class="slide"><img src="https://i.postimg.cc/tJYm1mvf/1779200037853.png" alt="Banner 1"></div>
+            <div class="slide"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg" alt="Banner 2"></div>
+            <div class="slide"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg" alt="Banner 3"></div>
+            <div class="slide"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" alt="Banner 4"></div>
+            <div class="slide"><img src="https://i.postimg.cc/1zz6ZgW2/01878877746-20260519-212303-0000.jpg" alt="Banner 5"></div>
+            <div class="slide"><img src="https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg" alt="Banner 6"></div>
+        </div>
         <div class="brand-overlay">
             <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="Logo">
             <h1>PhoneLab360</h1>
-        </div>
-        <div class="slide"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" alt="Banner 4"></div>
-<div class="slide"><img src="https://i.postimg.cc/1zz6ZgW2/01878877746-20260519-212303-0000.jpg" alt="Banner 5"></div>
-<div class="slide"><img src="https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg" alt="Banner 6"></div>
-<div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/1zz6ZgW2/01878877746-20260519-212303-0000.jpg" alt="Banner 5"></div>
         </div>
     </div>
 
@@ -161,7 +476,7 @@
         </div>
         <div class="cat-item" onclick="selectCategory('Power Bank', this)">
             <div class="circle-icon"><i class="fa-solid fa-charging-station"></i></div>
-            <span>পাওয়ার ব্যাংক</span>
+            <span>পাওয়ার ব্যাংক</span>
         </div>
         <div class="cat-item" onclick="selectCategory('Charger', this)">
             <div class="circle-icon"><i class="fa-solid fa-bolt"></i></div>
@@ -169,7 +484,7 @@
         </div>
     </div>
 
-    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
+    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
     <div class="brand-scroll">
         <div class="brand-item" onclick="selectBrand('Apple', this)"><div class="circle-icon"><i class="fa-brands fa-apple"></i></div><span>Apple</span></div>
         <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-solid fa-mobile-screen"></i></div><span>Samsung</span></div>
@@ -179,7 +494,7 @@
         <div class="brand-item" onclick="selectBrand('Realme', this)"><div class="circle-icon"><i class="fa-solid fa-r"></i></div><span>Realme</span></div>
     </div>
 
-    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
+    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
     <div class="container">
         <div class="product-grid" id="home-products"></div>
     </div>
@@ -199,7 +514,7 @@
         <div class="track-box">
             <i class="fa-solid fa-route" style="font-size: 45px; color: var(--primary); margin-bottom: 15px;"></i>
             <h2 style="margin: 0 0 10px 0; color: var(--primary); font-size: 20px;">আপনার অর্ডার ট্র্যাক করুন</h2>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে লিখুন।</p>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে দিয়ে খোঁজ করুন।</p>
             <input type="tel" id="trackPhone" class="track-input" placeholder="যেমন: 01878877746">
             <button onclick="trackOrder()" class="order-btn" style="padding: 14px; font-size: 14px; border-radius: 8px;">অর্ডার খুঁজুন</button>
             <div id="trackResult" class="track-result"></div>
@@ -216,12 +531,12 @@
 
 <div class="modal" id="orderModal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
         <h3 style="margin-top:0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
         
         <div class="payment-info" id="paymentInstructions">
             <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
-            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
+            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি সুবিধা উপলব্ধ।
         </div>
         
         <form id="orderForm" onsubmit="submitOrder(event)">
@@ -253,34 +568,47 @@
 <script>
     let supabaseClient;
     try {
-        supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
+        supabaseClient = supabase.createClient(
+            'https://rohbfyqbpxmhwkjljqdw.supabase.co', 
+            'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'
+        );
     } catch(e) {
-        console.error("Supabase failed:", e);
+        console.error("Supabase initialization failed:", e);
     }
 
+    // ⚠️ সেনসিটিভ ডেটা - পরিবেশ ভেরিয়েবল থেকে লোড করা উচিত
     const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
     const CHAT_ID = "5821767982"; 
 
     let productsData = [];
     let activeCat = 'All';
     let activeBrand = 'All';
+    let currentSlide = 0;
 
     // ব্যানার স্লাইডার অটো চেঞ্জ লজিক
-    let currentSlide = 0;
-    setInterval(() => {
+    function autoSlide() {
         const slider = document.getElementById('slider');
-        if(slider) {
-            currentSlide = (currentSlide + 1) % 3;
-            slider.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+        const slides = document.querySelectorAll('.slide');
+        
+        if(slider && slides.length > 0) {
+            currentSlide = (currentSlide + 1) % slides.length;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
-    }, 4000);
+    }
+
+    setInterval(autoSlide, 4000);
 
     function switchTab(tab, btn) {
-        document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`${tab}Page`).style.display = 'block';
+        
+        const page = document.getElementById(`${tab}Page`);
+        if(page) {
+            page.classList.add('active');
+        }
+        
         if(btn) btn.classList.add('active');
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
     function selectCategory(cat, elem) {
@@ -304,40 +632,70 @@
     }
 
     async function getProducts() {
-        if(!supabaseClient) return;
+        if(!supabaseClient) {
+            console.warn("Supabase client not initialized");
+            return;
+        }
         try {
             const { data, error } = await supabaseClient.from('products').select('*');
-            if (!error && data) {
+            if (error) {
+                console.error("Error fetching products:", error);
+                return;
+            }
+            if (data) {
                 productsData = data;
                 renderGrids(data);
             }
         } catch(e) {
-            console.error(e);
+            console.error("Error loading products:", e);
         }
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return String(text).replace(/[&<>"']/g, m => map[m]);
     }
 
     function renderGrids(data) {
         const createHTML = p => `
             <div class="card">
                 <div class="card-img-wrapper">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" alt="product">
+                    <img src="${escapeHtml(p.image || 'https://via.placeholder.com/150')}" alt="${escapeHtml(p.name || 'product')}" onerror="this.src='https://via.placeholder.com/150'">
                 </div>
-                <h3>${p.name}</h3>
+                <h3>${escapeHtml(p.name || 'Untitled Product')}</h3>
                 <div class="product-meta">
                     <span class="tag-stock">In Stock</span>
-                    <span class="tag-warranty">${p.brand || 'Premium'}</span>
+                    <span class="tag-warranty">${escapeHtml(p.brand || 'Premium')}</span>
                 </div>
-                <span class="price">৳ ${p.price}</span>
-                <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
+                <span class="price">৳ ${p.price || 0}</span>
+                <button onclick="openModal('${escapeHtml(p.name || '')}', '${p.price || 0}')" class="order-btn">অর্ডার করুন</button>
             </div>`;
-        document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
-        document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
+        
+        const shopGrid = document.getElementById('shop-products');
+        const homeGrid = document.getElementById('home-products');
+        
+        if(data.length > 0) {
+            shopGrid.innerHTML = data.map(createHTML).join('');
+            homeGrid.innerHTML = productsData.slice(0, 6).map(createHTML).join('');
+        } else {
+            const noProducts = '<div class="no-products"><p>কোনো প্রোডাক্ট পাওয়া যায়নি।</p></div>';
+            shopGrid.innerHTML = noProducts;
+            if(productsData.length === 0) {
+                homeGrid.innerHTML = noProducts;
+            }
+        }
     }
 
     function filterProducts() {
-        const search = document.getElementById('searchBar').value.toLowerCase();
+        const search = (document.getElementById('searchBar').value || '').toLowerCase();
         const filtered = productsData.filter(p => {
-            const matchesSearch = p.name.toLowerCase().includes(search);
+            const matchesSearch = !search || (p.name && p.name.toLowerCase().includes(search));
             const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase().trim() === activeCat.toLowerCase().trim());
             const matchesBrand = activeBrand === 'All' || (p.brand && p.brand.toLowerCase().trim() === activeBrand.toLowerCase().trim());
             return matchesSearch && matchesCat && matchesBrand;
@@ -355,11 +713,11 @@
             trxGroup.style.display = 'none';
             trxInput.required = false;
             trxInput.value = '';
-            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!`;
+            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্��� হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি সুবিধা উপলব্ধ।`;
         } else {
             trxGroup.style.display = 'block';
             trxInput.required = true;
-            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।</span>`;
+            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color:#64748b;">আপনার নাম এবং অর্ডার নম্বর সহ পাঠান।</span>`;
         }
     }
 
@@ -375,49 +733,66 @@
         document.getElementById('orderForm').reset();
     }
 
+    window.onclick = function(event) {
+        const modal = document.getElementById('orderModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+
     async function submitOrder(e) {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
         btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
         btn.disabled = true;
 
-        const rawPrice = document.getElementById('prodPrice').value;
-        const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
-        const currentMethod = document.getElementById('payMethod').value;
-
-        const order = {
-            product_name: document.getElementById('prodName').value,
-            price: parsedPrice,
-            customer_name: document.getElementById('custName').value,
-            phone: document.getElementById('custPhone').value,
-            address: document.getElementById('custAddress').value,
-            payment_method: currentMethod,
-            transaction_id: currentMethod === 'COD' ? 'Cash on Delivery' : document.getElementById('trxId').value,
-            status: 'Pending'
-        };
-
         try {
+            const rawPrice = document.getElementById('prodPrice').value;
+            const parsedPrice = parseInt(String(rawPrice).replace(/[^0-9]/g, ''), 10) || 0;
+            const currentMethod = document.getElementById('payMethod').value;
+
+            const order = {
+                product_name: document.getElementById('prodName').value,
+                price: parsedPrice,
+                customer_name: document.getElementById('custName').value,
+                phone: document.getElementById('custPhone').value,
+                address: document.getElementById('custAddress').value,
+                payment_method: currentMethod,
+                transaction_id: currentMethod === 'COD' ? 'Cash on Delivery' : document.getElementById('trxId').value,
+                status: 'Pending'
+            };
+
+            if(!supabaseClient) {
+                alert("❌ ডেটাবেস সংযোগ ব্যর্থ। পরে চেষ্টা করুন।");
+                throw new Error("Supabase client not initialized");
+            }
+
             const { error } = await supabaseClient.from('orders').insert([order]);
             
             if (error) {
-                alert("🚨 টেবিল এরর: " + error.message);
-                btn.innerText = "কনফার্ম অর্ডার";
-                btn.disabled = false;
+                alert("🚨 অর্ডার সেভ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+                console.error("Database error:", error);
                 return;
             }
 
-            const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
+            // টেলিগ্রাম নোটিফিকেশন পাঠানো (ব্যাকগ্রাউন্ডে)
+            const telegramText = `🛍️ নতুন অর্ডার এসেছে!\n\n📦 প্রোডাক্ট: ${order.product_name}\n💰 মূল্য: ৳ ${order.price}\n👤 গ্রাহক: ${order.customer_name}\n📱 ফোন: ${order.phone}\n📍 ঠিকানা: ${order.address}\n💳 পেমেন্ট: ${order.payment_method}`;
             
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
-            });
+                body: JSON.stringify({ 
+                    chat_id: CHAT_ID, 
+                    text: telegramText,
+                    parse_mode: 'HTML'
+                })
+            }).catch(err => console.error("Telegram notification failed:", err));
 
-            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
+            alert("✅ অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
             closeModal();
         } catch (err) {
-            alert("সিস্টেম এরর: " + err.message);
+            alert("❌ অর্ডার করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+            console.error("Order submission error:", err);
         } finally {
             btn.innerText = "কনফার্ম অর্ডার";
             btn.disabled = false;
@@ -437,25 +812,35 @@
         resultDiv.innerHTML = '<p style="text-align:center; color:#64748b; margin:0;">অর্ডার খোঁজা হচ্ছে...</p>';
         
         try {
-            const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
+            if(!supabaseClient) {
+                throw new Error("Supabase client not initialized");
+            }
+
+            const { data, error } = await supabaseClient
+                .from('orders')
+                .select('*')
+                .eq('phone', phone)
+                .order('id', { ascending: false });
+                
             if(error) throw error;
             
             if(!data || data.length === 0) {
-                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
+                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি।</p>';
                 return;
             }
             
-            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
+            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
                 data.map((ord, idx) => `
                     <div style="padding:10px; border-bottom:1px solid #e2e8f0; margin-bottom:5px; font-size:13px;">
                         <strong>অর্ডার #${idx+1}</strong><br>
-                        📦 প্রোডাক্ট: ${ord.product_name}<br>
-                        💰 মূল্য: ৳ ${ord.price}<br>
-                        ⏱️ স্ট্যাটাস: <span style="background:#bbf7d0; color:#16a34a; padding:2px 6px; border-radius:4px; font-weight:bold;">${ord.status || 'Pending'}</span>
+                        📦 প্রোডাক্ট: ${escapeHtml(ord.product_name || 'N/A')}<br>
+                        💰 মূল্য: ৳ ${ord.price || 0}<br>
+                        ⏱️ স্ট্যাটাস: <span style="background:#bbf7d0; color:#16a34a; padding:2px 6px; border-radius:4px; font-weight:bold;">${escapeHtml(ord.status || 'Pending')}</span>
                     </div>
                 `).join('');
         } catch(e) {
-            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে।</p>';
+            console.error("Tracking error:", e);
+            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">❌ ট্র্যাকিং করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>';
         }
     }
 

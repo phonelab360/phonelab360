@@ -8,6 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* পুরো সাইটকে মোবাইলের জন্য সুন্দর করা */
+body {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: sans-serif;
+    padding: 0;
+}
+/* স্লাইডার ছবিগুলো ঠিক করা */
+.slide img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+/* প্রোডাক্ট কার্ডগুলো সাজানো */
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+        
         :root { 
             --primary: #002c4b; 
             --accent: #05c46b; 

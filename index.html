@@ -576,7 +576,6 @@
         console.error("Supabase initialization failed:", e);
     }
 
-    // ⚠️ সেনসিটিভ ডেটা - পরিবেশ ভেরিয়েবল থেকে লোড করা উচিত
     const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
     const CHAT_ID = "5821767982"; 
 
@@ -585,7 +584,6 @@
     let activeBrand = 'All';
     let currentSlide = 0;
 
-    // ব্যানার স্লাইডার অটো চেঞ্জ লজিক
     function autoSlide() {
         const slider = document.getElementById('slider');
         const slides = document.querySelectorAll('.slide');
@@ -713,7 +711,7 @@
             trxGroup.style.display = 'none';
             trxInput.required = false;
             trxInput.value = '';
-            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্��� হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি সুবিধা উপলব্ধ।`;
+            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি সুবিধা উপলব্ধ।`;
         } else {
             trxGroup.style.display = 'block';
             trxInput.required = true;
@@ -775,7 +773,6 @@
                 return;
             }
 
-            // টেলিগ্রাম নোটিফিকেশন পাঠানো (ব্যাকগ্রাউন্ডে)
             const telegramText = `🛍️ নতুন অর্ডার এসেছে!\n\n📦 প্রোডাক্ট: ${order.product_name}\n💰 মূল্য: ৳ ${order.price}\n👤 গ্রাহক: ${order.customer_name}\n📱 ফোন: ${order.phone}\n📍 ঠিকানা: ${order.address}\n💳 পেমেন্ট: ${order.payment_method}`;
             
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {

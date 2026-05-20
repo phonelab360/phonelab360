@@ -5,23 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PhoneLab360 - Premium Parts Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        body { background: #f8fafc; margin: 0; font-family: 'Hind Siliguri', sans-serif; padding-bottom: 70px; }
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px; text-align: center; }
-        .hero-section { width: 100%; height: 180px; overflow: hidden; position: relative; }
+        * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: #f8fafc; margin: 0; padding: 0; padding-bottom: 80px; }
+        
+        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; text-align: center; font-weight: 600; }
+        .hero-section { width: 100%; height: 200px; overflow: hidden; position: relative; }
         .slider { display: flex; width: 100%; height: 100%; }
         .slide { min-width: 100%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .section-title { font-size: 16px; font-weight: bold; padding: 15px 15px 5px; color: #002c4b; }
-        .brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 10px 15px; }
-        .brand-card { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 12px; }
-        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 15px; }
-        .product-card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .section-title { font-size: 16px; font-weight: bold; padding: 15px; color: #002c4b; }
+        .brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 15px; }
+        .brand-card { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; }
     </style>
 </head>
 <body>
 
-    <div class="top-notice">অফার! যেকোনো পার্টস অর্ডারের পূর্বে যোগাযোগ করুন।</div>
+    <div class="top-notice">অর্ডার করার আগে অবশ্যই যোগাযোগ করুন!</div>
 
     <div class="hero-section">
         <div class="slider" id="slider">
@@ -39,11 +43,10 @@
     </div>
 
     <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
-    <div class="product-grid" id="home-products">
-        </div>
+    <div class="product-grid" id="home-products"></div>
 
     <script>
-        // স্লাইডার স্ক্রিপ্ট
+        // স্লাইডার
         let index = 0;
         setInterval(() => {
             index = (index + 1) % 2;

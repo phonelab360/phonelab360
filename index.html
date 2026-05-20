@@ -8,78 +8,78 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root { --primary: #002c4b; --accent: #05c46b; --price: #eb4d4b; --bg: #f8fafc; --card-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        body { background: var(--bg); margin: 0; padding-bottom: 80px; font-family: 'Hind Siliguri', sans-serif; }
-        
-        /* নতুন ফিচারের জন্য CSS */
-        .sorting-controls { display: flex; justify-content: center; gap: 10px; margin: 15px; }
-        .fav-btn { position: absolute; top: 10px; right: 10px; border: none; background: #fff; cursor: pointer; font-size: 18px; }
-        .share-btn { background: #25d366; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 14px; text-align: center; }
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 15px; }
+        * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: var(--bg); margin: 0; padding-bottom: 80px; }
+        /* আপনার মূল স্টাইলগুলো এখানে বজায় রাখা হয়েছে */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); position: relative; }
-        .card img { width: 100%; height: 120px; object-fit: contain; }
-        .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; cursor: pointer; }
+        .fav-btn { position: absolute; top: 10px; right: 10px; border: none; background: none; cursor: pointer; font-size: 20px; color: #ff4757; }
+        .controls { padding: 15px; display: flex; gap: 10px; justify-content: center; }
+        .share-btn { display: block; margin-top: 8px; background: #25d366; color: white; padding: 8px; border-radius: 8px; text-decoration: none; font-size: 13px; text-align: center; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<div id="shopPage" class="page-content active">
-    <div class="sorting-controls">
-        <input type="text" id="searchBar" placeholder="সার্চ করুন..." onkeyup="filterAndSort()">
-        <select id="sortSelect" onchange="filterAndSort()">
-            <option value="default">নতুন</option>
-            <option value="priceLow">কম দাম</option>
-            <option value="priceHigh">বেশি দাম</option>
-        </select>
-    </div>
-
-    <div class="product-grid" id="shop-products"></div>
+<div class="controls">
+    <input type="text" id="searchBar" placeholder="সার্চ করুন..." onkeyup="filterAndSort()" style="padding:10px; width:60%; border-radius:8px; border:1px solid #ccc;">
+    <select id="sortSelect" onchange="filterAndSort()" style="padding:10px; border-radius:8px;">
+        <option value="default">নতুন</option>
+        <option value="priceLow">কম দাম</option>
+        <option value="priceHigh">বেশি দাম</option>
+    </select>
 </div>
 
+<div class="product-grid" id="shop-products"></div>
+
 <script>
+    const supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
     let productsData = [];
 
-    // প্রোডাক্ট ফিল্টার ও শর্ট লজিক
+    async function getProducts() {
+        const { data } = await supabaseClient.from('products').select('*');
+        productsData = data || [];
+        renderGrids(productsData);
+    }
+
     function filterAndSort() {
         const search = document.getElementById('searchBar').value.toLowerCase();
         const sortType = document.getElementById('sortSelect').value;
-
         let filtered = productsData.filter(p => p.name.toLowerCase().includes(search));
-
+        
         if (sortType === 'priceLow') filtered.sort((a, b) => a.price - b.price);
         if (sortType === 'priceHigh') filtered.sort((a, b) => b.price - a.price);
-
         renderGrids(filtered);
     }
 
-    // ফেভারিট লিস্ট লজিক (LocalStorage ব্যবহার করে)
     function toggleWishlist(name) {
         let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
         if (wishlist.includes(name)) {
             wishlist = wishlist.filter(item => item !== name);
+            alert('ফেভারিট থেকে সরানো হয়েছে!');
         } else {
             wishlist.push(name);
+            alert('ফেভারিটে যোগ হয়েছে!');
         }
         localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        alert('আপনার ফেভারিট লিস্টে যুক্ত করা হয়েছে!');
     }
 
-    // রেন্ডারিং লজিক
     function renderGrids(data) {
         const grid = document.getElementById('shop-products');
         grid.innerHTML = data.map(p => `
             <div class="card">
-                <button class="fav-btn" onclick="toggleWishlist('${p.name}')">❤️</button>
-                <img src="${p.image}" alt="${p.name}">
+                <button class="fav-btn" onclick="toggleWishlist('${p.name}')"><i class="fa-solid fa-heart"></i></button>
+                <img src="${p.image}" style="width:100%; height:120px; object-fit:contain;">
                 <h3>${p.name}</h3>
-                <span class="price">৳ ${p.price}</span>
-                <button class="order-btn" onclick="openModal('${p.name}', '${p.price}')">অর্ডার করুন</button>
-                <a href="https://wa.me/8801878877746?text=আমি নিতে চাই: ${p.name}" class="share-btn">হোয়াটসঅ্যাপে শেয়ার করুন</a>
+                <span style="color:var(--price); font-weight:bold;">৳ ${p.price}</span>
+                <button class="order-btn" onclick="openModal('${p.name}', '${p.price}')" style="background:#05c46b; color:white; border:none; padding:10px; width:100%; border-radius:8px; cursor:pointer; margin-top:10px;">অর্ডার করুন</button>
+                <a href="https://wa.me/8801878877746?text=আমি নিতে চাই: ${p.name}" target="_blank" class="share-btn">শেয়ার করুন</a>
             </div>
         `).join('');
     }
 
-    // আগের বাকি লজিক এখানে যুক্ত করুন...
-    // যেমন: getProducts(), openModal(), submitOrder() ইত্যাদি।
+    // এখানে আপনার আগের বাকি ৪৫০ লাইনের ফাংশন (openModal, submitOrder, tracking) বসিয়ে দিন।
+    getProducts();
 </script>
 
 </body>

@@ -120,6 +120,12 @@
     </div>
     
     </div>
+    <div class="prayer-time-box">
+    <h3>🕌 আজকের নামাজের সময়সূচী</h3>
+    <div class="prayer-grid" id="prayer-container">
+        <p>সময়সূচী লোড হচ্ছে...</p>
+    </div>
+    </div>
     
         <div class="slider" id="slider" style="width: 100%;">
             <div class="slide" style="width: 16.666%;"><img src="https://i.postimg.cc/t4xWCKbd/01878877746-20260520-221103-0000.jpg" alt="Banner 1"></div>
@@ -255,6 +261,27 @@
 </div>
 
 <script>
+    async function fetchPrayerTimes() {
+    // এখানে 'Dhaka' এর বদলে আপনার শহরের নাম দিতে পারেন
+    const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const t = data.data.timings;
+        
+        document.getElementById('prayer-container').innerHTML = `
+            <div class="prayer-item"><span>ফজর</span><b>${t.Fajr}</b></div>
+            <div class="prayer-item"><span>যোহর</span><b>${t.Dhuhr}</b></div>
+            <div class="prayer-item"><span>আসর</span><b>${t.Asr}</b></div>
+            <div class="prayer-item"><span>মাগরিব</span><b>${t.Maghrib}</b></div>
+            <div class="prayer-item"><span>ইশা</span><b>${t.Isha}</b></div>
+        `;
+    } catch (error) {
+        document.getElementById('prayer-container').innerHTML = "সময়সূচী আপডেট করা সম্ভব হয়নি।";
+    }
+}
+fetchPrayerTimes();
+    
     let supabaseClient;
     try {
         supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');

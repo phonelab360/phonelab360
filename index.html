@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* নামাজের সময়সূচীর নতুন সুন্দর ডিজাইন */
+        /* নামাজের সময়সূচীর নতুন সুন্দর ডিজাইন */
 .prayer-time-box { 
     background: #ffffff; 
     margin: 10px; 
@@ -59,7 +59,7 @@
         .slide { width: 33.333%; }
         .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
+        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
         .brand-overlay { 
             position: absolute; 
             top: 50%; 
@@ -105,7 +105,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* 📦 প্রোডাক্টカード */
+        /* 📦 প্রোডাক্টকার্ড */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -118,6 +118,19 @@
         
         .order-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; margin-top: auto; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
+
+        /* 📦 শেয়ারিং বাটন */
+        .share-btn-group { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+        .share-btn { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; border-radius: 6px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .share-facebook { background: #1877f2; color: white; }
+        .share-facebook:hover { background: #0a66c2; }
+        .share-whatsapp { background: #25d366; color: white; }
+        .share-whatsapp:hover { background: #1da851; }
+        .share-twitter { background: #1da1f2; color: white; }
+        .share-twitter:hover { background: #1a91da; }
+        .share-copy { background: #94a3b8; color: white; }
+        .share-copy:hover { background: #64748b; }
+        .share-btn i { font-size: 12px; }
 
         /* 📋 ট্র্যাক বক্স */
         .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
@@ -139,6 +152,16 @@
         .form-group { margin-bottom: 12px; text-align: left; }
         .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+
+        /* শেয়ার মডাল */
+        .share-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
+        .share-modal-content { background: white; padding: 25px; border-radius: 16px; max-width: 350px; width: 100%; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .share-close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; background: none; border: none; }
+        .share-title { margin: 0 0 15px 0; color: var(--primary); font-size: 18px; font-weight: 700; }
+        .share-option { display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #f8fafc; cursor: pointer; transition: 0.2s; }
+        .share-option:hover { background: #e2e8f0; }
+        .share-option i { font-size: 20px; width: 30px; text-align: center; }
+        .share-option-text { flex: 1; font-size: 14px; font-weight: 600; }
     </style>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -152,14 +175,14 @@
     
     </div>
     <div class="prayer-time-box">
-    <h3>🕌 আজকের নামাজের সময়সূচী</h3>
+    <h3>🕌 আজকের নামাজের সময়সূচী</h3>
     <div class="prayer-grid" id="prayer-container">
-        <p>সময়সূচী লোড হচ্ছে...</p>
+        <p>সময়সূচী লোড হচ্ছে...</p>
     </div>
     </div>
     
 <div class="top-notice">
-    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
 </div>
 
 <div id="homePage" class="page-content active">
@@ -193,7 +216,7 @@
         </div>
         <div class="cat-item" onclick="selectCategory('Power Bank', this)">
             <div class="circle-icon"><i class="fa-solid fa-charging-station"></i></div>
-            <span>পাওয়ার ব্যাংক</span>
+            <span>পাওয়ার ব্যাংক</span>
         </div>
         <div class="cat-item" onclick="selectCategory('Charger', this)">
             <div class="circle-icon"><i class="fa-solid fa-bolt"></i></div>
@@ -201,7 +224,7 @@
         </div>
     </div>
 
-    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
+    <div class="section-title">জনপ্রিয় ব্র্যান্ড সমূহ (Shop by Brand)</div>
     <div class="brand-scroll">
         <div class="brand-item" onclick="selectBrand('Apple', this)"><div class="circle-icon"><i class="fa-brands fa-apple"></i></div><span>Apple</span></div>
         <div class="brand-item" onclick="selectBrand('Samsung', this)"><div class="circle-icon"><i class="fa-solid fa-mobile-screen"></i></div><span>Samsung</span></div>
@@ -211,7 +234,7 @@
         <div class="brand-item" onclick="selectBrand('Realme', this)"><div class="circle-icon"><i class="fa-solid fa-r"></i></div><span>Realme</span></div>
     </div>
 
-    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
+    <div class="section-title">আজকের আকর্ষণীয় অফারসমূহ</div>
     <div class="container">
         <div class="product-grid" id="home-products"></div>
     </div>
@@ -231,7 +254,7 @@
         <div class="track-box">
             <i class="fa-solid fa-route" style="font-size: 45px; color: var(--primary); margin-bottom: 15px;"></i>
             <h2 style="margin: 0 0 10px 0; color: var(--primary); font-size: 20px;">আপনার অর্ডার ট্র্যাক করুন</h2>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে লিখুন।</p>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">অর্ডার করার সময় যে মোবাইল নম্বর দিয়েছেন, সেটি এখানে লিখুন।</p>
             <input type="tel" id="trackPhone" class="track-input" placeholder="যেমন: 01878877746">
             <button onclick="trackOrder()" class="order-btn" style="padding: 14px; font-size: 14px; border-radius: 8px;">অর্ডার খুঁজুন</button>
             <div id="trackResult" class="track-result"></div>
@@ -246,6 +269,34 @@
     <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
 
+<!-- শেয়ার মডাল -->
+<div class="share-modal" id="shareModal">
+    <div class="share-modal-content">
+        <button class="share-close-btn" onclick="closeShareModal()">&times;</button>
+        <h3 class="share-title">শেয়ার করুন 📱</h3>
+        
+        <div class="share-option" onclick="shareToFacebook()">
+            <i class="fa-brands fa-facebook" style="color: #1877f2;"></i>
+            <span class="share-option-text">Facebook এ শেয়ার করুন</span>
+        </div>
+        
+        <div class="share-option" onclick="shareToWhatsApp()">
+            <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i>
+            <span class="share-option-text">WhatsApp এ শেয়ার করুন</span>
+        </div>
+        
+        <div class="share-option" onclick="shareToTwitter()">
+            <i class="fa-brands fa-twitter" style="color: #1da1f2;"></i>
+            <span class="share-option-text">Twitter এ শেয়ার করুন</span>
+        </div>
+        
+        <div class="share-option" onclick="copyShareLink()">
+            <i class="fa-solid fa-link" style="color: #94a3b8;"></i>
+            <span class="share-option-text">লিংক কপি করুন</span>
+        </div>
+    </div>
+</div>
+
 <div class="modal" id="orderModal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -253,7 +304,7 @@
         
         <div class="payment-info" id="paymentInstructions">
             <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
-            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
+            প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!
         </div>
         
         <form id="orderForm" onsubmit="submitOrder(event)">
@@ -298,28 +349,7 @@
             <div class="prayer-item"><span>ইশা</span><b>${t.Isha}</b></div>
         `;
     } catch (error) {
-        document.getElementById('prayer-container').innerHTML = "<p>সময় আপডেট করা সম্ভব হয়নি</p>";
-    }
-}
-fetchPrayerTimes();
-
-    async function fetchPrayerTimes() {
-    // এখানে 'Dhaka' এর বদলে আপনার শহরের নাম দিতে পারেন
-    const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const t = data.data.timings;
-        
-        document.getElementById('prayer-container').innerHTML = `
-            <div class="prayer-item"><span>ফজর</span><b>${t.Fajr}</b></div>
-            <div class="prayer-item"><span>যোহর</span><b>${t.Dhuhr}</b></div>
-            <div class="prayer-item"><span>আসর</span><b>${t.Asr}</b></div>
-            <div class="prayer-item"><span>মাগরিব</span><b>${t.Maghrib}</b></div>
-            <div class="prayer-item"><span>ইশা</span><b>${t.Isha}</b></div>
-        `;
-    } catch (error) {
-        document.getElementById('prayer-container').innerHTML = "সময়সূচী আপডেট করা সম্ভব হয়নি।";
+        document.getElementById('prayer-container').innerHTML = "<p>সময় আপডেট করা সম্ভব হয়নি</p>";
     }
 }
 fetchPrayerTimes();
@@ -337,6 +367,7 @@ fetchPrayerTimes();
     let productsData = [];
     let activeCat = 'All';
     let activeBrand = 'All';
+    let currentShareProduct = null;
 
     // ব্যানার স্লাইডার অটো চেঞ্জ লজিক
     let currentSlide = 0;
@@ -402,8 +433,22 @@ fetchPrayerTimes();
                 </div>
                 <span class="price">৳ ${p.price}</span>
                 <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
+                <div class="share-btn-group">
+                    <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${p.name}', '${p.price}'); openShareModal()" title="Facebook এ শেয়ার করুন">
+                        <i class="fa-brands fa-facebook"></i>
+                    </button>
+                    <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct('${p.name}', '${p.price}'); shareToWhatsApp()" title="WhatsApp এ শেয়ার করুন">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </button>
+                    <button type="button" class="share-btn share-twitter" onclick="setShareProduct('${p.name}', '${p.price}'); shareToTwitter()" title="Twitter এ শেয়ার করুন">
+                        <i class="fa-brands fa-twitter"></i>
+                    </button>
+                    <button type="button" class="share-btn share-copy" onclick="setShareProduct('${p.name}', '${p.price}'); copyShareLink()" title="লিংক কপি করুন">
+                        <i class="fa-solid fa-link"></i>
+                    </button>
+                </div>
             </div>`;
-        document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
+        document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
         document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
     }
 
@@ -418,6 +463,59 @@ fetchPrayerTimes();
         renderGrids(filtered);
     }
 
+    // শেয়ারিং ফাংশন
+    function setShareProduct(name, price) {
+        currentShareProduct = { name, price };
+    }
+
+    function getShareText() {
+        if(!currentShareProduct) return "PhoneLab360 - Premium Parts Store";
+        return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n100% অরিজিনাল পার্টস\nদেশজুড়ে দ্রুত ডেলিভারি`;
+    }
+
+    function getShareLink() {
+        return window.location.href;
+    }
+
+    function openShareModal() {
+        document.getElementById('shareModal').style.display = 'flex';
+    }
+
+    function closeShareModal() {
+        document.getElementById('shareModal').style.display = 'none';
+    }
+
+    function shareToFacebook() {
+        const text = getShareText();
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareLink())}&quote=${encodeURIComponent(text)}`;
+        window.open(url, '_blank', 'width=600,height=400');
+        closeShareModal();
+    }
+
+    function shareToWhatsApp() {
+        const text = getShareText();
+        const url = `https://wa.me/?text=${encodeURIComponent(text + '\n' + getShareLink())}`;
+        window.open(url, '_blank');
+        closeShareModal();
+    }
+
+    function shareToTwitter() {
+        const text = getShareText();
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(getShareLink())}`;
+        window.open(url, '_blank', 'width=600,height=400');
+        closeShareModal();
+    }
+
+    function copyShareLink() {
+        const text = getShareText() + '\n\n' + getShareLink();
+        navigator.clipboard.writeText(text).then(() => {
+            alert('✅ লিংক ক্লিপবোর্ডে কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করুন।');
+            closeShareModal();
+        }).catch(() => {
+            alert('❌ কপি করা সম্ভব হয়নি');
+        });
+    }
+
     function toggleTrxField() {
         const method = document.getElementById('payMethod').value;
         const trxGroup = document.getElementById('trxGroup');
@@ -428,11 +526,11 @@ fetchPrayerTimes();
             trxGroup.style.display = 'none';
             trxInput.required = false;
             trxInput.value = '';
-            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!`;
+            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!`;
         } else {
             trxGroup.style.display = 'block';
             trxInput.required = true;
-            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।</span>`;
+            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।</span>`;
         }
     }
 
@@ -487,7 +585,7 @@ fetchPrayerTimes();
                 body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
             });
 
-            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
+            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
             closeModal();
         } catch (err) {
             alert("সিস্টেম এরর: " + err.message);
@@ -514,11 +612,11 @@ fetchPrayerTimes();
             if(error) throw error;
             
             if(!data || data.length === 0) {
-                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
+                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
                 return;
             }
             
-            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
+            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
                 data.map((ord, idx) => `
                     <div style="padding:10px; border-bottom:1px solid #e2e8f0; margin-bottom:5px; font-size:13px;">
                         <strong>অর্ডার #${idx+1}</strong><br>
@@ -528,7 +626,7 @@ fetchPrayerTimes();
                     </div>
                 `).join('');
         } catch(e) {
-            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে।</p>';
+            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে।</p>';
         }
     }
 

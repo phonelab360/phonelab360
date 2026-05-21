@@ -142,19 +142,6 @@
     </style>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    // URL থেকে পণ্য খুঁজে বের করা
-window.addEventListener('load', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const prodName = urlParams.get('product');
-    
-    if (prodName && productsData.length > 0) {
-        const product = productsData.find(p => p.name.toLowerCase().replace(/ /g, '-') === prodName);
-        if (product) {
-            openModal(product.name, product.price);
-        }
-    }
-});
-    
 </head>
 <body><div class="hero-section">
     <div class="slider" id="slider" style="width: 300%; display: flex; transition: transform 0.5s ease-in-out;">
@@ -403,11 +390,7 @@ fetchPrayerTimes();
     }
 
     function renderGrids(data) {
-    const createHTML = p => {
-        const prodSlug = p.name.toLowerCase().replace(/ /g, '-');
-        const shareUrl = `${window.location.origin}${window.location.pathname}?product=${prodSlug}`;
-        
-        return `
+        const createHTML = p => `
             <div class="card">
                 <div class="card-img-wrapper">
                     <img src="${p.image || 'https://via.placeholder.com/150'}" alt="product">
@@ -419,20 +402,7 @@ fetchPrayerTimes();
                 </div>
                 <span class="price">৳ ${p.price}</span>
                 <button onclick="openModal('${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
-                <button onclick="copyToClipboard('${shareUrl}')" style="margin-top:8px; font-size:11px; background:none; border:none; color:#64748b; cursor:pointer; text-decoration:underline;">🔗 শেয়ার লিংক কপি</button>
             </div>`;
-    };
-    
-    document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
-    document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
-}
-
-// এই ফাংশনটি renderGrids ফাংশনের ঠিক নিচে বসাবেন
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
-    alert("লিংক কপি হয়েছে! এখন ফেসবুকে শেয়ার করতে পারেন।");
-}
-
         document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
         document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
     }

@@ -53,13 +53,13 @@
         .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; position: sticky; top: 0; z-index: 101; }
         .top-notice marquee { vertical-align: middle; }
 
-        /* 🎪 হুবহু আগের মতো হিরো ব্যানার ও লোগো ওভারলে ডিজাইন */
+        /* 🎪 হিরো ব্যানার */
         .hero-section { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; box-shadow: var(--card-shadow); }
         .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
         .slide { width: 33.333%; }
         .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* ব্যানারের ওপর লোগো এবং নাম ভাসিয়ে রাখার কাস্টম কোড */
+        /* ব্যানার ওভারলে */
         .brand-overlay { 
             position: absolute; 
             top: 50%; 
@@ -82,12 +82,12 @@
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* 🛡️ ট্রাস্ট ইনফো ব্যাজ */
+        /* ট্রাস্ট ব্যাজ */
         .trust-badges { display: flex; justify-content: space-around; background: white; padding: 12px 5px; margin: 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
         .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
         .badge-item i { color: var(--accent); font-size: 14px; }
 
-        /* 🔘 গোল ক্যাটাগরি ডিজাইন */
+        /* ক্যাটাগরি */
         .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; text-align: left; }
         .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
         .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
@@ -99,15 +99,16 @@
         .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
         .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
 
-        /* 🔍 সার্চ ও গ্রিড */
+        /* সার্চ ও গ্রিড */
         .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
         #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         
-        /* 📦 প্রোডাক্টকার্ড */
+        /* প্রোডাক্ট কার্ড */
         .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; transition: 0.3s; }
-        .card.highlighted { box-shadow: 0 0 0 3px var(--accent); }
+        .card.highlighted { box-shadow: 0 0 0 3px var(--accent), 0 4px 15px rgba(0,0,0,0.05); animation: pulse 0.5s ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
         .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
         .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
@@ -120,7 +121,7 @@
         .order-btn { background: var(--accent); color: white; border: none; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%; margin-bottom: 8px; transition: 0.2s; }
         .order-btn:hover { background: #04a75b; }
 
-        /* 📦 শেয়ারিং বাটন */
+        /* শেয়ারিং বাটন */
         .share-btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
         .share-btn { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 5px 7px; border-radius: 6px; border: none; font-size: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; flex: 1; min-width: 35px; }
         .share-facebook { background: #1877f2; color: white; }
@@ -133,21 +134,21 @@
         .share-copy:hover { background: #64748b; }
         .share-btn i { font-size: 11px; }
 
-        /* 📋 ট্র্যাক বক্স */
+        /* ট্র্যাক বক্স */
         .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
         .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
         .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
         .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
 
-        /* 📱 বটম ন্যাভ বার */
+        /* বটম নেভিগেশন */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
         .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
 
-        /* 🛍️ অর্ডার মডাল */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        /* মডাল */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; overflow-y: auto; }
+        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
         .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; background: none; border: none; }
         .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
         .form-group { margin-bottom: 12px; text-align: left; }
@@ -168,6 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+
 <div class="hero-section">
     <div class="slider" id="slider" style="width: 300%; display: flex; transition: transform 0.5s ease-in-out;">
         <div class="slide" style="width: 33.33%;"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" style="width: 100%; height: 180px; object-fit: cover;"></div>
@@ -336,6 +338,7 @@
 </div>
 
 <script>
+    // প্রার্থনা সময় লোড করুন
     async function fetchPrayerTimes() {
         const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
         try {
@@ -356,22 +359,26 @@
     }
     fetchPrayerTimes();
     
+    // Supabase সেটআপ
     let supabaseClient;
     try {
         supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
     } catch(e) {
-        console.error("Supabase failed:", e);
+        console.error("Supabase সংযোগ ব্যর্থ:", e);
+        document.body.innerHTML += '<div style="background: #ffcccc; color: #cc0000; padding: 20px; margin: 10px; border-radius: 8px; font-weight: bold;">⚠️ Supabase সংযোগ সমস্যা। অনুগ্রহ করে পৃষ্ঠাটি রিফ্রেশ করুন।</div>';
     }
 
+    // টেলিগ্রাম সেটিংস
     const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
     const CHAT_ID = "5821767982"; 
 
+    // গ্লোবাল ভ্যারিয়েবল
     let productsData = [];
     let activeCat = 'All';
     let activeBrand = 'All';
     let currentShareProduct = null;
 
-    // ব্যানার স্লাইডার অটো চেঞ্জ লজিক
+    // ব্যানার স্লাইডার
     let currentSlide = 0;
     setInterval(() => {
         const slider = document.getElementById('slider');
@@ -381,30 +388,30 @@
         }
     }, 4000);
 
-    // URL থেকে প্রোডাক্ট আইডি পড়া এবং স্বয়ংক্রিয়ভাবে শেয়ার করা প্রোডাক্ট দেখানো
+    // URL থেকে প্রোডাক্ট শেয়ার লিংক পড়া
     function checkProductFromURL() {
         const params = new URLSearchParams(window.location.search);
-        const productId = params.get('product');
+        const productName = params.get('product');
         
-        if (productId) {
+        if (productName) {
             setTimeout(() => {
-                const product = productsData.find(p => p.id == productId);
-                if (product) {
-                    switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-                    filterProducts();
-                    setTimeout(() => {
-                        const card = document.querySelector(`[data-product-id="${productId}"]`);
-                        if (card) {
+                switchTab('shop', document.querySelectorAll('.nav-item')[1]);
+                filterProducts();
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.card');
+                    cards.forEach(card => {
+                        if (card.querySelector('h3').textContent.includes(productName)) {
                             card.classList.add('highlighted');
                             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             setTimeout(() => card.classList.remove('highlighted'), 3000);
                         }
-                    }, 100);
-                }
+                    });
+                }, 100);
             }, 500);
         }
     }
 
+    // ট্যাব সুইচ ফাংশন
     function switchTab(tab, btn) {
         document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -413,6 +420,7 @@
         window.scrollTo(0,0);
     }
 
+    // ক্যাটাগরি সিলেক্ট
     function selectCategory(cat, elem) {
         document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
         document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
@@ -423,6 +431,7 @@
         filterProducts();
     }
 
+    // ব্র্যান্ড সিলেক্ট
     function selectBrand(brand, elem) {
         document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
@@ -433,77 +442,91 @@
         filterProducts();
     }
 
+    // প্রোডাক্ট লোড করুন
     async function getProducts() {
-        if(!supabaseClient) return;
+        if(!supabaseClient) {
+            console.error("Supabase সংযোগ নেই");
+            return;
+        }
         try {
             const { data, error } = await supabaseClient.from('products').select('*');
-            if (!error && data) {
-                productsData = data;
-                renderGrids(data);
-                checkProductFromURL();
+            if (error) {
+                console.error("Supabase ত্রুটি:", error.message);
+                document.getElementById('shop-products').innerHTML = '<p style="color: red;">প্রোডাক্ট লোড করা সম্ভব হয়নি। অনুগ্রহ করে পৃষ্ঠাটি রিফ্রেশ করুন।</p>';
+                return;
             }
+            if (!data) {
+                console.error("কোনো ডেটা পাওয়া যায়নি");
+                return;
+            }
+            productsData = data;
+            renderGrids(data);
+            checkProductFromURL();
         } catch(e) {
-            console.error(e);
+            console.error("প্রোডাক্ট লোড করার সময় ত্রুটি:", e);
         }
     }
 
+    // প্রোডাক্ট গ্রিড রেন্ডার
     function renderGrids(data) {
-        const createHTML = p => `
-            <div class="card" data-product-id="${p.id}">
+        const createHTML = (p, index) => `
+            <div class="card" data-product-index="${index}">
                 <div class="card-img-wrapper">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" alt="product">
+                    <img src="${p.image || 'https://via.placeholder.com/150'}" alt="product" onerror="this.src='https://via.placeholder.com/150'">
                 </div>
-                <h3>${p.name}</h3>
+                <h3>${p.name || 'অজানা প্রোডাক্ট'}</h3>
                 <div class="product-meta">
-                    <span class="tag-stock">In Stock</span>
-                    <span class="tag-warranty">${p.brand || 'Premium'}</span>
+                    <span class="tag-stock">স্টকে আছে</span>
+                    <span class="tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
                 </div>
-                <span class="price">৳ ${p.price}</span>
-                <button type="button" onclick="openModal('${p.id}', '${p.name}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
+                <span class="price">৳ ${p.price || '0'}</span>
+                <button type="button" onclick="openModal('${p.name.replace(/'/g, "\\'")}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
                 <div class="share-btn-group">
-                    <button type="button" class="share-btn share-facebook" onclick="setShareProduct(${p.id}, '${p.name}', '${p.price}'); shareToFacebook()" title="Facebook এ শেয়ার করুন">
+                    <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToFacebook()" title="Facebook এ শেয়ার">
                         <i class="fa-brands fa-facebook"></i>
                     </button>
-                    <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct(${p.id}, '${p.name}', '${p.price}'); shareToWhatsApp()" title="WhatsApp এ শেয়ার করুন">
+                    <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToWhatsApp()" title="WhatsApp এ শেয়ার">
                         <i class="fa-brands fa-whatsapp"></i>
                     </button>
-                    <button type="button" class="share-btn share-twitter" onclick="setShareProduct(${p.id}, '${p.name}', '${p.price}'); shareToTwitter()" title="Twitter এ শেয়ার করুন">
+                    <button type="button" class="share-btn share-twitter" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToTwitter()" title="Twitter এ শেয়ার">
                         <i class="fa-brands fa-twitter"></i>
                     </button>
-                    <button type="button" class="share-btn share-copy" onclick="setShareProduct(${p.id}, '${p.name}', '${p.price}'); copyShareLink()" title="লিংক কপি করুন">
+                    <button type="button" class="share-btn share-copy" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); copyShareLink()" title="লিংক কপি">
                         <i class="fa-solid fa-link"></i>
                     </button>
                 </div>
             </div>`;
-        document.getElementById('shop-products').innerHTML = data.length ? data.map(createHTML).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
-        document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map(createHTML).join('');
+        
+        document.getElementById('shop-products').innerHTML = data.length ? data.map((p, i) => createHTML(p, i)).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো প্রোডাক্ট পাওয়া যায়নি</p>';
+        document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map((p, i) => createHTML(p, i)).join('');
     }
 
+    // প্রোডাক্ট ফিল্টার
     function filterProducts() {
         const search = document.getElementById('searchBar').value.toLowerCase();
         const filtered = productsData.filter(p => {
-            const matchesSearch = p.name.toLowerCase().includes(search);
-            const matchesCat = activeCat === 'All' || (p.category && p.category.toLowerCase().trim() === activeCat.toLowerCase().trim());
-            const matchesBrand = activeBrand === 'All' || (p.brand && p.brand.toLowerCase().trim() === activeBrand.toLowerCase().trim());
+            const matchesSearch = (p.name || '').toLowerCase().includes(search);
+            const matchesCat = activeCat === 'All' || ((p.category || '').toLowerCase().trim() === activeCat.toLowerCase().trim());
+            const matchesBrand = activeBrand === 'All' || ((p.brand || '').toLowerCase().trim() === activeBrand.toLowerCase().trim());
             return matchesSearch && matchesCat && matchesBrand;
         });
         renderGrids(filtered);
     }
 
     // শেয়ারিং ফাংশন
-    function setShareProduct(id, name, price) {
-        currentShareProduct = { id, name, price };
+    function setShareProduct(name, price) {
+        currentShareProduct = { name, price };
     }
 
     function getShareText() {
-        if(!currentShareProduct) return "PhoneLab360 - Premium Parts Store";
-        return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n100% অরিজিনাল পার্টস\nদেশজুড়ে দ্রুত ডেলিভারি`;
+        if(!currentShareProduct) return "PhoneLab360 - প্রিমিয়াম পার্টস স্টোর";
+        return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল পার্টস\n🚚 দেশজুড়ে দ্রুত ডেলিভারি`;
     }
 
     function getShareLink() {
         if(!currentShareProduct) return window.location.href;
         const baseUrl = window.location.origin + window.location.pathname;
-        return `${baseUrl}?product=${currentShareProduct.id}`;
+        return `${baseUrl}?product=${encodeURIComponent(currentShareProduct.name)}`;
     }
 
     function openShareModal() {
@@ -519,7 +542,6 @@
         const link = getShareLink();
         const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}&quote=${encodeURIComponent(text)}`;
         window.open(url, '_blank', 'width=600,height=400');
-        closeShareModal();
     }
 
     function shareToWhatsApp() {
@@ -527,7 +549,6 @@
         const link = getShareLink();
         const url = `https://wa.me/?text=${encodeURIComponent(text + '\n\n' + link)}`;
         window.open(url, '_blank');
-        closeShareModal();
     }
 
     function shareToTwitter() {
@@ -535,19 +556,18 @@
         const link = getShareLink();
         const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
         window.open(url, '_blank', 'width=600,height=400');
-        closeShareModal();
     }
 
     function copyShareLink() {
         const text = getShareText() + '\n\n' + getShareLink();
         navigator.clipboard.writeText(text).then(() => {
-            alert('✅ লিংক ক্লিপবোর্ডে কপি হয়েছে! এখন যেকোনো জায়গায় পেস্ট করুন।');
-            closeShareModal();
+            alert('✅ লিংক ক্লিপবোর্ডে কপি হয়েছে!');
         }).catch(() => {
             alert('❌ কপি করা সম্ভব হয়নি');
         });
     }
 
+    // অর্ডার ফাংশন
     function toggleTrxField() {
         const method = document.getElementById('payMethod').value;
         const trxGroup = document.getElementById('trxGroup');
@@ -558,15 +578,15 @@
             trxGroup.style.display = 'none';
             trxInput.required = false;
             trxInput.value = '';
-            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন। দেশজুড়ে ফাস্ট ডেলিভারি!`;
+            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>প্রোডাক্ট হাতে পেয়ে টাকা দিন।`;
         } else {
             trxGroup.style.display = 'block';
             trxInput.required = true;
-            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বরসমূহ:</strong><br>বিকাশ / নগদ (Personal): 01878877746<br><span style="font-size: 11px; color: #eb4d4b;">*টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।</span>`;
+            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বর:</strong><br>বিকাশ/নগদ: 01878877746`;
         }
     }
 
-    function openModal(id, name, price) {
+    function openModal(name, price) {
         document.getElementById('prodName').value = name;
         document.getElementById('prodPrice').value = price;
         document.getElementById('orderModal').style.display = 'flex';
@@ -581,7 +601,7 @@
     async function submitOrder(e) {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
-        btn.innerText = "অর্ডার প্রসেস হচ্ছে...";
+        btn.innerText = "প্রসেস হচ্ছে...";
         btn.disabled = true;
 
         const rawPrice = document.getElementById('prodPrice').value;
@@ -595,74 +615,78 @@
             phone: document.getElementById('custPhone').value,
             address: document.getElementById('custAddress').value,
             payment_method: currentMethod,
-            transaction_id: currentMethod === 'COD' ? 'Cash on Delivery' : document.getElementById('trxId').value,
-            status: 'Pending'
+            transaction_id: currentMethod === 'COD' ? 'COD' : document.getElementById('trxId').value,
+            status: 'চলমান'
         };
 
         try {
             const { error } = await supabaseClient.from('orders').insert([order]);
             
             if (error) {
-                alert("🚨 টেবিল এরর: " + error.message);
+                alert("ত্রুটি: " + error.message);
                 btn.innerText = "কনফার্ম অর্ডার";
                 btn.disabled = false;
                 return;
             }
 
-            const text = `🛍️ *নতুন অর্ডার এসেছে! (PhoneLab360)*\n\n📦 *প্রোডাক্ট:* ${order.product_name}\n💰 *মূল্য:* ৳ ${order.price}\n\n👤 *কাস্টমার:* ${order.customer_name}\n📞 *ফোন:* ${order.phone}\n📍 *ঠিকানা:* ${order.address}\n💳 *মেথড:* ${order.payment_method}\n🆔 *TrxID:* \`${order.transaction_id}\``;
+            const text = `🛍️ নতুন অর্ডার!\n\n📦 ${order.product_name}\n💰 ৳${order.price}\n👤 ${order.customer_name}\n📞 ${order.phone}\n📍 ${order.address}\n💳 ${order.payment_method}`;
             
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
+                body: JSON.stringify({ chat_id: CHAT_ID, text: text })
             });
 
-            alert("অভিনন্দন! আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।");
+            alert("✅ অর্ডার সফল! শীঘ্রই যোগাযোগ করা হবে।");
             closeModal();
         } catch (err) {
-            alert("সিস্টেম এরর: " + err.message);
+            alert("ত্রুটি: " + err.message);
         } finally {
             btn.innerText = "কনফার্ম অর্ডার";
             btn.disabled = false;
         }
     }
 
+    // অর্ডার ট্র্যাক করুন
     async function trackOrder() {
         const phone = document.getElementById('trackPhone').value.trim();
         const resultDiv = document.getElementById('trackResult');
         
         if(!phone) {
-            alert("অনুগ্রহ করে মোবাইল নম্বরটি দিন");
+            alert("নম্বর দিন");
             return;
         }
         
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = '<p style="text-align:center; color:#64748b; margin:0;">অর্ডার খোঁজা হচ্ছে...</p>';
+        resultDiv.innerHTML = '<p style="text-align:center;">খোঁজা হচ্ছে...</p>';
         
         try {
             const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
             if(error) throw error;
             
             if(!data || data.length === 0) {
-                resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; font-weight:bold; margin:0;">❌ এই নম্বরে কোনো অর্ডার পাওয়া যায়নি!</p>';
+                resultDiv.innerHTML = '<p style="text-align:center; color:red;">❌ কোনো অর্ডার পাওয়া যায়নি</p>';
                 return;
             }
             
-            resultDiv.innerHTML = `<h4 style="margin:0 0 10px 0; color:#16a34a;">✅ মোট ${data.length}টি অর্ডার পাওয়া গেছে:</h4>` + 
+            resultDiv.innerHTML = `<h4 style="color:#16a34a;">✅ ${data.length} অর্ডার পাওয়া গেছে:</h4>` + 
                 data.map((ord, idx) => `
-                    <div style="padding:10px; border-bottom:1px solid #e2e8f0; margin-bottom:5px; font-size:13px;">
+                    <div style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:13px;">
                         <strong>অর্ডার #${idx+1}</strong><br>
-                        📦 প্রোডাক্ট: ${ord.product_name}<br>
-                        💰 মূল্য: ৳ ${ord.price}<br>
-                        ⏱️ স্ট্যাটাস: <span style="background:#bbf7d0; color:#16a34a; padding:2px 6px; border-radius:4px; font-weight:bold;">${ord.status || 'Pending'}</span>
+                        📦 ${ord.product_name}<br>
+                        💰 ৳${ord.price}<br>
+                        ⏱️ ${ord.status}
                     </div>
                 `).join('');
         } catch(e) {
-            resultDiv.innerHTML = '<p style="text-align:center; color:#ef4444; margin:0;">ট্র্যাকিং করতে সমস্যা হয়েছে।</p>';
+            resultDiv.innerHTML = '<p style="color:red;">ত্রুটি হয়েছে</p>';
         }
     }
 
-    window.onload = getProducts;
+    // পেজ লোড
+    window.addEventListener('load', function() {
+        getProducts();
+    });
 </script>
 
 </body>

@@ -799,6 +799,61 @@
             .product-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
             .prayer-grid { grid-template-columns: repeat(5, 1fr); }
         }
+
+        /* ===== PRODUCT DETAIL MODAL ===== */
+        .detail-modal {
+            display: none; position: fixed; z-index: 1100;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center; align-items: flex-end;
+        }
+        .detail-modal-content {
+            background: var(--bg); width: 100%; max-width: 480px;
+            max-height: 92vh; overflow-y: auto;
+            border-radius: 20px 20px 0 0;
+            animation: slideUp 0.35s ease; position: relative;
+        }
+        .detail-header {
+            background: var(--primary); padding: 14px 16px;
+            display: flex; align-items: center; gap: 10px;
+            position: sticky; top: 0; z-index: 10;
+            border-radius: 20px 20px 0 0;
+        }
+        .detail-back-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; padding: 0; line-height: 1; }
+        .detail-header-title { color: white; font-size: 15px; font-weight: 700; flex: 1; }
+        .detail-img-wrap {
+            background: white; display: flex; align-items: center;
+            justify-content: center; height: 220px;
+            position: relative; overflow: hidden;
+        }
+        .detail-img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .detail-hot-badge { position: absolute; top: 12px; right: 12px; background: var(--price); color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+        .detail-stock-badge { position: absolute; bottom: 12px; right: 12px; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+        .detail-body { padding: 16px; }
+        .detail-cat-brand { font-size: 12px; color: var(--accent); font-weight: 700; margin-bottom: 5px; }
+        .detail-name { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 10px; }
+        .detail-price-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+        .detail-price { font-size: 24px; font-weight: 700; color: var(--price); }
+        .detail-old-price { font-size: 14px; color: var(--text-muted); text-decoration: line-through; }
+        .detail-discount { background: #fff0f0; color: var(--price); font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 5px; }
+        .detail-trust-row { display: flex; gap: 8px; margin-bottom: 16px; }
+        .detail-trust-item { flex: 1; background: #f0fdf4; border: 1px solid rgba(5,196,107,0.3); border-radius: 10px; padding: 8px 4px; text-align: center; }
+        .detail-trust-item i { color: var(--accent); font-size: 18px; display: block; margin-bottom: 3px; }
+        .detail-trust-item span { font-size: 10px; color: #047857; font-weight: 700; }
+        .detail-section { background: white; border-radius: var(--radius); padding: 14px; margin-bottom: 12px; box-shadow: var(--card-shadow); }
+        .detail-section-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .detail-spec-table { width: 100%; border-collapse: collapse; }
+        .detail-spec-table tr { border-bottom: 1px solid var(--border); }
+        .detail-spec-table tr:last-child { border-bottom: none; }
+        .detail-spec-table td { padding: 7px 0; font-size: 13px; }
+        .detail-spec-table td:first-child { color: var(--text-muted); width: 45%; }
+        .detail-spec-table td:last-child { font-weight: 700; color: var(--text); }
+        .detail-description { font-size: 13px; color: var(--text-muted); line-height: 1.75; }
+        .detail-btn-row { display: flex; gap: 10px; margin-top: 4px; }
+        .detail-wa-btn { flex: 1; background: #25d366; color: white; border: none; padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Hind Siliguri', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+        .detail-order-btn { flex: 2; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Hind Siliguri', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(5,196,107,0.35); }
+        .detail-share-row { display: flex; gap: 6px; margin-top: 10px; }
+        .detail-share-btn { flex: 1; padding: 8px; border-radius: 8px; border: none; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -1608,6 +1663,123 @@ async function trackOrder() {
     }
 }
 
+
+// ========== PRODUCT DETAIL MODAL ==========
+let currentDetailProduct = null;
+
+function openDetailModal(index) {
+    const p = productsData[index];
+    if (!p) return;
+    currentDetailProduct = p;
+
+    // ছবি
+    document.getElementById('detailImg').src = p.image || 'https://placehold.co/300x220/f8fafc/002c4b?text=PhoneLab360';
+    document.getElementById('detailImg').alt = p.name || '';
+
+    // HOT badge
+    document.getElementById('detailHotBadge').style.display = Math.random() > 0.5 ? 'block' : 'none';
+
+    // স্টক
+    const stockBadge = document.getElementById('detailStockBadge');
+    if (p.stock !== undefined && p.stock <= 0) {
+        stockBadge.textContent = '❌ স্টক নেই';
+        stockBadge.style.background = '#eb4d4b';
+    } else {
+        stockBadge.textContent = '✅ স্টকে আছে';
+        stockBadge.style.background = '#05c46b';
+    }
+
+    // ক্যাটাগরি ও ব্র্যান্ড
+    const parts = [];
+    if (p.brand) parts.push(p.brand);
+    if (p.category) parts.push(p.category);
+    document.getElementById('detailCatBrand').textContent = parts.join(' · ');
+
+    // নাম
+    document.getElementById('detailName').textContent = p.name || 'অজানা পণ্য';
+    document.getElementById('detailHeaderTitle') && (document.getElementById('detailHeaderTitle').textContent = p.name || 'পণ্যের বিবরণ');
+
+    // দাম
+    document.getElementById('detailPrice').textContent = '৳ ' + (p.price || '০');
+
+    // পুরনো দাম ও ছাড়
+    if (p.old_price && p.old_price > p.price) {
+        const disc = Math.round(((p.old_price - p.price) / p.old_price) * 100);
+        document.getElementById('detailOldPrice').textContent = '৳ ' + p.old_price;
+        document.getElementById('detailOldPrice').style.display = 'inline';
+        document.getElementById('detailDiscount').textContent = disc + '% ছাড়';
+        document.getElementById('detailDiscount').style.display = 'inline';
+    } else {
+        document.getElementById('detailOldPrice').style.display = 'none';
+        document.getElementById('detailDiscount').style.display = 'none';
+    }
+
+    // ওয়ারেন্টি ব্যাজ
+    document.getElementById('detailWarrantyBadge').textContent = p.warranty || '৬ মাস ওয়ারেন্টি';
+
+    // স্পেসিফিকেশন টেবিল
+    const specs = [];
+    if (p.capacity) specs.push(['ক্যাপাসিটি', p.capacity]);
+    if (p.voltage) specs.push(['ভোল্টেজ', p.voltage]);
+    if (p.compatibility) specs.push(['সামঞ্জস্যপূর্ণ', p.compatibility]);
+    if (p.condition) specs.push(['অবস্থা', p.condition, 'green']);
+    if (p.warranty) specs.push(['ওয়ারেন্টি', p.warranty]);
+    if (p.brand) specs.push(['ব্র্যান্ড', p.brand]);
+    if (p.category) specs.push(['ক্যাটাগরি', p.category]);
+
+    const specTable = document.getElementById('detailSpecTable');
+    if (specs.length > 0) {
+        specTable.innerHTML = specs.map(([k, v, cls]) =>
+            `<tr><td>${k}</td><td class="${cls === 'green' ? 'green-val' : ''}">${v}</td></tr>`
+        ).join('');
+    } else {
+        specTable.innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);font-size:12px;padding:8px 0;">তথ্য যোগ করা হয়নি</td></tr>';
+    }
+
+    // বিবরণ
+    const descSection = document.getElementById('detailDescSection');
+    const descEl = document.getElementById('detailDescription');
+    if (p.description) {
+        descEl.textContent = p.description;
+        descSection.style.display = 'block';
+    } else {
+        descSection.style.display = 'none';
+    }
+
+    // WhatsApp বাটন
+    const waMsg = `আমি এই পণ্যটি অর্ডার করতে চাই:%0A%0A📦 ${encodeURIComponent(p.name || '')}%0A💰 ৳ ${p.price || ''}%0A%0Ahttps://phonelab360.netlify.app`;
+    document.getElementById('detailWaBtn').href = `https://wa.me/8801878877746?text=${waMsg}`;
+
+    // শেয়ার প্রোডাক্ট সেট করো
+    setShareProduct(p.name || '', p.price || '');
+
+    // মডাল খোলো
+    document.getElementById('detailModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDetailModal() {
+    document.getElementById('detailModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function orderFromDetail() {
+    if (!currentDetailProduct) return;
+    closeDetailModal();
+    openModal(currentDetailProduct.name || '', currentDetailProduct.price || '');
+}
+
+// শেয়ার ফাংশন (ডিটেইল মডাল থেকে)
+function detailShareFb() { shareToFacebook(); }
+function detailShareWa() { shareToWhatsApp(); }
+function detailShareTw() { shareToTwitter(); }
+function detailShareCopy() { copyShareLink(); }
+
+// বাইরে ক্লিক করলে বন্ধ
+document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDetailModal();
+});
+
 // ========== INIT ==========
 window.addEventListener('load', function() {
     getProducts();
@@ -1625,5 +1797,58 @@ document.addEventListener('visibilitychange', function() {
     }
 });
 </script>
+
+<!-- প্রোডাক্ট ডিটেইল মডাল -->
+<div class="detail-modal" id="detailModal">
+    <div class="detail-modal-content">
+        <div class="detail-header">
+            <button class="detail-back-btn" onclick="closeDetailModal()">&#8592;</button>
+            <div class="detail-header-title">পণ্যের বিবরণ</div>
+            <button class="detail-back-btn" onclick="closeDetailModal()" style="font-size:18px;">&#10005;</button>
+        </div>
+        <div class="detail-img-wrap" id="detailImgWrap">
+            <img id="detailImg" src="" alt="">
+            <div class="detail-hot-badge" id="detailHotBadge" style="display:none;">HOT</div>
+            <div class="detail-stock-badge" id="detailStockBadge">✅ স্টকে আছে</div>
+        </div>
+        <div class="detail-body">
+            <div class="detail-cat-brand" id="detailCatBrand"></div>
+            <div class="detail-name" id="detailName"></div>
+            <div class="detail-price-row">
+                <span class="detail-price" id="detailPrice"></span>
+                <span class="detail-old-price" id="detailOldPrice" style="display:none;"></span>
+                <span class="detail-discount" id="detailDiscount" style="display:none;"></span>
+            </div>
+            <div class="detail-trust-row">
+                <div class="detail-trust-item"><i class="fa-solid fa-truck-fast"></i><span>দ্রুত ডেলিভারি</span></div>
+                <div class="detail-trust-item"><i class="fa-solid fa-shield-halved"></i><span>১০০% অরিজিনাল</span></div>
+                <div class="detail-trust-item"><i class="fa-solid fa-rotate-left"></i><span id="detailWarrantyBadge">ওয়ারেন্টি</span></div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title"><i class="fa-solid fa-list-ul"></i> স্পেসিফিকেশন</div>
+                <table class="detail-spec-table" id="detailSpecTable"></table>
+            </div>
+            <div class="detail-section" id="detailDescSection">
+                <div class="detail-section-title"><i class="fa-solid fa-circle-info"></i> পণ্যের বিবরণ</div>
+                <div class="detail-description" id="detailDescription"></div>
+            </div>
+            <div class="detail-btn-row">
+                <a id="detailWaBtn" href="" target="_blank" class="detail-wa-btn">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </a>
+                <button type="button" class="detail-order-btn" id="detailOrderBtn" onclick="orderFromDetail()">
+                    <i class="fa-solid fa-cart-shopping"></i> অর্ডার করুন
+                </button>
+            </div>
+            <div class="detail-share-row">
+                <button type="button" class="detail-share-btn share-facebook" onclick="detailShareFb()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                <button type="button" class="detail-share-btn share-whatsapp" onclick="detailShareWa()" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+                <button type="button" class="detail-share-btn share-twitter" onclick="detailShareTw()" title="Twitter"><i class="fa-brands fa-twitter"></i></button>
+                <button type="button" class="detail-share-btn share-copy" onclick="detailShareCopy()" title="কপি"><i class="fa-solid fa-link"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -1566,14 +1566,21 @@ function createProductHTML(p, index) {
 
 function renderGrids(data, updateHome = true) {
     const shopEl = document.getElementById('shop-products');
-    const homeEl = document.getElementById('home-products');
     if (shopEl) shopEl.innerHTML = data.length
         ? data.map((p, i) => createProductHTML(p, i)).join('')
         : '<div class="empty-state"><i class="fa-solid fa-box-open"></i>কোনো পণ্য পাওয়া যায়নি</div>';
-    // Home page এ সবসময় প্রথম ৬টি দেখাবে — ফিল্টার করলেও পরিবর্তন হবে না
-    if (updateHome && homeEl) {
-        homeEl.innerHTML = productsData.slice(0, 6).map((p, i) => createProductHTML(p, i)).join('');
-    }
+    // Home page — শুধু প্রথমবার লোড হলে আপডেট হবে
+    if (updateHome) renderHomeProducts();
+}
+
+function renderHomeProducts() {
+    const homeEl = document.getElementById('home-products');
+    if (!homeEl) return;
+    // সর্বশেষ যোগ হওয়া ৬টি পণ্য দেখাবে (id অনুযায়ী descending)
+    const latest = [...productsData].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 6);
+    homeEl.innerHTML = latest.length
+        ? latest.map((p, i) => createProductHTML(p, i)).join('')
+        : '';
 }
 
 function filterProducts() {
@@ -1586,7 +1593,7 @@ function filterProducts() {
         const matchBrand = activeBrand === 'All' || pBrand === activeBrand;
         return matchSearch && matchCat && matchBrand;
     });
-    renderGrids(filtered, false); // Home section আপডেট হবে না
+    renderGrids(filtered, false);
 }
 
 // ========== URL PRODUCT CHECK ==========
@@ -1729,6 +1736,14 @@ async function trackOrder() {
 
 // ========== PRODUCT DETAIL MODAL ==========
 let currentDetailProduct = null;
+
+// ID দিয়ে product খোঁজো — filtered index সমস্যা নেই
+function openDetailById(pid) {
+    const p = productsData.find(x => x.id == pid);
+    if (!p) return;
+    const index = productsData.indexOf(p);
+    openDetailModal(index);
+}
 
 function openDetailModal(index) {
     const p = productsData[index];

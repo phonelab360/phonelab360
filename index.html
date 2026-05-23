@@ -1081,16 +1081,24 @@ function goToSlide(n) {
 }
 setInterval(() => goToSlide((currentSlide + 1) % 3), 4000);
 
-// ========== OFFER COUNTDOWN ==========
+// ========== OFFER COUNTDOWN (fixed - no memory leak) ==========
+let countdownInterval = null;
 function setupCountdown() {
-    const now = new Date();
-    // অফার রাত ১২টায় রিসেট হবে
-    const endTime = new Date(now);
-    endTime.setHours(23, 59, 59, 0);
+    if (countdownInterval) clearInterval(countdownInterval); // পুরনো interval বন্ধ করো
     
     function tick() {
-        const diff = endTime - new Date();
-        if (diff <= 0) { setupCountdown(); return; }
+        const now = new Date();
+        const endTime = new Date(now);
+        endTime.setHours(23, 59, 59, 0);
+        const diff = endTime - now;
+        
+        if (diff <= 0) {
+            // পরের দিন রিসেট — interval চলতে থাকবে, কোনো নতুন call নেই
+            document.getElementById('cd-h').textContent = '00';
+            document.getElementById('cd-m').textContent = '00';
+            document.getElementById('cd-s').textContent = '00';
+            return;
+        }
         const h = Math.floor(diff / 3600000);
         const m = Math.floor((diff % 3600000) / 60000);
         const s = Math.floor((diff % 60000) / 1000);
@@ -1099,20 +1107,23 @@ function setupCountdown() {
         document.getElementById('cd-s').textContent = String(s).padStart(2, '0');
     }
     tick();
-    setInterval(tick, 1000);
+    countdownInterval = setInterval(tick, 1000); // একটাই interval
 }
 setupCountdown();
 
-// ========== DAILY COUNTERS ==========
+// ========== DAILY COUNTERS (fixed - কম ঘন ঘন আপডেট) ==========
 let dailyOrderCounter = 28;
 let dailySalesCounter = 150000;
 function updateDailyCounters() {
+    // ৩০ সেকেন্ড বদলে ৫ মিনিটে একবার — মোবাইলে কম চাপ
     setInterval(() => {
         dailyOrderCounter = Math.floor(Math.random() * 16 + 20);
         dailySalesCounter = Math.floor(Math.random() * 100000 + 100000);
-        document.getElementById('dailyOrderCount').textContent = dailyOrderCounter;
-        document.getElementById('dailySalesCount').textContent = '৳' + dailySalesCounter.toLocaleString('bn-BD');
-    }, 30000);
+        const orderEl = document.getElementById('dailyOrderCount');
+        const salesEl = document.getElementById('dailySalesCount');
+        if (orderEl) orderEl.textContent = dailyOrderCounter;
+        if (salesEl) salesEl.textContent = '৳' + dailySalesCounter.toLocaleString('bn-BD');
+    }, 300000); // ৫ মিনিট
 }
 updateDailyCounters();
 
@@ -1202,29 +1213,36 @@ function goToReview(n) {
 }
 
 function startReviewAuto() {
-    clearInterval(reviewAutoInterval);
+    if (reviewAutoInterval) clearInterval(reviewAutoInterval); // পুরনোটা বন্ধ করো
     reviewAutoInterval = setInterval(() => {
         reviewIndex = (reviewIndex + 1) % allReviews.length;
         goToReview(reviewIndex);
-    }, 3500);
+    }, 4000); // ৩.৫ থেকে ৪ সেকেন্ড — একটু কম চাপ
 }
 
-// ========== LIVE ORDER POPUP ==========
+// ========== LIVE ORDER POPUP (fixed - একটাই interval) ==========
 const popupNames = ['রাহুল', 'সজীব', 'ফাতেমা', 'আরিফ', 'তানিয়া', 'করিম', 'সুমাইয়া', 'রাকিব', 'মিজান', 'নাফিসা'];
 const popupProducts = ['Samsung A51 Battery', 'iPhone 13 Display', 'Power Bank 20000mAh', '65W Fast Charger', 'Xiaomi Redmi Battery', 'Oppo Charger', 'Vivo Display'];
 const popupLocations = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'ময়মনসিংহ'];
 
+let popupTimeout = null;
 function showLivePopup() {
     const popup = document.getElementById('livePopup');
     const text = document.getElementById('popupText');
+    if (!popup || !text) return;
     const name = popupNames[Math.floor(Math.random() * popupNames.length)];
     const product = popupProducts[Math.floor(Math.random() * popupProducts.length)];
     const loc = popupLocations[Math.floor(Math.random() * popupLocations.length)];
     text.innerHTML = `<b>${name}</b> (${loc}) <br><i>${product}</i> অর্ডার করেছেন`;
     popup.style.display = 'block';
-    setTimeout(() => popup.style.display = 'none', 4500);
+    if (popupTimeout) clearTimeout(popupTimeout);
+    popupTimeout = setTimeout(() => { popup.style.display = 'none'; }, 4500);
 }
-setTimeout(() => { showLivePopup(); setInterval(showLivePopup, 10000); }, 3000);
+// প্রথমবার ৫ সেকেন্ড পরে, তারপর প্রতি ১৫ সেকেন্ডে (আগে ছিল ১০)
+setTimeout(() => {
+    showLivePopup();
+    setInterval(showLivePopup, 15000);
+}, 5000);
 
 // ========== TAB NAVIGATION ==========
 function switchTab(tab, btn) {
@@ -1457,6 +1475,17 @@ async function trackOrder() {
 window.addEventListener('load', function() {
     getProducts();
     renderReviews();
+});
+
+// ট্যাব লুকানো থাকলে সব interval pause করো (মোবাইল ক্র্যাশ ঠেকায়)
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        // ট্যাব background এ গেলে review auto বন্ধ
+        if (reviewAutoInterval) clearInterval(reviewAutoInterval);
+    } else {
+        // ট্যাব ফিরে এলে আবার শুরু
+        startReviewAuto();
+    }
 });
 </script>
 </body>

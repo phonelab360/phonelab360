@@ -937,21 +937,45 @@
             <div class="circle-icon"><i class="fa-solid fa-border-all"></i></div>
             <span>সব পণ্য</span>
         </div>
-        <div class="cat-item" onclick="selectCategory('Battery', this)">
+        <div class="cat-item" onclick="selectCategory('ব্যাটারি', this)">
             <div class="circle-icon"><i class="fa-solid fa-battery-three-quarters"></i></div>
             <span>ব্যাটারি</span>
         </div>
-        <div class="cat-item" onclick="selectCategory('Display', this)">
+        <div class="cat-item" onclick="selectCategory('ডিসপ্লে', this)">
             <div class="circle-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
             <span>ডিসপ্লে</span>
         </div>
-        <div class="cat-item" onclick="selectCategory('Power Bank', this)">
+        <div class="cat-item" onclick="selectCategory('পাওয়ার ব্যাংক', this)">
             <div class="circle-icon"><i class="fa-solid fa-charging-station"></i></div>
             <span>পাওয়ার ব্যাংক</span>
         </div>
-        <div class="cat-item" onclick="selectCategory('Charger', this)">
+        <div class="cat-item" onclick="selectCategory('চার্জার', this)">
             <div class="circle-icon"><i class="fa-solid fa-bolt"></i></div>
             <span>চার্জার</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('ক্যাবল', this)">
+            <div class="circle-icon"><i class="fa-solid fa-plug"></i></div>
+            <span>ক্যাবল</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('হেডফোন', this)">
+            <div class="circle-icon"><i class="fa-solid fa-headphones"></i></div>
+            <span>হেডফোন</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('অ্যাডাপ্টার', this)">
+            <div class="circle-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+            <span>অ্যাডাপ্টার</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('ব্লুটুথ', this)">
+            <div class="circle-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
+            <span>ব্লুটুথ</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('সাউন্ড বক্স', this)">
+            <div class="circle-icon"><i class="fa-solid fa-volume-high"></i></div>
+            <span>সাউন্ড বক্স</span>
+        </div>
+        <div class="cat-item" onclick="selectCategory('অন্যান্য', this)">
+            <div class="circle-icon"><i class="fa-solid fa-microchip"></i></div>
+            <span>অন্যান্য</span>
         </div>
         <div class="cat-item" onclick="selectCategory('Cable', this)">
             <div class="circle-icon"><i class="fa-solid fa-plug"></i></div>
@@ -1519,8 +1543,10 @@ function filterProducts() {
     const search = document.getElementById('searchBar').value.toLowerCase();
     const filtered = productsData.filter(p => {
         const matchSearch = (p.name || '').toLowerCase().includes(search);
-        const matchCat = activeCat === 'All' || (p.category || '').toLowerCase().trim() === activeCat.toLowerCase().trim();
-        const matchBrand = activeBrand === 'All' || (p.brand || '').toLowerCase().trim() === activeBrand.toLowerCase().trim();
+        const pCat = (p.category || '').trim();
+        const pBrand = (p.brand || '').trim();
+        const matchCat = activeCat === 'All' || pCat === activeCat;
+        const matchBrand = activeBrand === 'All' || pBrand === activeBrand;
         return matchSearch && matchCat && matchBrand;
     });
     renderGrids(filtered);

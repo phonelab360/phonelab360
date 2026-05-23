@@ -1362,8 +1362,9 @@ function getShareText() {
     return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি\n📞 01878877746`;
 }
 function getShareLink() {
-    if (!currentShareProduct) return window.location.href;
-    return `${window.location.origin}${window.location.pathname}?product=${encodeURIComponent(currentShareProduct.name)}`;
+    const baseUrl = 'https://phonelab360.netlify.app';
+    if (!currentShareProduct) return baseUrl;
+    return `${baseUrl}?product=${encodeURIComponent(currentShareProduct.name)}`;
 }
 function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
 function shareToFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareLink())}&quote=${encodeURIComponent(getShareText())}`, '_blank', 'width=600,height=400'); }

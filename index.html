@@ -289,7 +289,25 @@
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body> <div id="live-order-popup" style="position:fixed; bottom:80px; left:15px; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); display:none; z-index:9999;">
+    <p style="margin:0; font-size:12px;"><b>নতুন অর্ডার!</b></p>
+    <p id="order-text" style="margin:0; font-size:13px;"></p>
+</div>
+
+<script>
+    const names = ["রাহুল", "সজীব", "ফাতেমা", "আরিফ", "তানিয়া", "করিম"];
+    const products = ["Samsung A51 Battery", "iPhone Display", "Power Bank", "Fast Charger"];
+    
+    function showPopup() {
+        const popup = document.getElementById('live-order-popup');
+        const text = document.getElementById('order-text');
+        text.innerHTML = `${names[Math.floor(Math.random()*names.length)]} ${products[Math.floor(Math.random()*products.length)]} অর্ডার করেছেন।`;
+        popup.style.display = 'block';
+        setTimeout(() => popup.style.display = 'none', 4000);
+    }
+    setInterval(showPopup, 8000); // প্রতি ৮ সেকেন্ড পর পর পপ-আপ আসবে
+</script>
+    
 
 <!-- হিরো স্লাইডার -->
 <div class="hero-section">

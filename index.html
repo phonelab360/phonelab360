@@ -1466,18 +1466,35 @@ function selectBrand(brand, elem) {
 
 // ========== PRODUCTS ==========
 async function getProducts() {
-    if (!supabaseClient) return;
+    if (!supabaseClient) {
+        const msg = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Supabase সংযোগ হয়নি। রিফ্রেশ করুন।</div>';
+        const s = document.getElementById('shop-products');
+        const h = document.getElementById('home-products');
+        if(s) s.innerHTML = msg;
+        if(h) h.innerHTML = msg;
+        return;
+    }
     try {
         const { data, error } = await supabaseClient.from('products').select('*');
         if (error) {
-            document.getElementById('shop-products').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>পণ্য লোড করা সম্ভব হয়নি। রিফ্রেশ করুন।</div>';
+            console.error('Supabase error:', error);
+            const msg = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>পণ্য লোড হয়নি: ' + error.message + '</div>';
+            const s = document.getElementById('shop-products');
+            const h = document.getElementById('home-products');
+            if(s) s.innerHTML = msg;
+            if(h) h.innerHTML = msg;
             return;
         }
         productsData = data || [];
         renderGrids(data || []);
         checkProductFromURL();
     } catch(e) {
-        console.error(e);
+        console.error('getProducts catch:', e);
+        const msg = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>ত্রুটি: ' + e.message + '</div>';
+        const s = document.getElementById('shop-products');
+        const h = document.getElementById('home-products');
+        if(s) s.innerHTML = msg;
+        if(h) h.innerHTML = msg;
     }
 }
 

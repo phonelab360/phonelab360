@@ -854,6 +854,53 @@
         .detail-order-btn { flex: 2; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Hind Siliguri', sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(5,196,107,0.35); }
         .detail-share-row { display: flex; gap: 6px; margin-top: 10px; }
         .detail-share-btn { flex: 1; padding: 8px; border-radius: 8px; border: none; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        /* ===== বিজ্ঞাপন সেকশন ===== */
+        .ads-section { margin: 0 14px 14px; }
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .ad-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            cursor: pointer;
+            transition: 0.25s;
+            display: block;
+            text-decoration: none;
+        }
+        .ad-card:hover { transform: scale(1.02); box-shadow: var(--card-shadow-hover); }
+        .ad-card img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+        }
+        .ad-card .ad-label {
+            position: absolute;
+            top: 6px; left: 6px;
+            background: rgba(0,0,0,0.55);
+            color: white;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .ad-card .ad-platform {
+            position: absolute;
+            bottom: 6px; right: 6px;
+            background: rgba(0,0,0,0.55);
+            color: white;
+            font-size: 11px;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -977,30 +1024,7 @@
             <div class="circle-icon"><i class="fa-solid fa-microchip"></i></div>
             <span>অন্যান্য</span>
         </div>
-        <div class="cat-item" onclick="selectCategory('Cable', this)">
-            <div class="circle-icon"><i class="fa-solid fa-plug"></i></div>
-            <span>ক্যাবল</span>
-        </div>
-        <div class="cat-item" onclick="selectCategory('Headphone', this)">
-            <div class="circle-icon"><i class="fa-solid fa-headphones"></i></div>
-            <span>হেডফোন</span>
-        </div>
-        <div class="cat-item" onclick="selectCategory('Adapter', this)">
-            <div class="circle-icon"><i class="fa-solid fa-plug-circle-bolt"></i></div>
-            <span>অ্যাডাপ্টার</span>
-        </div>
-        <div class="cat-item" onclick="selectCategory('Wireless Bluetooth', this)">
-            <div class="circle-icon"><i class="fa-brands fa-bluetooth-b"></i></div>
-            <span>ব্লুটুথ</span>
-        </div>
-        <div class="cat-item" onclick="selectCategory('Sound box', this)">
-            <div class="circle-icon"><i class="fa-solid fa-volume-high"></i></div>
-            <span>সাউন্ড বক্স</span>
-        </div>
-        <div class="cat-item" onclick="selectCategory('Other gadget', this)">
-            <div class="circle-icon"><i class="fa-solid fa-microchip"></i></div>
-            <span>অন্যান্য</span>
-        </div>
+
     </div>
 
     <!-- ব্র্যান্ড -->
@@ -1142,6 +1166,15 @@
         <div class="flash-offer-label">⚡ বিশেষ ছাড়</div>
         <div class="flash-offer-title">ফ্রি ডেলিভারি পাচ্ছেন!</div>
         <div class="flash-offer-sub">৳১৫০০+ অর্ডারে সারাদেশে বিনামূল্যে ডেলিভারি। আজই অর্ডার করুন।</div>
+    </div>
+
+
+    <!-- ===== বিজ্ঞাপন সেকশন ===== -->
+    <div class="section-title">বিশেষ বিজ্ঞাপন</div>
+    <div class="ads-section">
+        <div class="ads-grid" id="adsGrid">
+            <!-- বিজ্ঞাপন JavaScript থেকে লোড হবে -->
+        </div>
     </div>
 
     <!-- কাস্টমার রিভিউ (Auto Slider) -->
@@ -1511,7 +1544,7 @@ function createProductHTML(p, index) {
     return `
         <div class="card" data-product-index="${index}">
             ${Math.random() > 0.6 ? '<div class="card-badge">HOT</div>' : ''}
-            <div class="card-img-wrapper">
+            <div class="card-img-wrapper" onclick="openDetailModal(${index})" style="cursor:pointer;">
                 <img src="${p.image || 'https://placehold.co/150x150/f8fafc/002c4b?text=PhoneLab'}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f8fafc/002c4b?text=No+Image'">
             </div>
             <h3>${p.name || 'অজানা পণ্য'}</h3>
@@ -1520,6 +1553,7 @@ function createProductHTML(p, index) {
                 <span class="tag tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
             </div>
             <span class="price">৳ ${price}</span>
+            <button type="button" onclick="openDetailModal(${index})" class="order-btn" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));margin-bottom:6px;">🔍 বিস্তারিত দেখুন</button>
             <button type="button" onclick="openModal('${name}', '${price}')" class="order-btn">🛒 অর্ডার করুন</button>
             <div class="share-btn-group">
                 <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${name}', '${price}'); shareToFacebook()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
@@ -1530,13 +1564,16 @@ function createProductHTML(p, index) {
         </div>`;
 }
 
-function renderGrids(data) {
+function renderGrids(data, updateHome = true) {
     const shopEl = document.getElementById('shop-products');
     const homeEl = document.getElementById('home-products');
     if (shopEl) shopEl.innerHTML = data.length
         ? data.map((p, i) => createProductHTML(p, i)).join('')
         : '<div class="empty-state"><i class="fa-solid fa-box-open"></i>কোনো পণ্য পাওয়া যায়নি</div>';
-    if (homeEl) homeEl.innerHTML = productsData.slice(0, 6).map((p, i) => createProductHTML(p, i)).join('');
+    // Home page এ সবসময় প্রথম ৬টি দেখাবে — ফিল্টার করলেও পরিবর্তন হবে না
+    if (updateHome && homeEl) {
+        homeEl.innerHTML = productsData.slice(0, 6).map((p, i) => createProductHTML(p, i)).join('');
+    }
 }
 
 function filterProducts() {
@@ -1549,7 +1586,7 @@ function filterProducts() {
         const matchBrand = activeBrand === 'All' || pBrand === activeBrand;
         return matchSearch && matchCat && matchBrand;
     });
-    renderGrids(filtered);
+    renderGrids(filtered, false); // Home section আপডেট হবে না
 }
 
 // ========== URL PRODUCT CHECK ==========
@@ -1801,10 +1838,71 @@ function detailShareWa() { shareToWhatsApp(); }
 function detailShareTw() { shareToTwitter(); }
 function detailShareCopy() { copyShareLink(); }
 
+
+// ========== বিজ্ঞাপন সেকশন ==========
+// 🔧 এখানে আপনার বিজ্ঞাপন যোগ করুন
+// platform: 'whatsapp' অথবা 'facebook' অথবা 'link'
+// link: WhatsApp নম্বর বা Facebook পেজ লিংক বা যেকোনো URL
+const adsData = [
+    {
+        image: 'https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg',
+        title: 'বিশেষ অফার',
+        platform: 'whatsapp',
+        link: '8801878877746',
+        message: 'আমি এই অফার সম্পর্কে জানতে চাই'
+    },
+    {
+        image: 'https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg',
+        title: 'নতুন পণ্য',
+        platform: 'whatsapp',
+        link: '8801878877746',
+        message: 'নতুন পণ্য সম্পর্কে জানতে চাই'
+    },
+    {
+        image: 'https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg',
+        title: 'ফ্রি ডেলিভারি',
+        platform: 'facebook',
+        link: 'https://www.facebook.com/phonelab360'
+    },
+    {
+        image: 'https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg',
+        title: 'আমাদের সম্পর্কে',
+        platform: 'facebook',
+        link: 'https://www.facebook.com/phonelab360'
+    }
+];
+
+function renderAds() {
+    const grid = document.getElementById('adsGrid');
+    if (!grid) return;
+    grid.innerHTML = adsData.map(ad => {
+        let href = '#';
+        let icon = '';
+        if (ad.platform === 'whatsapp') {
+            const msg = encodeURIComponent(ad.message || 'হ্যালো PhoneLab360');
+            href = `https://wa.me/${ad.link}?text=${msg}`;
+            icon = '<i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>';
+        } else if (ad.platform === 'facebook') {
+            href = ad.link;
+            icon = '<i class="fa-brands fa-facebook" style="color:#1877f2;"></i>';
+        } else {
+            href = ad.link;
+            icon = '<i class="fa-solid fa-link" style="color:#94a3b8;"></i>';
+        }
+        return `
+            <a href="${href}" target="_blank" class="ad-card">
+                <img src="${ad.image}" alt="${ad.title}" onerror="this.src='https://placehold.co/200x110/002c4b/05c46b?text=Ad'">
+                <div class="ad-label">বিজ্ঞাপন</div>
+                <div class="ad-platform">${icon}</div>
+            </a>`;
+    }).join('');
+}
+
 // ========== INIT ==========
 window.addEventListener('load', function() {
     getProducts();
     renderReviews();
+    renderAds();
     // বাইরে ক্লিক করলে বন্ধ — load এর পরে করতে হবে
     const dm = document.getElementById('detailModal');
     if (dm) dm.addEventListener('click', function(e) {

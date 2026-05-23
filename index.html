@@ -3,32 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO মেটা ট্যাগ -->
     <title>PhoneLab360 - প্রিমিয়াম মোবাইল পার্টস স্টোর | অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে</title>
-    <meta name="description" content="PhoneLab360 - বাংলাদেশের বিশ্বস্ত মোবাইল পার্টস স্টোর। 100% অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে এবং অন্যান্য পার্টস। দ্রুত ডেলিভারি ও নগদ প্রদান সুবিধা।">
+    <meta name="description" content="PhoneLab360 - বাংলাদেশের বিশ্বস্ত মোবাইল পার্টস স্টোর। 100% অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে এবং অন্যান্য পার্টস।">
     <meta name="keywords" content="মোবাইল পার্টস, ফোন ব্যাটারি, মোবাইল চার্জার, ফোন ডিসপ্লে, অরিজিনাল পার্টস, ঢাকা, বাংলাদেশ">
-    <meta name="author" content="PhoneLab360">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="Bengali">
-    
-    <!-- Open Graph টেগ -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="PhoneLab360 - প্রিমিয়াম মোবাইল পার্টস স্টোর">
     <meta property="og:description" content="100% অরিজিনাল মোবাইল পার্টস - ব্যাটারি, চার্জার, ডিসপ্লে সহ সব পণ্য">
     <meta property="og:image" content="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg">
     <meta property="og:url" content="https://phonelab360.com">
-    
-    <!-- Twitter কার্ড -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PhoneLab360 - মোবাইল পার্টস স্টোর">
-    <meta name="twitter:description" content="100% অরিজিনাল পণ্য ও দ্রুত ডেলিভারি">
-    <meta name="twitter:image" content="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg">
-    
-    <!-- ক্যানোনিকাল লিংক -->
     <link rel="canonical" href="https://phonelab360.com">
-    
-    <!-- স্ট্রাকচার্ড ডেটা (JSON-LD) -->
+    <link rel="icon" href="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" type="image/jpeg">
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -38,325 +24,859 @@
         "description": "বাংলাদেশের শীর্ষস্থানীয় মোবাইল পার্টস বিক্রয়ের দোকান",
         "telephone": "+88-01878877746",
         "priceRange": "৳৫০০-৳৫০০০",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "ঢাকা",
-            "addressLocality": "ঢাকা",
-            "addressCountry": "BD"
-        },
+        "address": { "@type": "PostalAddress", "streetAddress": "ঢাকা", "addressLocality": "ঢাকা", "addressCountry": "BD" },
         "areaServed": "BD",
-        "sameAs": ["https://www.facebook.com/phonelab360"],
-        "@id": "https://phonelab360.com"
+        "sameAs": ["https://www.facebook.com/phonelab360"]
     }
     </script>
-    
-    <!-- ফন্ট -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Exo+2:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" href="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" type="image/jpeg">
-    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        /* প্রার্থনা সময় বক্স */
-        .prayer-time-box { 
-            background: #ffffff; 
-            margin: 10px; 
-            padding: 10px; 
-            border-radius: 9px; 
-            box-shadow: 0 4px 9px rgba(0,0,0,0.08); 
-            border: 1px solid #e2e8f0; 
+        :root {
+            --primary: #002c4b;
+            --primary-light: #003d6b;
+            --accent: #05c46b;
+            --accent-dark: #04a85b;
+            --price: #eb4d4b;
+            --gold: #f59e0b;
+            --bg: #f0f4f8;
+            --white: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --card-shadow: 0 4px 20px rgba(0,44,75,0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0,44,75,0.15);
+            --radius: 14px;
+            --radius-sm: 8px;
         }
-        .prayer-time-box h3 { 
-            margin: 0 0 12px 0; 
-            color: #002c4b; 
-            font-size: 16px; 
-            text-align: center; 
-            border-bottom: 2px solid #05c46b; 
-            padding-bottom: 5px; 
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 80px;
+            min-height: 100vh;
         }
-        .prayer-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
+
+        /* ===== MARQUEE NOTICE ===== */
+        .top-notice {
+            background: linear-gradient(90deg, #eb4d4b, #c0392b);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 9px 0;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 2px 8px rgba(235,77,75,0.4);
+            overflow: hidden;
+            white-space: nowrap;
         }
-        .prayer-item { 
-            background: #f8fafc; 
-            padding: 8px; 
-            border-radius: 8px; 
-            text-align: center; 
+        .top-notice marquee { vertical-align: middle; letter-spacing: 0.3px; }
+
+        /* ===== HERO SLIDER ===== */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
-        .prayer-item span { display: block; font-size: 11px; color: #64748b; font-weight: 600; }
-        .prayer-item b { font-size: 14px; color: #1e293b; }
-        
-        /* কাস্টমার রিভিউ সেকশন */
+        .slider { display: flex; transition: transform 0.6s cubic-bezier(0.77,0,0.175,1); width: 300%; }
+        .slide { width: 33.333%; position: relative; }
+        .slide img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .slide-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .dot.active { background: white; width: 22px; border-radius: 4px; }
+        .brand-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(0,20,40,0.55);
+            padding: 14px 24px;
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25);
+            min-width: 180px;
+        }
+        .brand-overlay img { max-width: 48px; border-radius: 10px; margin-bottom: 6px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
+        .brand-overlay h1 { font-family: 'Exo 2', sans-serif; font-size: 22px; color: white; font-weight: 800; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+
+        /* ===== OFFER COUNTDOWN ===== */
+        .offer-countdown {
+            background: linear-gradient(135deg, #002c4b 0%, #004070 50%, #002c4b 100%);
+            margin: 14px 14px 0;
+            border-radius: var(--radius);
+            padding: 16px;
+            color: white;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .offer-countdown::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(5,196,107,0.12);
+        }
+        .offer-countdown::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 30px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(5,196,107,0.08);
+        }
+        .offer-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .offer-badge {
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            animation: pulse-badge 1.5s infinite;
+        }
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(5,196,107,0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(5,196,107,0); }
+        }
+        .offer-title { font-size: 14px; font-weight: 700; color: var(--accent); }
+        .offer-desc { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 14px; }
+        .countdown-wrap { display: flex; gap: 8px; align-items: center; }
+        .countdown-unit {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+            min-width: 55px;
+        }
+        .countdown-num {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            display: block;
+            line-height: 1;
+        }
+        .countdown-label { font-size: 10px; color: rgba(255,255,255,0.65); display: block; margin-top: 2px; }
+        .countdown-sep { font-size: 20px; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+
+        /* ===== TRUST BADGES ===== */
+        .trust-badges {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 12px 10px;
+            margin: 14px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+        }
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .badge-item i { color: var(--accent); font-size: 20px; }
+        .badge-item span { font-size: 10px; }
+
+        /* ===== PRAYER TIMES ===== */
+        .prayer-time-box {
+            background: white;
+            margin: 0 14px 14px;
+            padding: 14px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+        }
+        .prayer-time-box h3 {
+            margin: 0 0 12px 0;
+            color: var(--primary);
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+            font-weight: 700;
+        }
+        .prayer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .prayer-item {
+            background: #f8fafc;
+            padding: 8px 4px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .prayer-item span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 600; }
+        .prayer-item b { font-size: 12px; color: var(--text); display: block; margin-top: 2px; }
+        .prayer-item.active-prayer { background: var(--accent); }
+        .prayer-item.active-prayer span, .prayer-item.active-prayer b { color: white; }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 18px 14px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--accent), var(--primary));
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .section-title .see-all {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-decoration: none;
+        }
+
+        /* ===== CATEGORIES & BRANDS ===== */
+        .category-scroll, .brand-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 14px 10px;
+            scrollbar-width: none;
+        }
+        .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
+        .cat-item, .brand-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            min-width: 64px;
+            transition: 0.2s;
+        }
+        .circle-icon {
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            font-size: 20px;
+            color: var(--primary);
+            transition: 0.25s;
+        }
+        .cat-item.active .circle-icon,
+        .cat-item:hover .circle-icon,
+        .brand-item.active .circle-icon,
+        .brand-item:hover .circle-icon {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: scale(1.08);
+            box-shadow: 0 4px 15px rgba(5,196,107,0.25);
+        }
+        .cat-item span, .brand-item span { font-size: 11px; margin-top: 5px; font-weight: 600; color: var(--text-muted); }
+
+        /* ===== DAILY COUNTERS ===== */
+        .daily-counter { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 0 14px 14px; }
+        .counter-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #005a8e 100%);
+            color: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,44,75,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .counter-card::before {
+            content: '';
+            position: absolute;
+            top: -15px; right: -15px;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+        }
+        .counter-number { font-family: 'Exo 2', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; color: var(--accent); }
+        .counter-label { font-size: 11px; opacity: 0.85; font-weight: 600; }
+
+        /* ===== PRODUCT GRID ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 14px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; }
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 12px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            transition: 0.3s;
+            border: 1.5px solid transparent;
+        }
+        .card:hover { box-shadow: var(--card-shadow-hover); border-color: rgba(5,196,107,0.2); transform: translateY(-2px); }
+        .card.highlighted { box-shadow: 0 0 0 3px var(--accent), var(--card-shadow-hover); animation: pulse-card 0.5s ease; }
+        @keyframes pulse-card { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        .card-badge {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: var(--price);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+        .card-img-wrapper {
+            width: 100%; height: 125px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .card h3 { font-size: 12px; color: var(--text); margin-bottom: 4px; min-height: 34px; line-height: 1.4; font-weight: 600; }
+        .product-meta { display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap; }
+        .tag { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; }
+        .tag-stock { color: var(--accent); background: rgba(5,196,107,0.1); }
+        .tag-warranty { color: var(--primary); background: rgba(0,44,75,0.07); }
+        .card .price { color: var(--price); font-size: 15px; font-weight: 700; margin-bottom: 8px; display: block; }
+        .order-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 7px;
+            transition: 0.2s;
+            font-family: 'Hind Siliguri', sans-serif;
+            box-shadow: 0 3px 8px rgba(5,196,107,0.3);
+        }
+        .order-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(5,196,107,0.4); }
+        .share-btn-group { display: flex; gap: 4px; }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 6px;
+            border: none;
+            font-size: 11px;
+            cursor: pointer;
+            flex: 1;
+            transition: 0.2s;
+        }
+        .share-btn:hover { opacity: 0.85; transform: scale(1.05); }
+        .share-facebook { background: #1877f2; color: white; }
+        .share-whatsapp { background: #25d366; color: white; }
+        .share-twitter { background: #1da1f2; color: white; }
+        .share-copy { background: #94a3b8; color: white; }
+
+        /* ===== REVIEWS SECTION ===== */
         .reviews-section {
             background: white;
-            margin: 20px 15px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin: 0 14px 14px;
+            padding: 18px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
         }
-        .reviews-section h3 {
-            color: #002c4b;
-            margin: 0 0 15px 0;
-            font-size: 18px;
-            border-left: 4px solid #05c46b;
-            padding-left: 10px;
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .reviews-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .reviews-summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+        }
+        .rating-big {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .rating-right { display: flex; flex-direction: column; gap: 2px; }
+        .star-row { color: #f59e0b; font-size: 16px; letter-spacing: 1px; }
+        .rating-count { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .review-slider { position: relative; overflow: hidden; }
+        .review-track {
+            display: flex;
+            gap: 12px;
+            transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
         }
         .review-item {
-            padding: 12px;
-            margin-bottom: 10px;
+            min-width: calc(100% - 0px);
+            padding: 14px;
             background: #f8fafc;
-            border-radius: 8px;
-            border-left: 4px solid #05c46b;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            flex-shrink: 0;
         }
         .review-header {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+        .review-name { font-weight: 700; color: var(--primary); font-size: 13px; display: flex; align-items: center; gap: 5px; }
+        .verified-badge { color: var(--accent); font-size: 11px; }
+        .review-date { font-size: 10px; color: #94a3b8; }
+        .review-product { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; }
+        .review-stars { color: #f59e0b; font-size: 13px; margin-bottom: 6px; }
+        .review-text { font-size: 13px; color: #475569; line-height: 1.6; }
+        .review-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
-            margin-bottom: 8px;
-        }
-        .review-name {
-            font-weight: 700;
-            color: #002c4b;
+            justify-content: center;
             font-size: 14px;
-        }
-        .review-date {
-            font-size: 11px;
-            color: #94a3b8;
-        }
-        .review-stars {
-            color: #fbbf24;
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-        .review-text {
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.5;
-        }
-        
-        /* দৈনিক অর্ডার কাউন্টার */
-        .daily-counter {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 15px;
-        }
-        .counter-card {
-            background: linear-gradient(135deg, #002c4b 0%, #05c46b 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .counter-number {
-            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 5px;
+            color: white;
+            flex-shrink: 0;
+            margin-right: 8px;
         }
-        .counter-label {
-            font-size: 12px;
-            opacity: 0.9;
+        .review-top { display: flex; align-items: center; margin-bottom: 6px; }
+        .review-nav { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+        .review-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        
-        :root { 
-            --primary: #002c4b; 
-            --accent: #05c46b; 
-            --price: #eb4d4b; 
-            --bg: #f8fafc; 
-            --card-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        * { box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
-        body { background: var(--bg); margin: 0; padding: 0; padding-bottom: 80px; }
-        
-        /* নোটিশ বার */
-        .top-notice { background: #eb4d4b; color: white; font-size: 13px; padding: 8px 0; overflow: hidden; white-space: nowrap; font-weight: 600; width: 100%; position: sticky; top: 0; z-index: 101; }
-        .top-notice marquee { vertical-align: middle; }
+        .review-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
 
-        /* হিরো ব্যানার */
-        .hero-section { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; box-shadow: var(--card-shadow); }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
-        .slide { width: 33.333%; }
-        .slide img { width: 100%; height: auto; display: block; object-fit: cover; }
-
-        /* ব্যানার ওভারলে */
-        .brand-overlay { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            text-align: center; 
-            z-index: 10; 
-            background: rgba(0, 0, 0, 0.45); 
-            padding: 15px 25px; 
-            border-radius: 16px; 
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 200px;
+        /* ===== LIVE ORDER POPUP ===== */
+        .live-popup {
+            position: fixed;
+            bottom: 90px;
+            left: 14px;
+            background: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 9999;
+            max-width: 220px;
+            border-left: 4px solid var(--accent);
+            animation: slideIn 0.4s ease;
         }
-        .brand-overlay img { max-width: 55px; height: auto; border-radius: 8px; margin-bottom: 5px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-        .brand-overlay h1 { margin: 0; font-size: 24px; color: white; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        
-        /* পেজ কন্টেন্ট */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .popup-title { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+        .popup-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 14px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            z-index: 999;
+        }
+        .nav-item {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            width: 25%;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: 0.2s;
+        }
+        .nav-item i { font-size: 20px; margin-bottom: 3px; }
+        .nav-item.active { color: var(--accent); }
+        .nav-item.active i { transform: scale(1.15); }
+
+        /* ===== PAGES ===== */
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* ট্রাস্ট ব্যাজ */
-        .trust-badges { display: flex; justify-content: space-around; background: white; padding: 12px 5px; margin: 15px; border-radius: 8px; box-shadow: var(--card-shadow); }
-        .badge-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #475569; }
-        .badge-item i { color: var(--accent); font-size: 14px; }
+        /* ===== SEARCH ===== */
+        .controls-container { padding: 14px 14px 0; }
+        .search-wrap { position: relative; }
+        #searchBar {
+            width: 100%;
+            padding: 12px 44px 12px 16px;
+            border-radius: 50px;
+            border: 1.5px solid var(--border);
+            font-size: 14px;
+            outline: none;
+            box-shadow: var(--card-shadow);
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: 0.2s;
+        }
+        #searchBar:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(5,196,107,0.1); }
+        .search-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        /* সেকশন টাইটেল */
-        .section-title { font-size: 16px; color: var(--primary); margin: 20px 15px 10px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 8px; text-align: left; }
-        .category-scroll, .brand-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; }
-        .category-scroll::-webkit-scrollbar, .brand-scroll::-webkit-scrollbar { display: none; }
-        .cat-item, .brand-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 70px; }
-        
-        .cat-item .circle-icon, .brand-item .circle-icon { width: 55px; height: 55px; border-radius: 50%; background: white; box-shadow: var(--card-shadow); display: flex; align-items: center; justify-content: center; border: 2px solid transparent; font-size: 22px; color: var(--primary); transition: 0.2s; }
-        .brand-item .circle-icon { font-size: 24px; color: #334155; }
-        
-        .cat-item.active .circle-icon, .cat-item:hover .circle-icon, .brand-item.active .circle-icon, .brand-item:hover .circle-icon { border-color: var(--accent); color: var(--accent); transform: scale(1.05); }
-        .cat-item span, .brand-item span { font-size: 12px; margin-top: 6px; font-weight: 600; color: #475569; }
+        /* ===== TRACK BOX ===== */
+        .track-box {
+            background: white;
+            padding: 28px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            margin: 20px 14px;
+        }
+        .track-box i { font-size: 48px; color: var(--primary); margin-bottom: 14px; }
+        .track-box h2 { font-size: 20px; color: var(--primary); margin-bottom: 8px; }
+        .track-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        .track-input {
+            width: 100%;
+            padding: 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: 0.2s;
+        }
+        .track-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(5,196,107,0.1); }
+        .track-result { margin-top: 16px; display: none; text-align: left; }
+        .track-order-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+            font-size: 13px;
+            line-height: 1.7;
+        }
 
-        /* সার্চ ও গ্রিড */
-        .controls-container { max-width: 800px; margin: 15px auto; padding: 0 15px; }
-        #searchBar { width: 100%; padding: 12px 20px; border-radius: 50px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-shadow: var(--card-shadow); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        
-        /* প্রোডাক্ট কার্ড */
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; height: 100%; position: relative; transition: 0.3s; }
-        .card.highlighted { box-shadow: 0 0 0 3px var(--accent), 0 4px 15px rgba(0,0,0,0.05); animation: pulse 0.5s ease-in-out; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-        .card-img-wrapper { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; overflow: hidden; }
-        .card img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .card h3 { font-size: 13px; color: #1e293b; margin: 10px 0 3px; min-height: 38px; line-height: 1.4; text-align: left; }
-        
-        .product-meta { display: flex; gap: 5px; margin-bottom: 8px; font-size: 11px; font-weight: 600; }
-        .tag-stock { color: #05c46b; background: rgba(5,196,107,0.1); padding: 1px 5px; border-radius: 4px; }
-        .tag-warranty { color: #002c4b; background: rgba(0,44,75,0.06); padding: 1px 5px; border-radius: 4px; }
-        .card .price { color: var(--price); font-size: 16px; font-weight: 700; margin-bottom: 8px; text-align: left; display: block; }
-        
-        .order-btn { background: var(--accent); color: white; border: none; padding: 8px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%; margin-bottom: 8px; transition: 0.2s; }
-        .order-btn:hover { background: #04a75b; }
-
-        /* শেয়ারিং বাটন */
-        .share-btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
-        .share-btn { display: flex; align-items: center; justify-content: center; gap: 3px; padding: 5px 7px; border-radius: 6px; border: none; font-size: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; flex: 1; min-width: 35px; }
-        .share-facebook { background: #1877f2; color: white; }
-        .share-facebook:hover { background: #0a66c2; }
-        .share-whatsapp { background: #25d366; color: white; }
-        .share-whatsapp:hover { background: #1da851; }
-        .share-twitter { background: #1da1f2; color: white; }
-        .share-twitter:hover { background: #1a91da; }
-        .share-copy { background: #94a3b8; color: white; }
-        .share-copy:hover { background: #64748b; }
-        .share-btn i { font-size: 11px; }
-
-        /* ট্র্যাক বক্স */
-        .track-box { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: var(--card-shadow); text-align: center; margin-top: 30px; border: 1px solid #e2e8f0; }
-        .track-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; margin-bottom: 15px; outline: none; transition: 0.2s; text-align: center; font-weight: bold; letter-spacing: 1px; }
-        .track-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,44,75,0.1); }
-        .track-result { margin-top: 20px; padding: 5px; border-radius: 8px; display: none; text-align: left; font-size: 14px; line-height: 1.6; }
-
-        /* বটম নেভিগেশন */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.06); z-index: 999; }
-        .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; width: 25%; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
-        .nav-item.active { color: var(--accent); }
-
-        /* মডাল */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; overflow-y: auto; }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; max-width: 400px; width: 100%; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); margin: auto; }
-        .close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; background: none; border: none; }
-        .payment-info { background: #f1f5f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid var(--accent); text-align: left; }
+        /* ===== MODALS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: flex-end;
+            padding: 0;
+        }
+        .modal-content {
+            background: white;
+            padding: 22px;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .close-btn {
+            position: absolute;
+            right: 16px; top: 16px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+        .payment-info {
+            background: #f0fdf4;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+            color: var(--text);
+        }
         .form-group { margin-bottom: 12px; text-align: left; }
-        .form-group label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+        .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: 700; color: var(--primary); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent);
+        }
+        .modal-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 14px; margin-right: 30px; }
 
-        /* শেয়ার মডাল */
-        .share-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; }
-        .share-modal-content { background: white; padding: 25px; border-radius: 16px; max-width: 350px; width: 100%; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .share-close-btn { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; background: none; border: none; }
-        .share-title { margin: 0 0 15px 0; color: var(--primary); font-size: 18px; font-weight: 700; }
-        .share-option { display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 10px; border-radius: 8px; background: #f8fafc; cursor: pointer; transition: 0.2s; }
-        .share-option:hover { background: #e2e8f0; }
-        .share-option i { font-size: 20px; width: 30px; text-align: center; }
-        .share-option-text { flex: 1; font-size: 14px; font-weight: 600; }
+        /* ===== SHARE MODAL ===== */
+        .share-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .share-modal-content {
+            background: white;
+            padding: 22px;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 480px;
+            animation: slideUp 0.3s ease;
+        }
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .share-option:hover { background: #e8f4ff; }
+        .share-option i { font-size: 22px; width: 28px; text-align: center; }
+        .share-option span { font-size: 14px; font-weight: 600; }
+
+        /* ===== OFFER SECTION ===== */
+        .flash-offer-wrap {
+            background: linear-gradient(135deg, #fff8e1, #fff3cd);
+            margin: 0 14px 14px;
+            border-radius: var(--radius);
+            padding: 14px;
+            border: 1.5px solid #fcd34d;
+            position: relative;
+            overflow: hidden;
+        }
+        .flash-offer-wrap::before {
+            content: '⚡';
+            position: absolute;
+            right: 10px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            opacity: 0.07;
+        }
+        .flash-offer-label { font-size: 11px; font-weight: 700; color: #d97706; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .flash-offer-title { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+        .flash-offer-sub { font-size: 12px; color: var(--text-muted); }
+
+        /* ===== WHATSAPP FLOAT ===== */
+        .wa-float {
+            position: fixed;
+            bottom: 90px;
+            right: 14px;
+            background: #25d366;
+            color: white;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.5);
+            z-index: 998;
+            text-decoration: none;
+            animation: wa-pulse 2.5s infinite;
+        }
+        @keyframes wa-pulse {
+            0%,100% { box-shadow: 0 4px 15px rgba(37,211,102,0.5); }
+            50% { box-shadow: 0 4px 25px rgba(37,211,102,0.8), 0 0 0 10px rgba(37,211,102,0.1); }
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 18px;
+            font-size: 12px;
+            line-height: 1.8;
+            margin-top: 10px;
+        }
+        .site-footer strong { color: var(--accent); }
+
+        /* ===== UTILITIES ===== */
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); grid-column: 1/-1; }
+        .empty-state i { font-size: 40px; margin-bottom: 10px; display: block; }
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            grid-column: 1/-1;
+        }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (min-width: 600px) {
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+            .prayer-grid { grid-template-columns: repeat(5, 1fr); }
+        }
     </style>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body> <div id="live-order-popup" style="position:fixed; bottom:80px; left:15px; background:white; padding:10px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.2); display:none; z-index:9999;">
-    <p style="margin:0; font-size:12px;"><b>নতুন অর্ডার!</b></p>
-    <p id="order-text" style="margin:0; font-size:13px;"></p>
-</div>
-
-<script>
-    const names = ["রাহুল", "সজীব", "ফাতেমা", "আরিফ", "তানিয়া", "করিম"];
-    const products = ["Samsung A51 Battery", "iPhone Display", "Power Bank", "Fast Charger"];
-    
-    function showPopup() {
-        const popup = document.getElementById('live-order-popup');
-        const text = document.getElementById('order-text');
-        text.innerHTML = `${names[Math.floor(Math.random()*names.length)]} ${products[Math.floor(Math.random()*products.length)]} অর্ডার করেছেন।`;
-        popup.style.display = 'block';
-        setTimeout(() => popup.style.display = 'none', 4000);
-    }
-    setInterval(showPopup, 8000); // প্রতি ৮ সেকেন্ড পর পর পপ-আপ আসবে
-</script>
-    
-
-<!-- হিরো স্লাইডার -->
-<div class="hero-section">
-    <div class="slider" id="slider" style="width: 300%; display: flex; transition: transform 0.5s ease-in-out;">
-        <div class="slide" style="width: 33.33%;"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" alt="PhoneLab360 অফার ১" style="width: 100%; height: 180px; object-fit: cover;"></div>
-        <div class="slide" style="width: 33.33%;"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg" alt="PhoneLab360 অফার ২" style="width: 100%; height: 180px; object-fit: cover;"></div>
-        <div class="slide" style="width: 33.33%;"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg" alt="PhoneLab360 অফার ৩" style="width: 100%; height: 180px; object-fit: cover;"></div>
-    </div>
-</div>
-
-<!-- নামাজের সময়সূচী -->
-<div class="prayer-time-box">
-    <h3>🕌 আজকের নামাজের সময়সূচী</h3>
-    <div class="prayer-grid" id="prayer-container">
-        <p>সময়সূচী লোড হচ্ছে...</p>
-    </div>
-</div>
-
-<!-- দৈনিক অর্ডার কাউন্টার -->
-<div class="daily-counter">
-    <div class="counter-card">
-        <div class="counter-number" id="dailyOrderCount">২৮</div>
-        <div class="counter-label">আজকের অর্ডার</div>
-    </div>
-    <div class="counter-card">
-        <div class="counter-number" id="dailySalesCount">৳১,৫০,০০০</div>
-        <div class="counter-label">আজকের বিক্রয়</div>
-    </div>
-</div>
+<body>
 
 <!-- নোটিশ বার -->
 <div class="top-notice">
-    <marquee scrollamount="4">🔥 অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা যেকোনো তথ্যের জন্য সরাসরি হোয়াটসঅ্যাপে মেসেজ দিন। দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+    <marquee scrollamount="4">🔥 বিশেষ অফার! যেকোনো পার্টস অর্ডারের পূর্বে স্টক বা তথ্যের জন্য WhatsApp করুন: 01878877746 &nbsp;|&nbsp; ⚡ ফ্রি ডেলিভারি ৳১৫০০+ অর্ডারে &nbsp;|&nbsp; ✅ ১০০% অরিজিনাল গ্যারান্টি &nbsp;|&nbsp; 🚚 দেশজুড়ে দ্রুত ক্যাশ অন ডেলিভারি! 🔥</marquee>
+</div>
+
+<!-- হিরো স্লাইডার -->
+<div class="hero-section" id="heroSection">
+    <div class="slider" id="slider">
+        <div class="slide"><img src="https://i.postimg.cc/ZRRWX1qY/01878877746-20260519-212654-0000.jpg" alt="PhoneLab360 অফার ১" onerror="this.src='https://placehold.co/800x200/002c4b/05c46b?text=PhoneLab360'"></div>
+        <div class="slide"><img src="https://i.postimg.cc/QMGcX9cW/01878877746-20260519-141712-0000.jpg" alt="PhoneLab360 অফার ২" onerror="this.src='https://placehold.co/800x200/002c4b/05c46b?text=Special+Offer'"></div>
+        <div class="slide"><img src="https://i.postimg.cc/qvnCZJSW/01878877746-20260519-140907-0000.jpg" alt="PhoneLab360 অফার ৩" onerror="this.src='https://placehold.co/800x200/002c4b/05c46b?text=Fast+Delivery'"></div>
+    </div>
+    <div class="brand-overlay">
+        <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="PhoneLab360 লোগো" onerror="this.style.display='none'">
+        <h1>PhoneLab360</h1>
+    </div>
+    <div class="slide-dots">
+        <button class="dot active" onclick="goToSlide(0)"></button>
+        <button class="dot" onclick="goToSlide(1)"></button>
+        <button class="dot" onclick="goToSlide(2)"></button>
+    </div>
+</div>
+
+<!-- লাইভ অর্ডার পপআপ -->
+<div class="live-popup" id="livePopup">
+    <div class="popup-title">🛒 নতুন অর্ডার!</div>
+    <div class="popup-text" id="popupText"></div>
 </div>
 
 <!-- হোম পেজ -->
 <div id="homePage" class="page-content active">
-    <div class="hero-section">
-        <div class="brand-overlay">
-            <img src="https://i.postimg.cc/Fsb0yxtT/20260519-200910-0000.jpg" alt="PhoneLab360 লোগো">
-            <h1>PhoneLab360</h1>
+
+    <!-- অফার কাউন্টডাউন -->
+    <div class="offer-countdown">
+        <div class="offer-header">
+            <div class="offer-badge">⚡ ফ্ল্যাশ সেল</div>
+            <div class="offer-title">আজকের বিশেষ অফার!</div>
+        </div>
+        <div class="offer-desc">🔥 সীমিত সময়ের জন্য ১৫-৩০% ছাড় — অফার শেষ হওয়ার আগেই অর্ডার করুন!</div>
+        <div class="countdown-wrap">
+            <div class="countdown-unit"><span class="countdown-num" id="cd-h">00</span><span class="countdown-label">ঘণ্টা</span></div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-unit"><span class="countdown-num" id="cd-m">00</span><span class="countdown-label">মিনিট</span></div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-unit"><span class="countdown-num" id="cd-s">00</span><span class="countdown-label">সেকেন্ড</span></div>
         </div>
     </div>
 
     <!-- ট্রাস্ট ব্যাজ -->
     <div class="trust-badges">
-        <div class="badge-item"><i class="fa-solid fa-truck-fast"></i> দ্রুত ডেলিভারি</div>
-        <div class="badge-item"><i class="fa-solid fa-shield-halved"></i> ১০০% অরিজিনাল</div>
-        <div class="badge-item"><i class="fa-solid fa-headset"></i> ২৪/৭ সাপোর্ট</div>
+        <div class="badge-item"><i class="fa-solid fa-truck-fast"></i><span>দ্রুত ডেলিভারি</span></div>
+        <div class="badge-item"><i class="fa-solid fa-shield-halved"></i><span>১০০% অরিজিনাল</span></div>
+        <div class="badge-item"><i class="fa-solid fa-headset"></i><span>২৪/৭ সাপোর্ট</span></div>
+        <div class="badge-item"><i class="fa-solid fa-rotate-left"></i><span>রিটার্ন পলিসি</span></div>
+    </div>
+
+    <!-- দৈনিক কাউন্টার -->
+    <div class="daily-counter">
+        <div class="counter-card">
+            <div class="counter-number" id="dailyOrderCount">২৮</div>
+            <div class="counter-label">📦 আজকের অর্ডার</div>
+        </div>
+        <div class="counter-card">
+            <div class="counter-number" id="dailySalesCount">৳১,৫০,০০০</div>
+            <div class="counter-label">💰 আজকের বিক্রয়</div>
+        </div>
+    </div>
+
+    <!-- নামাজের সময়সূচী -->
+    <div class="prayer-time-box">
+        <h3>🕌 আজকের নামাজের সময়সূচী — ঢাকা</h3>
+        <div class="prayer-grid" id="prayer-container">
+            <p style="text-align:center; color:var(--text-muted); font-size:12px; grid-column:1/-1;">লোড হচ্ছে...</p>
+        </div>
     </div>
 
     <!-- ক্যাটাগরি -->
@@ -395,67 +915,81 @@
         <div class="brand-item" onclick="selectBrand('Realme', this)"><div class="circle-icon"><i class="fa-solid fa-r"></i></div><span>Realme</span></div>
     </div>
 
-    <!-- বিশেষ অফার -->
-    <div class="section-title">আজকের আকর্ষণীয় অফার</div>
+    <!-- ফিচার্ড পণ্য -->
+    <div class="section-title">
+        আজকের বিশেষ অফার
+        <button class="see-all" onclick="switchTab('shop', document.querySelectorAll('.nav-item')[1])">সব দেখুন →</button>
+    </div>
     <div class="container">
-        <div class="product-grid" id="home-products"></div>
+        <div class="product-grid" id="home-products">
+            <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
     </div>
 
-    <!-- কাস্টমার রিভিউ -->
+    <!-- ফ্ল্যাশ অফার ব্যানার -->
+    <div class="flash-offer-wrap">
+        <div class="flash-offer-label">⚡ বিশেষ ছাড়</div>
+        <div class="flash-offer-title">ফ্রি ডেলিভারি পাচ্ছেন!</div>
+        <div class="flash-offer-sub">৳১৫০০+ অর্ডারে সারাদেশে বিনামূল্যে ডেলিভারি। আজই অর্ডার করুন।</div>
+    </div>
+
+    <!-- কাস্টমার রিভিউ (Auto Slider) -->
+    <div class="section-title">গ্রাহক রিভিউ</div>
     <div class="reviews-section">
-        <h3>⭐ গ্রাহক রিভিউ</h3>
-        <div id="reviews-container">
-            <div class="review-item">
-                <div class="review-header">
-                    <span class="review-name">আহমেদ সাহেব</span>
-                    <span class="review-date">২ দিন আগে</span>
-                </div>
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <div class="review-text">অসাধারণ মানের পণ্য এবং খুবই দ্রুত ডেলিভারি। সত্যিই সুপারিশযোগ্য স্টোর!</div>
-            </div>
-            <div class="review-item">
-                <div class="review-header">
-                    <span class="review-name">ফাতিমা বেগম</span>
-                    <span class="review-date">১ সপ্তাহ আগে</span>
-                </div>
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <div class="review-text">১০০% অরিজিনাল পণ্য। ঢাকার বাইরেও দেরি না করে ডেলিভারি দিয়েছে।</div>
-            </div>
-            <div class="review-item">
-                <div class="review-header">
-                    <span class="review-name">ইশরাত খান</span>
-                    <span class="review-date">২ সপ্তাহ আগে</span>
-                </div>
-                <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                <div class="review-text">দাম ভালো এবং গুণমান চমৎকার। এখানেই আমার সব কেনাকাটা করব।</div>
+        <div class="reviews-summary">
+            <div class="rating-big">4.9</div>
+            <div class="rating-right">
+                <div class="star-row">⭐⭐⭐⭐⭐</div>
+                <div class="rating-count" id="total-reviews">৫০০+ যাচাইকৃত রিভিউ</div>
             </div>
         </div>
+        <div class="review-slider">
+            <div class="review-track" id="reviewTrack"></div>
+        </div>
+        <div class="review-nav" id="reviewNav"></div>
+    </div>
+
+    <!-- ফুটার -->
+    <div class="site-footer">
+        <strong>PhoneLab360</strong><br>
+        📍 ঢাকা, বাংলাদেশ<br>
+        📞 <a href="tel:+8801878877746" style="color:var(--accent);">01878877746</a><br>
+        &copy; 2026 PhoneLab360 — সব অধিকার সংরক্ষিত
     </div>
 </div>
 
 <!-- শপ পেজ -->
 <div id="shopPage" class="page-content">
-    <div class="controls-container" style="margin-top: 20px;">
-        <input type="text" id="searchBar" placeholder="সার্চ করুন..." onkeyup="filterProducts()">
+    <div class="controls-container">
+        <div class="search-wrap">
+            <input type="text" id="searchBar" placeholder="পণ্য খুঁজুন..." onkeyup="filterProducts()">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        </div>
     </div>
+    <div class="section-title">সকল পণ্য</div>
     <div class="container">
-        <div class="product-grid" id="shop-products"></div>
+        <div class="product-grid" id="shop-products">
+            <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
     </div>
 </div>
 
 <!-- ট্র্যাকিং পেজ -->
 <div id="trackPage" class="page-content">
-    <div class="container" style="max-width: 500px; margin-top: 20px;">
-        <div class="track-box">
-            <i class="fa-solid fa-route" style="font-size: 45px; color: var(--primary); margin-bottom: 15px;"></i>
-            <h2 style="margin: 0 0 10px 0; color: var(--primary); font-size: 20px;">অর্ডার ট্র্যাক করুন</h2>
-            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">আপনার মোবাইল নম্বর দিয়ে অর্ডার খোঁজ করুন</p>
-            <input type="tel" id="trackPhone" class="track-input" placeholder="যেমন: 01878877746">
-            <button onclick="trackOrder()" class="order-btn" style="padding: 14px; font-size: 14px; border-radius: 8px; margin-bottom: 0;">অর্ডার খুঁজুন</button>
-            <div id="trackResult" class="track-result"></div>
-        </div>
+    <div class="track-box">
+        <i class="fa-solid fa-route"></i>
+        <h2>অর্ডার ট্র্যাক করুন</h2>
+        <p>আপনার মোবাইল নম্বর দিয়ে অর্ডারের অবস্থা জানুন</p>
+        <input type="tel" id="trackPhone" class="track-input" placeholder="মোবাইল নম্বর লিখুন">
+        <button onclick="trackOrder()" class="order-btn" style="padding:14px; font-size:14px; border-radius:10px;">🔍 অর্ডার খুঁজুন</button>
+        <div id="trackResult" class="track-result"></div>
     </div>
 </div>
+
+<!-- WhatsApp ফ্লোটিং বাটন -->
+<a href="https://wa.me/8801878877746" target="_blank" class="wa-float" title="WhatsApp এ কথা বলুন">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 
 <!-- বটম নেভিগেশন -->
 <div class="bottom-nav">
@@ -465,436 +999,469 @@
     <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
 
-<!-- শেয়ার মডাল -->
-<div class="share-modal" id="shareModal">
-    <div class="share-modal-content">
-        <button class="share-close-btn" onclick="closeShareModal()">&times;</button>
-        <h3 class="share-title">শেয়ার করুন 📱</h3>
-        
-        <div class="share-option" onclick="shareToFacebook()">
-            <i class="fa-brands fa-facebook" style="color: #1877f2;"></i>
-            <span class="share-option-text">Facebook এ শেয়ার</span>
-        </div>
-        
-        <div class="share-option" onclick="shareToWhatsApp()">
-            <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i>
-            <span class="share-option-text">WhatsApp এ শেয়ার</span>
-        </div>
-        
-        <div class="share-option" onclick="shareToTwitter()">
-            <i class="fa-brands fa-twitter" style="color: #1da1f2;"></i>
-            <span class="share-option-text">Twitter এ শেয়ার</span>
-        </div>
-        
-        <div class="share-option" onclick="copyShareLink()">
-            <i class="fa-solid fa-link" style="color: #94a3b8;"></i>
-            <span class="share-option-text">লিংক কপি করুন</span>
-        </div>
-    </div>
-</div>
-
 <!-- অর্ডার মডাল -->
 <div class="modal" id="orderModal">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">&times;</button>
-        <h3 style="margin-top:0; color: var(--primary);">অর্ডার কনফার্ম করুন</h3>
-        
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <div class="modal-title">🛍️ অর্ডার কনফার্ম করুন</div>
         <div class="payment-info" id="paymentInstructions">
-            <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>
-            পণ্য হাতে পেয়ে সম্পূর্ণ টাকা পরিশোধ করুন।
+            <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে টাকা দিন।
         </div>
-        
         <form id="orderForm" onsubmit="submitOrder(event)">
             <input type="hidden" id="prodName">
             <input type="hidden" id="prodPrice">
             <div class="form-group"><label>আপনার নাম *</label><input type="text" id="custName" required placeholder="নাম লিখুন"></div>
-            <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" id="custPhone" required placeholder="১১ ডিজিটের নম্বর"></div>
-            <div class="form-group"><label>পূর্ণাঙ্গ ঠিকানা *</label><textarea id="custAddress" rows="2" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea></div>
-            
+            <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" id="custPhone" required placeholder="01XXXXXXXXX"></div>
+            <div class="form-group"><label>পূর্ণ ঠিকানা *</label><textarea id="custAddress" rows="2" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea></div>
             <div class="form-group">
-                <label>পেমেন্ট মেথড *</label>
+                <label>পেমেন্ট পদ্ধতি *</label>
                 <select id="payMethod" onchange="toggleTrxField()">
                     <option value="COD">ক্যাশ অন ডেলিভারি</option>
                     <option value="Bkash">বিকাশ (Bkash)</option>
                     <option value="Nagad">নগদ (Nagad)</option>
                 </select>
             </div>
-            
-            <div class="form-group" id="trxGroup" style="display: none;">
+            <div class="form-group" id="trxGroup" style="display:none;">
                 <label>ট্রানজেকশন আইডি (TrxID) *</label>
                 <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z">
             </div>
-            
-            <button type="submit" class="order-btn" id="submitBtn" style="margin-bottom: 0;">কনফার্ম অর্ডার</button>
+            <button type="submit" class="order-btn" id="submitBtn" style="margin-bottom:0; padding:12px; font-size:14px; border-radius:10px;">✅ কনফার্ম অর্ডার</button>
         </form>
     </div>
 </div>
 
+<!-- শেয়ার মডাল -->
+<div class="share-modal" id="shareModal">
+    <div class="share-modal-content">
+        <button class="close-btn" onclick="closeShareModal()" style="position:absolute; right:16px; top:16px;">×</button>
+        <div class="modal-title">📱 শেয়ার করুন</div>
+        <div class="share-option" onclick="shareToFacebook()">
+            <i class="fa-brands fa-facebook" style="color:#1877f2;"></i>
+            <span>Facebook এ শেয়ার</span>
+        </div>
+        <div class="share-option" onclick="shareToWhatsApp()">
+            <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i>
+            <span>WhatsApp এ শেয়ার</span>
+        </div>
+        <div class="share-option" onclick="shareToTwitter()">
+            <i class="fa-brands fa-twitter" style="color:#1da1f2;"></i>
+            <span>Twitter এ শেয়ার</span>
+        </div>
+        <div class="share-option" onclick="copyShareLink()">
+            <i class="fa-solid fa-link" style="color:#94a3b8;"></i>
+            <span>লিংক কপি করুন</span>
+        </div>
+    </div>
+</div>
+
 <script>
-    // প্রার্থনা সময় লোড
-    async function fetchPrayerTimes() {
-        const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const t = data.data.timings;
-            
-            document.getElementById('prayer-container').innerHTML = `
-                <div class="prayer-item"><span>ফজর</span><b>${t.Fajr}</b></div>
-                <div class="prayer-item"><span>যোহর</span><b>${t.Dhuhr}</b></div>
-                <div class="prayer-item"><span>আসর</span><b>${t.Asr}</b></div>
-                <div class="prayer-item"><span>মাগরিব</span><b>${t.Maghrib}</b></div>
-                <div class="prayer-item"><span>ইশা</span><b>${t.Isha}</b></div>
-            `;
-        } catch (error) {
-            document.getElementById('prayer-container').innerHTML = "<p>সময় আপডেট করা সম্ভব হয়নি</p>";
-        }
-    }
-    fetchPrayerTimes();
+// ========== SUPABASE SETUP ==========
+let supabaseClient;
+try {
+    supabaseClient = supabase.createClient(
+        'https://rohbfyqbpxmhwkjljqdw.supabase.co',
+        'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V'
+    );
+} catch(e) {
+    console.error("Supabase error:", e);
+}
+const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ";
+const CHAT_ID = "5821767982";
+
+// ========== GLOBALS ==========
+let productsData = [];
+let activeCat = 'All';
+let activeBrand = 'All';
+let currentShareProduct = null;
+let currentSlide = 0;
+let reviewIndex = 0;
+let reviewAutoInterval;
+
+// ========== AUTO SLIDER ==========
+function goToSlide(n) {
+    currentSlide = n;
+    document.getElementById('slider').style.transform = `translateX(-${n * 33.333}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+setInterval(() => goToSlide((currentSlide + 1) % 3), 4000);
+
+// ========== OFFER COUNTDOWN ==========
+function setupCountdown() {
+    const now = new Date();
+    // অফার রাত ১২টায় রিসেট হবে
+    const endTime = new Date(now);
+    endTime.setHours(23, 59, 59, 0);
     
-    // Supabase সেটআপ
-    let supabaseClient;
-    try {
-        supabaseClient = supabase.createClient('https://rohbfyqbpxmhwkjljqdw.supabase.co', 'sb_publishable_eoFc3VezZHglCNWDJ1zjcA_dDmQsZ9V');
-    } catch(e) {
-        console.error("Supabase সংযোগ ব্যর্থ:", e);
-        document.body.innerHTML += '<div style="background: #ffcccc; color: #cc0000; padding: 20px; margin: 10px; border-radius: 8px; font-weight: bold;">⚠️ Supabase সংযোগ সমস্যা। পৃষ্ঠাটি রিফ্রেশ করুন।</div>';
+    function tick() {
+        const diff = endTime - new Date();
+        if (diff <= 0) { setupCountdown(); return; }
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-h').textContent = String(h).padStart(2, '0');
+        document.getElementById('cd-m').textContent = String(m).padStart(2, '0');
+        document.getElementById('cd-s').textContent = String(s).padStart(2, '0');
     }
+    tick();
+    setInterval(tick, 1000);
+}
+setupCountdown();
 
-    // টেলিগ্রাম সেটিংস
-    const BOT_TOKEN = "8538111399:AAEZ6OMorVGmIUCKuTDcGFkdoM6E_-ly1RQ"; 
-    const CHAT_ID = "5821767982"; 
-
-    // গ্লোবাল ভ্যারিয়েবল
-    let productsData = [];
-    let activeCat = 'All';
-    let activeBrand = 'All';
-    let currentShareProduct = null;
-    let dailyOrderCounter = 28;
-    let dailySalesCounter = 150000;
-
-    // ব্যানার স্লাইডার
-    let currentSlide = 0;
+// ========== DAILY COUNTERS ==========
+let dailyOrderCounter = 28;
+let dailySalesCounter = 150000;
+function updateDailyCounters() {
     setInterval(() => {
-        const slider = document.getElementById('slider');
-        if(slider) {
-            currentSlide = (currentSlide + 1) % 3;
-            slider.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+        dailyOrderCounter = Math.floor(Math.random() * 16 + 20);
+        dailySalesCounter = Math.floor(Math.random() * 100000 + 100000);
+        document.getElementById('dailyOrderCount').textContent = dailyOrderCounter;
+        document.getElementById('dailySalesCount').textContent = '৳' + dailySalesCounter.toLocaleString('bn-BD');
+    }, 30000);
+}
+updateDailyCounters();
+
+// ========== PRAYER TIMES ==========
+async function fetchPrayerTimes() {
+    const url = "https://api.aladhan.com/v1/timingsByCity?city=Dhaka&country=Bangladesh&method=1";
+    try {
+        const r = await fetch(url);
+        const d = await r.json();
+        const t = d.data.timings;
+        const nowH = new Date().getHours() * 60 + new Date().getMinutes();
+        const prayers = [
+            { name: 'ফজর', key: t.Fajr },
+            { name: 'যোহর', key: t.Dhuhr },
+            { name: 'আসর', key: t.Asr },
+            { name: 'মাগরিব', key: t.Maghrib },
+            { name: 'ইশা', key: t.Isha }
+        ];
+        const prayerMins = prayers.map(p => {
+            const [ph, pm] = p.key.split(':').map(Number);
+            return ph * 60 + pm;
+        });
+        let activeIdx = -1;
+        for (let i = prayerMins.length - 1; i >= 0; i--) {
+            if (nowH >= prayerMins[i]) { activeIdx = i; break; }
         }
-    }, 4000);
-
-    // দৈনিক কাউন্টার আপডেট
-    function updateDailyCounters() {
-        setInterval(() => {
-            dailyOrderCounter = Math.floor(Math.random() * (35 - 20) + 20);
-            dailySalesCounter = Math.floor(Math.random() * (200000 - 100000) + 100000);
-            
-            document.getElementById('dailyOrderCount').textContent = dailyOrderCounter;
-            document.getElementById('dailySalesCount').textContent = '৳' + dailySalesCounter.toLocaleString('bn-BD');
-        }, 30000);
+        document.getElementById('prayer-container').innerHTML = prayers.map((p, i) =>
+            `<div class="prayer-item ${i === activeIdx ? 'active-prayer' : ''}">
+                <span>${p.name}</span>
+                <b>${p.key}</b>
+            </div>`
+        ).join('');
+    } catch(e) {
+        document.getElementById('prayer-container').innerHTML = '<p style="grid-column:1/-1; text-align:center; font-size:12px; color:#94a3b8;">সময় লোড হয়নি</p>';
     }
-    updateDailyCounters();
+}
+fetchPrayerTimes();
 
-    // URL থেকে প্রোডাক্ট পড়া
-    function checkProductFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        const productName = params.get('product');
-        
-        if (productName) {
-            setTimeout(() => {
-                switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-                filterProducts();
-                setTimeout(() => {
-                    const cards = document.querySelectorAll('.card');
-                    cards.forEach(card => {
-                        if (card.querySelector('h3').textContent.includes(productName)) {
-                            card.classList.add('highlighted');
-                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            setTimeout(() => card.classList.remove('highlighted'), 3000);
-                        }
-                    });
-                }, 100);
-            }, 500);
-        }
-    }
+// ========== AUTO CUSTOMER REVIEWS ==========
+const allReviews = [
+    { name: 'আহমেদ রাফি', avatar: '#3b82f6', product: 'Samsung A51 Battery', stars: 5, text: 'অসাধারণ মানের ব্যাটারি! ৩ দিনেই হাতে পেয়েছি। ফোনের ব্যাকআপ আগের চেয়ে দ্বিগুণ হয়েছে। ১০০% অরিজিনাল।', time: '২ ঘণ্টা আগে' },
+    { name: 'ফাতিমা বেগম', avatar: '#ec4899', product: 'iPhone 13 Display', stars: 5, text: '১০০% অরিজিনাল ডিসপ্লে। কোনো মৃত পিক্সেল নেই, রঙ একদম নিখুঁত। ঢাকার বাইরে হয়েও মাত্র ২ দিনে পেয়েছি!', time: '৫ ঘণ্টা আগে' },
+    { name: 'রাকিব হাসান', avatar: '#10b981', product: 'Fast Charger 65W', stars: 5, text: 'এত দ্রুত চার্জ আগে কখনো দেখিনি। ৩০ মিনিটে ৭০%! পণ্যের মান নিয়ে আপোষ নেই PhoneLab360 এর।', time: '১ দিন আগে' },
+    { name: 'সুমাইয়া আক্তার', avatar: '#f59e0b', product: 'Power Bank 20000mAh', stars: 5, text: 'দাম খুব রিজনেবল এবং গুণমান চমৎকার! প্যাকেজিং এত সুন্দর ছিল। নিঃসন্দেহে সেরা মোবাইল পার্টস শপ।', time: '২ দিন আগে' },
+    { name: 'মিজানুর রহমান', avatar: '#8b5cf6', product: 'Xiaomi Battery', stars: 5, text: 'আমার Xiaomi Redmi এর ব্যাটারি খুব দ্রুত শেষ হয়ে যাচ্ছিল। এখানে অর্ডার করার পর একদম নতুনের মতো হয়ে গেছে।', time: '৩ দিন আগে' },
+    { name: 'নাফিসা ইসলাম', avatar: '#ef4444', product: 'Oppo Screen Guard', stars: 5, text: 'স্ক্রিন গার্ড একদম পারফেক্ট ফিট হয়েছে। কোনো বুদবুদ নেই, স্বচ্ছতা অসাধারণ। সত্যিই সুপারিশযোগ্য!', time: '৪ দিন আগে' },
+    { name: 'করিম উদ্দিন', avatar: '#06b6d4', product: 'Samsung Display', stars: 5, text: 'অফিসিয়াল দোকানের চেয়ে অনেক কম দামে একই কোয়ালিটির পণ্য পেলাম। PhoneLab360 আমার বিশ্বস্ত শপ।', time: '৫ দিন আগে' },
+    { name: 'তানভীর আহমেদ', avatar: '#f97316', product: 'iPhone Battery', stars: 5, text: 'iPhone 11 এর ব্যাটারি একদম অরিজিনাল। হেলথ ৯৮% দেখাচ্ছে! ডেলিভারি দ্রুত ও প্যাকেজিং চমৎকার।', time: '১ সপ্তাহ আগে' },
+    { name: 'রুমানা খাতুন', avatar: '#14b8a6', product: 'Vivo Charger', stars: 5, text: 'মাত্র ১ ঘণ্টায় ফোন ফুল চার্জ হয়ে যায়! আগে ৩ ঘণ্টা লাগতো। PhoneLab360 এর পণ্যের মান সত্যিই অতুলনীয়।', time: '১ সপ্তাহ আগে' },
+    { name: 'শাহিন মিয়া', avatar: '#84cc16', product: 'Power Bank', stars: 5, text: 'ভ্রমণের সময় এই পাওয়ার ব্যাংক ছাড়া চলতই না। ৩টি ফোন ফুল চার্জ দেওয়া যায়। অনেক কম দামে পেলাম।', time: '২ সপ্তাহ আগে' },
+];
 
-    // ট্যাব সুইচ
-    function switchTab(tab, btn) {
-        document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`${tab}Page`).style.display = 'block';
-        if(btn) btn.classList.add('active');
-        window.scrollTo(0,0);
-    }
+function renderReviews() {
+    const track = document.getElementById('reviewTrack');
+    const nav = document.getElementById('reviewNav');
+    if (!track || !nav) return;
 
-    // ক্যাটাগরি সিলেক্ট
-    function selectCategory(cat, elem) {
-        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
-        elem.classList.add('active');
-        activeCat = cat;
-        activeBrand = 'All';
-        switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-        filterProducts();
-    }
+    track.innerHTML = allReviews.map((r, i) => `
+        <div class="review-item" style="min-width:100%;">
+            <div class="review-top">
+                <div class="review-avatar" style="background:${r.avatar};">${r.name[0]}</div>
+                <div>
+                    <div class="review-name">${r.name} <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> যাচাইকৃত</span></div>
+                    <div class="review-date">${r.time}</div>
+                </div>
+            </div>
+            <div class="review-product">📦 ${r.product}</div>
+            <div class="review-stars">${'⭐'.repeat(r.stars)}</div>
+            <div class="review-text">"${r.text}"</div>
+        </div>
+    `).join('');
 
-    // ব্র্যান্ড সিলেক্ট
-    function selectBrand(brand, elem) {
-        document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-        elem.classList.add('active');
-        activeBrand = brand;
-        activeCat = 'All';
-        switchTab('shop', document.querySelectorAll('.nav-item')[1]);
-        filterProducts();
-    }
+    nav.innerHTML = allReviews.map((_, i) =>
+        `<button class="review-dot ${i === 0 ? 'active' : ''}" onclick="goToReview(${i})"></button>`
+    ).join('');
 
-    // প্রোডাক্ট লোড
-    async function getProducts() {
-        if(!supabaseClient) {
-            console.error("Supabase সংযোগ নেই");
+    document.getElementById('total-reviews').textContent = allReviews.length * 50 + '+ যাচাইকৃত রিভিউ';
+    startReviewAuto();
+}
+
+function goToReview(n) {
+    reviewIndex = n;
+    document.getElementById('reviewTrack').style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.review-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+    clearInterval(reviewAutoInterval);
+    startReviewAuto();
+}
+
+function startReviewAuto() {
+    clearInterval(reviewAutoInterval);
+    reviewAutoInterval = setInterval(() => {
+        reviewIndex = (reviewIndex + 1) % allReviews.length;
+        goToReview(reviewIndex);
+    }, 3500);
+}
+
+// ========== LIVE ORDER POPUP ==========
+const popupNames = ['রাহুল', 'সজীব', 'ফাতেমা', 'আরিফ', 'তানিয়া', 'করিম', 'সুমাইয়া', 'রাকিব', 'মিজান', 'নাফিসা'];
+const popupProducts = ['Samsung A51 Battery', 'iPhone 13 Display', 'Power Bank 20000mAh', '65W Fast Charger', 'Xiaomi Redmi Battery', 'Oppo Charger', 'Vivo Display'];
+const popupLocations = ['ঢাকা', 'চট্টগ্রাম', 'সিলেট', 'রাজশাহী', 'খুলনা', 'বরিশাল', 'ময়মনসিংহ'];
+
+function showLivePopup() {
+    const popup = document.getElementById('livePopup');
+    const text = document.getElementById('popupText');
+    const name = popupNames[Math.floor(Math.random() * popupNames.length)];
+    const product = popupProducts[Math.floor(Math.random() * popupProducts.length)];
+    const loc = popupLocations[Math.floor(Math.random() * popupLocations.length)];
+    text.innerHTML = `<b>${name}</b> (${loc}) <br><i>${product}</i> অর্ডার করেছেন`;
+    popup.style.display = 'block';
+    setTimeout(() => popup.style.display = 'none', 4500);
+}
+setTimeout(() => { showLivePopup(); setInterval(showLivePopup, 10000); }, 3000);
+
+// ========== TAB NAVIGATION ==========
+function switchTab(tab, btn) {
+    document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(`${tab}Page`).style.display = 'block';
+    if (btn) btn.classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// ========== CATEGORY & BRAND ==========
+function selectCategory(cat, elem) {
+    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
+    elem.classList.add('active');
+    activeCat = cat;
+    activeBrand = 'All';
+    switchTab('shop', document.querySelectorAll('.nav-item')[1]);
+    filterProducts();
+}
+function selectBrand(brand, elem) {
+    document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+    elem.classList.add('active');
+    activeBrand = brand;
+    activeCat = 'All';
+    switchTab('shop', document.querySelectorAll('.nav-item')[1]);
+    filterProducts();
+}
+
+// ========== PRODUCTS ==========
+async function getProducts() {
+    if (!supabaseClient) return;
+    try {
+        const { data, error } = await supabaseClient.from('products').select('*');
+        if (error) {
+            document.getElementById('shop-products').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>পণ্য লোড করা সম্ভব হয়নি। রিফ্রেশ করুন।</div>';
             return;
         }
-        try {
-            const { data, error } = await supabaseClient.from('products').select('*');
-            if (error) {
-                console.error("Supabase ত্রুটি:", error.message);
-                document.getElementById('shop-products').innerHTML = '<p style="color: red;">প্রোডাক্ট লোড করা সম্ভব হয়নি। পৃষ্ঠাটি রিফ্রেশ করুন।</p>';
-                return;
-            }
-            if (!data) {
-                console.error("কোনো ডেটা পাওয়া যায়নি");
-                return;
-            }
-            productsData = data;
-            renderGrids(data);
-            checkProductFromURL();
-        } catch(e) {
-            console.error("প্রোডাক্ট লোড করার সময় ত্রুটি:", e);
-        }
+        productsData = data || [];
+        renderGrids(data || []);
+        checkProductFromURL();
+    } catch(e) {
+        console.error(e);
     }
+}
 
-    // গ্রিড রেন্ডার
-    function renderGrids(data) {
-        const createHTML = (p, index) => `
-            <div class="card" data-product-index="${index}">
-                <div class="card-img-wrapper">
-                    <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
-                </div>
-                <h3>${p.name || 'অজানা পণ্য'}</h3>
-                <div class="product-meta">
-                    <span class="tag-stock">স্টকে আছে</span>
-                    <span class="tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
-                </div>
-                <span class="price">৳ ${p.price || '0'}</span>
-                <button type="button" onclick="openModal('${p.name.replace(/'/g, "\\'")}', '${p.price}')" class="order-btn">অর্ডার করুন</button>
-                <div class="share-btn-group">
-                    <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToFacebook()" title="Facebook">
-                        <i class="fa-brands fa-facebook"></i>
-                    </button>
-                    <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToWhatsApp()" title="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </button>
-                    <button type="button" class="share-btn share-twitter" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); shareToTwitter()" title="Twitter">
-                        <i class="fa-brands fa-twitter"></i>
-                    </button>
-                    <button type="button" class="share-btn share-copy" onclick="setShareProduct('${p.name.replace(/'/g, "\\'")}', '${p.price}'); copyShareLink()" title="কপি করুন">
-                        <i class="fa-solid fa-link"></i>
-                    </button>
-                </div>
-            </div>`;
-        
-        document.getElementById('shop-products').innerHTML = data.length ? data.map((p, i) => createHTML(p, i)).join('') : '<p style="grid-column:1/-1; text-align:center; color:#94a3b8;">কোনো পণ্য পাওয়া যায়নি</p>';
-        document.getElementById('home-products').innerHTML = productsData.slice(0, 6).map((p, i) => createHTML(p, i)).join('');
-    }
+function createProductHTML(p, index) {
+    const name = (p.name || 'অজানা পণ্য').replace(/'/g, "\\'");
+    const price = p.price || '0';
+    return `
+        <div class="card" data-product-index="${index}">
+            ${Math.random() > 0.6 ? '<div class="card-badge">HOT</div>' : ''}
+            <div class="card-img-wrapper">
+                <img src="${p.image || 'https://placehold.co/150x150/f8fafc/002c4b?text=PhoneLab'}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f8fafc/002c4b?text=No+Image'">
+            </div>
+            <h3>${p.name || 'অজানা পণ্য'}</h3>
+            <div class="product-meta">
+                <span class="tag tag-stock">✅ স্টকে আছে</span>
+                <span class="tag tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
+            </div>
+            <span class="price">৳ ${price}</span>
+            <button type="button" onclick="openModal('${name}', '${price}')" class="order-btn">🛒 অর্ডার করুন</button>
+            <div class="share-btn-group">
+                <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${name}', '${price}'); shareToFacebook()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct('${name}', '${price}'); shareToWhatsApp()" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+                <button type="button" class="share-btn share-twitter" onclick="setShareProduct('${name}', '${price}'); shareToTwitter()" title="Twitter"><i class="fa-brands fa-twitter"></i></button>
+                <button type="button" class="share-btn share-copy" onclick="setShareProduct('${name}', '${price}'); copyShareLink()" title="কপি"><i class="fa-solid fa-link"></i></button>
+            </div>
+        </div>`;
+}
 
-    // ফিল্টার
-    function filterProducts() {
-        const search = document.getElementById('searchBar').value.toLowerCase();
-        const filtered = productsData.filter(p => {
-            const matchesSearch = (p.name || '').toLowerCase().includes(search);
-            const matchesCat = activeCat === 'All' || ((p.category || '').toLowerCase().trim() === activeCat.toLowerCase().trim());
-            const matchesBrand = activeBrand === 'All' || ((p.brand || '').toLowerCase().trim() === activeBrand.toLowerCase().trim());
-            return matchesSearch && matchesCat && matchesBrand;
-        });
-        renderGrids(filtered);
-    }
+function renderGrids(data) {
+    const shopEl = document.getElementById('shop-products');
+    const homeEl = document.getElementById('home-products');
+    if (shopEl) shopEl.innerHTML = data.length
+        ? data.map((p, i) => createProductHTML(p, i)).join('')
+        : '<div class="empty-state"><i class="fa-solid fa-box-open"></i>কোনো পণ্য পাওয়া যায়নি</div>';
+    if (homeEl) homeEl.innerHTML = productsData.slice(0, 6).map((p, i) => createProductHTML(p, i)).join('');
+}
 
-    // শেয়ারিং
-    function setShareProduct(name, price) {
-        currentShareProduct = { name, price };
-    }
-
-    function getShareText() {
-        if(!currentShareProduct) return "PhoneLab360 - প্রিমিয়াম পার্টস স্টোর";
-        return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি`;
-    }
-
-    function getShareLink() {
-        if(!currentShareProduct) return window.location.href;
-        const baseUrl = window.location.origin + window.location.pathname;
-        return `${baseUrl}?product=${encodeURIComponent(currentShareProduct.name)}`;
-    }
-
-    function openShareModal() {
-        document.getElementById('shareModal').style.display = 'flex';
-    }
-
-    function closeShareModal() {
-        document.getElementById('shareModal').style.display = 'none';
-    }
-
-    function shareToFacebook() {
-        const text = getShareText();
-        const link = getShareLink();
-        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}&quote=${encodeURIComponent(text)}`;
-        window.open(url, '_blank', 'width=600,height=400');
-    }
-
-    function shareToWhatsApp() {
-        const text = getShareText();
-        const link = getShareLink();
-        const url = `https://wa.me/?text=${encodeURIComponent(text + '\n\n' + link)}`;
-        window.open(url, '_blank');
-    }
-
-    function shareToTwitter() {
-        const text = getShareText();
-        const link = getShareLink();
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
-        window.open(url, '_blank', 'width=600,height=400');
-    }
-
-    function copyShareLink() {
-        const text = getShareText() + '\n\n' + getShareLink();
-        navigator.clipboard.writeText(text).then(() => {
-            alert('✅ লিংক ক্লিপবোর্ডে কপি হয়েছে!');
-        }).catch(() => {
-            alert('❌ কপি করা সম্ভব হয়নি');
-        });
-    }
-
-    // অর্ডার
-    function toggleTrxField() {
-        const method = document.getElementById('payMethod').value;
-        const trxGroup = document.getElementById('trxGroup');
-        const trxInput = document.getElementById('trxId');
-        const payInfo = document.getElementById('paymentInstructions');
-
-        if (method === 'COD') {
-            trxGroup.style.display = 'none';
-            trxInput.required = false;
-            trxInput.value = '';
-            payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে টাকা দিন।`;
-        } else {
-            trxGroup.style.display = 'block';
-            trxInput.required = true;
-            payInfo.innerHTML = `<strong>💵 পেমেন্ট নম্বর:</strong><br>বিকাশ/নগদ: 01878877746`;
-        }
-    }
-
-    function openModal(name, price) {
-        document.getElementById('prodName').value = name;
-        document.getElementById('prodPrice').value = price;
-        document.getElementById('orderModal').style.display = 'flex';
-        toggleTrxField();
-    }
-
-    function closeModal() {
-        document.getElementById('orderModal').style.display = 'none';
-        document.getElementById('orderForm').reset();
-    }
-
-    async function submitOrder(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "প্রসেস হচ্ছে...";
-        btn.disabled = true;
-
-        const rawPrice = document.getElementById('prodPrice').value;
-        const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
-        const currentMethod = document.getElementById('payMethod').value;
-
-        const order = {
-            product_name: document.getElementById('prodName').value,
-            price: parsedPrice,
-            customer_name: document.getElementById('custName').value,
-            phone: document.getElementById('custPhone').value,
-            address: document.getElementById('custAddress').value,
-            payment_method: currentMethod,
-            transaction_id: currentMethod === 'COD' ? 'COD' : document.getElementById('trxId').value,
-            status: 'চলমান'
-        };
-
-        try {
-            const { error } = await supabaseClient.from('orders').insert([order]);
-            
-            if (error) {
-                alert("ত্রুটি: " + error.message);
-                btn.innerText = "কনফার্ম অর্ডার";
-                btn.disabled = false;
-                return;
-            }
-
-            const text = `🛍️ নতুন অর্ডার!\n\n📦 ${order.product_name}\n💰 ৳${order.price}\n👤 ${order.customer_name}\n📞 ${order.phone}\n📍 ${order.address}\n💳 ${order.payment_method}`;
-            
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-            });
-
-            alert("✅ অর্ডার সফল! শীঘ্রই যোগাযোগ করা হবে।");
-            closeModal();
-        } catch (err) {
-            alert("ত্রুটি: " + err.message);
-        } finally {
-            btn.innerText = "কনফার্ম অর্ডার";
-            btn.disabled = false;
-        }
-    }
-
-    // ট্র্যাকিং
-    async function trackOrder() {
-        const phone = document.getElementById('trackPhone').value.trim();
-        const resultDiv = document.getElementById('trackResult');
-        
-        if(!phone) {
-            alert("নম্বর দিন");
-            return;
-        }
-        
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = '<p style="text-align:center;">খোঁজা হচ্ছে...</p>';
-        
-        try {
-            const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
-            if(error) throw error;
-            
-            if(!data || data.length === 0) {
-                resultDiv.innerHTML = '<p style="text-align:center; color:red;">❌ কোনো অর্ডার পাওয়া যায়নি</p>';
-                return;
-            }
-            
-            resultDiv.innerHTML = `<h4 style="color:#16a34a;">✅ ${data.length} অর্ডার পাওয়া গেছে:</h4>` + 
-                data.map((ord, idx) => `
-                    <div style="padding:10px; border-bottom:1px solid #e2e8f0; font-size:13px;">
-                        <strong>অর্ডার #${idx+1}</strong><br>
-                        📦 ${ord.product_name}<br>
-                        💰 ৳${ord.price}<br>
-                        ⏱️ ${ord.status}
-                    </div>
-                `).join('');
-        } catch(e) {
-            resultDiv.innerHTML = '<p style="color:red;">ত্রুটি হয়েছে</p>';
-        }
-    }
-
-    // পেজ লোড
-    window.addEventListener('load', function() {
-        getProducts();
+function filterProducts() {
+    const search = document.getElementById('searchBar').value.toLowerCase();
+    const filtered = productsData.filter(p => {
+        const matchSearch = (p.name || '').toLowerCase().includes(search);
+        const matchCat = activeCat === 'All' || (p.category || '').toLowerCase().trim() === activeCat.toLowerCase().trim();
+        const matchBrand = activeBrand === 'All' || (p.brand || '').toLowerCase().trim() === activeBrand.toLowerCase().trim();
+        return matchSearch && matchCat && matchBrand;
     });
-</script>
+    renderGrids(filtered);
+}
 
+// ========== URL PRODUCT CHECK ==========
+function checkProductFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const productName = params.get('product');
+    if (productName) {
+        setTimeout(() => {
+            switchTab('shop', document.querySelectorAll('.nav-item')[1]);
+            setTimeout(() => {
+                document.querySelectorAll('.card').forEach(card => {
+                    if (card.querySelector('h3')?.textContent.includes(productName)) {
+                        card.classList.add('highlighted');
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => card.classList.remove('highlighted'), 3000);
+                    }
+                });
+            }, 200);
+        }, 500);
+    }
+}
+
+// ========== SHARING ==========
+function setShareProduct(name, price) { currentShareProduct = { name, price }; }
+function getShareText() {
+    if (!currentShareProduct) return "PhoneLab360 - প্রিমিয়াম পার্টস স্টোর";
+    return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি\n📞 01878877746`;
+}
+function getShareLink() {
+    if (!currentShareProduct) return window.location.href;
+    return `${window.location.origin}${window.location.pathname}?product=${encodeURIComponent(currentShareProduct.name)}`;
+}
+function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
+function shareToFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareLink())}&quote=${encodeURIComponent(getShareText())}`, '_blank', 'width=600,height=400'); }
+function shareToWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText() + '\n\n' + getShareLink())}`, '_blank'); }
+function shareToTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText())}&url=${encodeURIComponent(getShareLink())}`, '_blank', 'width=600,height=400'); }
+function copyShareLink() {
+    navigator.clipboard.writeText(getShareText() + '\n\n' + getShareLink())
+        .then(() => alert('✅ লিংক কপি হয়েছে!'))
+        .catch(() => alert('কপি করা সম্ভব হয়নি'));
+}
+
+// ========== ORDER MODAL ==========
+function toggleTrxField() {
+    const method = document.getElementById('payMethod').value;
+    const trxGroup = document.getElementById('trxGroup');
+    const trxInput = document.getElementById('trxId');
+    const payInfo = document.getElementById('paymentInstructions');
+    if (method === 'COD') {
+        trxGroup.style.display = 'none';
+        trxInput.required = false;
+        trxInput.value = '';
+        payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে সম্পূর্ণ টাকা দিন।`;
+    } else {
+        trxGroup.style.display = 'block';
+        trxInput.required = true;
+        payInfo.innerHTML = `<strong>💳 পেমেন্ট নম্বর:</strong><br>বিকাশ/নগদ: <b>01878877746</b><br>পেমেন্ট করে TrxID দিন।`;
+    }
+}
+function openModal(name, price) {
+    document.getElementById('prodName').value = name;
+    document.getElementById('prodPrice').value = price;
+    document.getElementById('orderModal').style.display = 'flex';
+    toggleTrxField();
+}
+function closeModal() {
+    document.getElementById('orderModal').style.display = 'none';
+    document.getElementById('orderForm').reset();
+}
+document.getElementById('orderModal').addEventListener('click', e => { if (e.target === document.getElementById('orderModal')) closeModal(); });
+
+async function submitOrder(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '⏳ প্রসেস হচ্ছে...';
+    btn.disabled = true;
+    const rawPrice = document.getElementById('prodPrice').value;
+    const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
+    const method = document.getElementById('payMethod').value;
+    const order = {
+        product_name: document.getElementById('prodName').value,
+        price: parsedPrice,
+        customer_name: document.getElementById('custName').value,
+        phone: document.getElementById('custPhone').value,
+        address: document.getElementById('custAddress').value,
+        payment_method: method,
+        transaction_id: method === 'COD' ? 'COD' : document.getElementById('trxId').value,
+        status: 'চলমান'
+    };
+    try {
+        const { error } = await supabaseClient.from('orders').insert([order]);
+        if (error) { alert('ত্রুটি: ' + error.message); return; }
+        const text = `🛍️ নতুন অর্ডার!\n\n📦 ${order.product_name}\n💰 ৳${order.price}\n👤 ${order.customer_name}\n📞 ${order.phone}\n📍 ${order.address}\n💳 ${order.payment_method}`;
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, text })
+        });
+        alert('✅ অর্ডার সফল হয়েছে! শীঘ্রই যোগাযোগ করা হবে।');
+        closeModal();
+    } catch(err) {
+        alert('ত্রুটি: ' + err.message);
+    } finally {
+        btn.textContent = '✅ কনফার্ম অর্ডার';
+        btn.disabled = false;
+    }
+}
+
+// ========== ORDER TRACKING ==========
+async function trackOrder() {
+    const phone = document.getElementById('trackPhone').value.trim();
+    const resultDiv = document.getElementById('trackResult');
+    if (!phone) { alert('নম্বর দিন'); return; }
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<p style="text-align:center; color:var(--text-muted);">🔍 খোঁজা হচ্ছে...</p>';
+    try {
+        const { data, error } = await supabaseClient.from('orders').select('*').eq('phone', phone).order('created_at', { ascending: false });
+        if (error) throw error;
+        if (!data || data.length === 0) {
+            resultDiv.innerHTML = '<p style="text-align:center; color:var(--price);">❌ কোনো অর্ডার পাওয়া যায়নি</p>';
+            return;
+        }
+        const statusIcon = { 'চলমান': '⏳', 'প্রেরিত': '🚚', 'ডেলিভারি': '✅', 'বাতিল': '❌' };
+        resultDiv.innerHTML = `<h4 style="color:var(--accent); margin-bottom:10px;">✅ ${data.length}টি অর্ডার পাওয়া গেছে</h4>` +
+            data.map((ord, idx) => `
+                <div class="track-order-card">
+                    <strong>অর্ডার #${idx + 1}</strong><br>
+                    📦 ${ord.product_name}<br>
+                    💰 ৳${ord.price}<br>
+                    💳 ${ord.payment_method}<br>
+                    ${statusIcon[ord.status] || '⏳'} <strong>অবস্থা: ${ord.status}</strong>
+                </div>
+            `).join('');
+    } catch(e) {
+        resultDiv.innerHTML = '<p style="color:var(--price);">ত্রুটি হয়েছে। আবার চেষ্টা করুন।</p>';
+    }
+}
+
+// ========== INIT ==========
+window.addEventListener('load', function() {
+    getProducts();
+    renderReviews();
+});
+</script>
 </body>
 </html>

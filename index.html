@@ -1259,11 +1259,23 @@
             <div class="form-group"><label>পূর্ণ ঠিকানা *</label><textarea id="custAddress" rows="2" required placeholder="গ্রাম/রোড, থানা, জেলা"></textarea></div>
             <div class="form-group">
                 <label>পেমেন্ট পদ্ধতি *</label>
-                <select id="payMethod" onchange="toggleTrxField()">
-                    <option value="COD">ক্যাশ অন ডেলিভারি</option>
-                    <option value="Bkash">বিকাশ (Bkash)</option>
-                    <option value="Nagad">নগদ (Nagad)</option>
-                </select>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px;">
+                    <label onclick="selectPayMethod('COD',this)" style="border:2px solid var(--accent);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;background:#f0fdf4;">
+                        <div style="font-size:18px;">💵</div>
+                        <div style="font-size:11px;font-weight:700;color:#047857;">ক্যাশ অন<br>ডেলিভারি</div>
+                    </label>
+                    <label onclick="selectPayMethod('Bkash',this)" style="border:2px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;">
+                        <div style="font-size:18px;">📱</div>
+                        <div style="font-size:11px;font-weight:700;color:#e2136e;">বিকাশ</div>
+                        <div style="font-size:10px;color:#666;">01878877746</div>
+                    </label>
+                    <label onclick="selectPayMethod('Nagad',this)" style="border:2px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;">
+                        <div style="font-size:18px;">💳</div>
+                        <div style="font-size:11px;font-weight:700;color:#f7941d;">নগদ</div>
+                        <div style="font-size:10px;color:#666;">01878877746</div>
+                    </label>
+                </div>
+                <input type="hidden" id="payMethod" value="COD">
             </div>
             <div class="form-group" id="trxGroup" style="display:none;">
                 <label>ট্রানজেকশন আইডি (TrxID) *</label>
@@ -1567,20 +1579,17 @@ function createProductHTML(p, index) {
 function renderGrids(data, updateHome = true) {
     const shopEl = document.getElementById('shop-products');
     if (shopEl) shopEl.innerHTML = data.length
-        ? data.map((p, i) => createProductHTML(p, i)).join('')
+        ? data.map(p => createProductHTML(p)).join('')
         : '<div class="empty-state"><i class="fa-solid fa-box-open"></i>কোনো পণ্য পাওয়া যায়নি</div>';
-    // Home page — শুধু প্রথমবার লোড হলে আপডেট হবে
     if (updateHome) renderHomeProducts();
 }
 
 function renderHomeProducts() {
     const homeEl = document.getElementById('home-products');
     if (!homeEl) return;
-    // সর্বশেষ যোগ হওয়া ৬টি পণ্য দেখাবে (id অনুযায়ী descending)
+    // সর্বশেষ ৬টি পণ্য — id অনুযায়ী সর্বোচ্চ থেকে
     const latest = [...productsData].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 6);
-    homeEl.innerHTML = latest.length
-        ? latest.map((p, i) => createProductHTML(p, i)).join('')
-        : '';
+    homeEl.innerHTML = latest.length ? latest.map(p => createProductHTML(p)).join('') : '';
 }
 
 function filterProducts() {
@@ -1618,6 +1627,10 @@ function checkProductFromURL() {
 
 // ========== SHARING ==========
 function setShareProduct(name, price) { currentShareProduct = { name, price }; }
+function setShareByPid(pid) {
+    const p = productsData.find(x => Number(x.id) === Number(pid));
+    if (p) setShareProduct(p.name || '', p.price || '');
+}
 function getShareText() {
     if (!currentShareProduct) return "PhoneLab360 - প্রিমিয়াম পার্টস স্টোর";
     return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি\n📞 01878877746`;
@@ -1638,6 +1651,19 @@ function copyShareLink() {
 }
 
 // ========== ORDER MODAL ==========
+function selectPayMethod(method, el) {
+    document.getElementById('payMethod').value = method;
+    // সব বাটন reset
+    el.parentNode.querySelectorAll('label').forEach(l => {
+        l.style.border = '2px solid var(--border)';
+        l.style.background = '';
+    });
+    // Selected বাটন highlight
+    el.style.border = '2px solid var(--accent)';
+    el.style.background = '#f0fdf4';
+    toggleTrxField();
+}
+
 function toggleTrxField() {
     const method = document.getElementById('payMethod').value;
     const trxGroup = document.getElementById('trxGroup');
@@ -1647,11 +1673,15 @@ function toggleTrxField() {
         trxGroup.style.display = 'none';
         trxInput.required = false;
         trxInput.value = '';
-        payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে সম্পূর্ণ টাকা দিন।`;
+        payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে সম্পূর্ণ টাকা দিন। কোনো অগ্রিম পেমেন্ট নেই।`;
+    } else if (method === 'Bkash') {
+        trxGroup.style.display = 'block';
+        trxInput.required = true;
+        payInfo.innerHTML = `<strong>📱 বিকাশে পেমেন্ট করুন:</strong><br>নম্বর: <b style="color:#e2136e;">01878877746</b><br>Send Money করে TrxID দিন।`;
     } else {
         trxGroup.style.display = 'block';
         trxInput.required = true;
-        payInfo.innerHTML = `<strong>💳 পেমেন্ট নম্বর:</strong><br>বিকাশ/নগদ: <b>01878877746</b><br>পেমেন্ট করে TrxID দিন।`;
+        payInfo.innerHTML = `<strong>💳 নগদে পেমেন্ট করুন:</strong><br>নম্বর: <b style="color:#f7941d;">01878877746</b><br>Send Money করে TrxID দিন।`;
     }
 }
 function openModal(name, price) {
@@ -1737,16 +1767,14 @@ async function trackOrder() {
 // ========== PRODUCT DETAIL MODAL ==========
 let currentDetailProduct = null;
 
-// ID দিয়ে product খোঁজো — filtered index সমস্যা নেই
-function openDetailById(pid) {
-    const p = productsData.find(x => x.id == pid);
-    if (!p) return;
-    const index = productsData.indexOf(p);
-    openDetailModal(index);
+// PID দিয়ে সরাসরি product খোঁজো — কোনো index ব্যবহার নেই
+function openDetailByPid(pid) {
+    const p = productsData.find(x => Number(x.id) === Number(pid));
+    if (!p) { console.error('Product not found:', pid); return; }
+    openDetailModal(p);
 }
 
-function openDetailModal(index) {
-    const p = productsData[index];
+function openDetailModal(p) {
     if (!p) return;
     currentDetailProduct = p;
 
@@ -1755,11 +1783,11 @@ function openDetailModal(index) {
     document.getElementById('detailImg').alt = p.name || '';
 
     // HOT badge
-    document.getElementById('detailHotBadge').style.display = Math.random() > 0.5 ? 'block' : 'none';
+    document.getElementById('detailHotBadge').style.display = 'none';
 
     // স্টক
     const stockBadge = document.getElementById('detailStockBadge');
-    if (p.stock !== undefined && p.stock <= 0) {
+    if (p.stock !== undefined && Number(p.stock) <= 0) {
         stockBadge.textContent = '❌ স্টক নেই';
         stockBadge.style.background = '#eb4d4b';
     } else {
@@ -1775,15 +1803,16 @@ function openDetailModal(index) {
 
     // নাম
     document.getElementById('detailName').textContent = p.name || 'অজানা পণ্য';
-    document.getElementById('detailHeaderTitle') && (document.getElementById('detailHeaderTitle').textContent = p.name || 'পণ্যের বিবরণ');
 
     // দাম
-    document.getElementById('detailPrice').textContent = '৳ ' + (p.price || '০');
+    document.getElementById('detailPrice').textContent = '৳ ' + Number(p.price || 0).toLocaleString('bn-BD');
 
     // পুরনো দাম ও ছাড়
-    if (p.old_price && p.old_price > p.price) {
-        const disc = Math.round(((p.old_price - p.price) / p.old_price) * 100);
-        document.getElementById('detailOldPrice').textContent = '৳ ' + p.old_price;
+    const op = Number(p.old_price || 0);
+    const np = Number(p.price || 0);
+    if (op > 0 && op > np) {
+        const disc = Math.round(((op - np) / op) * 100);
+        document.getElementById('detailOldPrice').textContent = '৳ ' + op.toLocaleString('bn-BD');
         document.getElementById('detailOldPrice').style.display = 'inline';
         document.getElementById('detailDiscount').textContent = disc + '% ছাড়';
         document.getElementById('detailDiscount').style.display = 'inline';
@@ -1793,26 +1822,22 @@ function openDetailModal(index) {
     }
 
     // ওয়ারেন্টি ব্যাজ
-    document.getElementById('detailWarrantyBadge').textContent = p.warranty || '৬ মাস ওয়ারেন্টি';
+    document.getElementById('detailWarrantyBadge').textContent = p.warranty || 'ওয়ারেন্টি';
 
     // স্পেসিফিকেশন টেবিল
     const specs = [];
-    if (p.capacity) specs.push(['ক্যাপাসিটি', p.capacity]);
-    if (p.voltage) specs.push(['ভোল্টেজ', p.voltage]);
-    if (p.compatibility) specs.push(['সামঞ্জস্যপূর্ণ', p.compatibility]);
-    if (p.condition) specs.push(['অবস্থা', p.condition, 'green']);
-    if (p.warranty) specs.push(['ওয়ারেন্টি', p.warranty]);
-    if (p.brand) specs.push(['ব্র্যান্ড', p.brand]);
-    if (p.category) specs.push(['ক্যাটাগরি', p.category]);
+    if (p.capacity)      specs.push(['ক্যাপাসিটি', p.capacity]);
+    if (p.voltage)       specs.push(['ভোল্টেজ', p.voltage]);
+    if (p.compatibility) specs.push(['সামঞ্জস্যপূর্ণ মডেল', p.compatibility]);
+    if (p.condition)     specs.push(['অবস্থা', p.condition, 'green']);
+    if (p.warranty)      specs.push(['ওয়ারেন্টি', p.warranty]);
+    if (p.brand)         specs.push(['ব্র্যান্ড', p.brand]);
+    if (p.category)      specs.push(['ক্যাটাগরি', p.category]);
 
     const specTable = document.getElementById('detailSpecTable');
-    if (specs.length > 0) {
-        specTable.innerHTML = specs.map(([k, v, cls]) =>
-            `<tr><td>${k}</td><td class="${cls === 'green' ? 'green-val' : ''}">${v}</td></tr>`
-        ).join('');
-    } else {
-        specTable.innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);font-size:12px;padding:8px 0;">তথ্য যোগ করা হয়নি</td></tr>';
-    }
+    specTable.innerHTML = specs.length > 0
+        ? specs.map(([k, v, cls]) => `<tr><td>${k}</td><td class="${cls === 'green' ? 'green-val' : ''}">${v}</td></tr>`).join('')
+        : '<tr><td colspan="2" style="color:var(--text-muted);font-size:12px;padding:8px 0;">তথ্য যোগ করা হয়নি</td></tr>';
 
     // বিবরণ
     const descSection = document.getElementById('detailDescSection');
@@ -1825,7 +1850,12 @@ function openDetailModal(index) {
     }
 
     // WhatsApp বাটন
-    const waMsg = `আমি এই পণ্যটি অর্ডার করতে চাই:%0A%0A📦 ${encodeURIComponent(p.name || '')}%0A💰 ৳ ${p.price || ''}%0A%0Ahttps://phonelab360.netlify.app`;
+    const waMsg = encodeURIComponent(`আমি এই পণ্যটি অর্ডার করতে চাই:
+
+📦 ${p.name || ''}
+💰 ৳ ${p.price || ''}
+
+https://phonelab360.pages.dev`);
     document.getElementById('detailWaBtn').href = `https://wa.me/8801878877746?text=${waMsg}`;
 
     // শেয়ার প্রোডাক্ট সেট করো
@@ -1839,6 +1869,12 @@ function openDetailModal(index) {
 function closeDetailModal() {
     document.getElementById('detailModal').style.display = 'none';
     document.body.style.overflow = '';
+}
+
+function openOrderModal(pid) {
+    const p = productsData.find(x => Number(x.id) === Number(pid));
+    if (!p) return;
+    openModal(p.name || '', p.price || '');
 }
 
 function orderFromDetail() {

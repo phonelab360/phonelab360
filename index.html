@@ -341,6 +341,25 @@
         /* ===== PRODUCT GRID ===== */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 14px; }
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; }
+        
+        /* ===== PRODUCT CAROUSEL (হোমে পণ্য নড়াচড়া/স্লাইড) ===== */
+        .product-carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .product-carousel::-webkit-scrollbar { display: none; }
+        .product-carousel .card {
+            min-width: 165px;
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+        }
+        .product-carousel.grabbing { cursor: grabbing; user-select: none; }
+
         .card {
             background: white;
             border-radius: var(--radius);
@@ -356,6 +375,8 @@
         .card:hover { box-shadow: var(--card-shadow-hover); border-color: rgba(5,196,107,0.2); transform: translateY(-2px); }
         .card.highlighted { box-shadow: 0 0 0 3px var(--accent), var(--card-shadow-hover); animation: pulse-card 0.5s ease; }
         @keyframes pulse-card { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fade-up 0.25s ease both; }
         .card-badge {
             position: absolute;
             top: 10px; right: 10px;
@@ -1148,7 +1169,6 @@
         <span>Google</span>
     </div>
 </div>
-</div>
 
     <!-- ফিচার্ড পণ্য -->
     <div class="section-title">
@@ -1156,7 +1176,7 @@
         <button class="see-all" onclick="switchTab('shop', document.querySelectorAll('.nav-item')[1])">সব দেখুন →</button>
     </div>
     <div class="container">
-        <div class="product-grid" id="home-products">
+        <div class="product-carousel" id="home-products" aria-label="হোম প্রোডাক্ট স্লাইডার (স্বাইপ করুন)">
             <div class="loading-spinner"><div class="spinner"></div></div>
         </div>
     </div>
@@ -1249,7 +1269,7 @@
         <button class="close-btn" onclick="closeModal()">×</button>
         <div class="modal-title">🛍️ অর্ডার কনফার্ম করুন</div>
         <div class="payment-info" id="paymentInstructions">
-            <strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে টাকা দিন।
+            <strong>💳 ডিজিটাল পেমেন্ট:</strong><br>বিকাশ/নগদ/রকেট: <b>01878877746</b> (Send Money)<br>পেমেন্ট করে TrxID দিন।
         </div>
         <form id="orderForm" onsubmit="submitOrder(event)">
             <input type="hidden" id="prodName">
@@ -1260,14 +1280,14 @@
             <div class="form-group">
                 <label>পেমেন্ট পদ্ধতি *</label>
                 <select id="payMethod" onchange="toggleTrxField()">
-                    <option value="COD">ক্যাশ অন ডেলিভারি</option>
-                    <option value="Bkash">বিকাশ (Bkash)</option>
+                    <option value="Bkash" selected>বিকাশ (Bkash)</option>
                     <option value="Nagad">নগদ (Nagad)</option>
+                    <option value="Rocket">রকেট (Rocket)</option>
                 </select>
             </div>
-            <div class="form-group" id="trxGroup" style="display:none;">
+            <div class="form-group" id="trxGroup" style="display:block;">
                 <label>ট্রানজেকশন আইডি (TrxID) *</label>
-                <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z">
+                <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z" required>
             </div>
             <button type="submit" class="order-btn" id="submitBtn" style="margin-bottom:0; padding:12px; font-size:14px; border-radius:10px;">✅ কনফার্ম অর্ডার</button>
         </form>
@@ -1541,10 +1561,11 @@ async function getProducts() {
 function createProductHTML(p, index) {
     const name = (p.name || 'অজানা পণ্য').replace(/'/g, "\\'");
     const price = p.price || '0';
+    const pid = (p && p.id !== undefined && p.id !== null) ? p.id : index;
     return `
-        <div class="card" data-product-index="${index}">
+        <div class="card" data-product-id="${pid}">
             ${Math.random() > 0.6 ? '<div class="card-badge">HOT</div>' : ''}
-            <div class="card-img-wrapper" onclick="openDetailModal(${index})" style="cursor:pointer;">
+            <div class="card-img-wrapper" onclick="openDetailById('${pid}')" style="cursor:pointer;">
                 <img src="${p.image || 'https://placehold.co/150x150/f8fafc/002c4b?text=PhoneLab'}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f8fafc/002c4b?text=No+Image'">
             </div>
             <h3>${p.name || 'অজানা পণ্য'}</h3>
@@ -1553,7 +1574,7 @@ function createProductHTML(p, index) {
                 <span class="tag tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
             </div>
             <span class="price">৳ ${price}</span>
-            <button type="button" onclick="openDetailModal(${index})" class="order-btn" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));margin-bottom:6px;">🔍 বিস্তারিত দেখুন</button>
+            <button type="button" onclick="openDetailById('${pid}')" class="order-btn" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));margin-bottom:6px;">🔍 বিস্তারিত দেখুন</button>
             <button type="button" onclick="openModal('${name}', '${price}')" class="order-btn">🛒 অর্ডার করুন</button>
             <div class="share-btn-group">
                 <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${name}', '${price}'); shareToFacebook()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
@@ -1581,16 +1602,49 @@ function renderHomeProducts() {
     homeEl.innerHTML = latest.length
         ? latest.map((p, i) => createProductHTML(p, i)).join('')
         : '';
+    // হোম প্রোডাক্টে স্বাইপ/ড্র্যাগ স্ক্রল সক্রিয় করো
+    enableDragScroll(homeEl);
+}
+
+// ========== TEXT NORMALIZATION (ক্যাটাগরি/ব্র্যান্ড ফিল্টার ঠিক করার জন্য) ==========
+function normText(v) {
+    return String(v || '').toLowerCase().trim().replace(/\s+/g, '');
+}
+function categoryKey(v) {
+    const n = normText(v);
+    if (!n) return '';
+    const map = {
+        battery: ['battery', 'bat', 'ব্যাটারি'],
+        display: ['display', 'screen', 'lcd', 'oled', 'ডিসপ্লে'],
+        powerbank: ['powerbank', 'powerbank', 'পাওয়ারব্যাংক', 'পাওয়ার ব্যাংক'],
+        charger: ['charger', 'adaptor', 'charging', 'চার্জার'],
+        cable: ['cable', 'usb', 'typec', 'টাইপসি', 'ক্যাবল'],
+        headphone: ['headphone', 'earphone', 'হেডফোন'],
+        adapter: ['adapter', 'adaptor', 'অ্যাডাপ্টার'],
+        bluetooth: ['bluetooth', 'bt', 'ব্লুটুথ'],
+        speaker: ['speaker', 'soundbox', 'সাউন্ডবক্স', 'সাউন্ড বক্স'],
+        others: ['other', 'others', 'অন্যান্য']
+    };
+    for (const [key, arr] of Object.entries(map)) {
+        for (const a of arr) {
+            if (n === normText(a) || n.includes(normText(a))) return key;
+        }
+    }
+    return n; // fallback
 }
 
 function filterProducts() {
     const search = document.getElementById('searchBar').value.toLowerCase();
     const filtered = productsData.filter(p => {
         const matchSearch = (p.name || '').toLowerCase().includes(search);
-        const pCat = (p.category || '').trim();
-        const pBrand = (p.brand || '').trim();
-        const matchCat = activeCat === 'All' || pCat === activeCat;
-        const matchBrand = activeBrand === 'All' || pBrand === activeBrand;
+        const pCat = p.category || '';
+        const pBrand = p.brand || '';
+        const matchCat = activeCat === 'All'
+            || normText(pCat) === normText(activeCat)
+            || categoryKey(pCat) === categoryKey(activeCat);
+        const matchBrand = activeBrand === 'All'
+            || normText(pBrand) === normText(activeBrand)
+            || normText(pBrand).includes(normText(activeBrand));
         return matchSearch && matchCat && matchBrand;
     });
     renderGrids(filtered, false);
@@ -1643,16 +1697,10 @@ function toggleTrxField() {
     const trxGroup = document.getElementById('trxGroup');
     const trxInput = document.getElementById('trxId');
     const payInfo = document.getElementById('paymentInstructions');
-    if (method === 'COD') {
-        trxGroup.style.display = 'none';
-        trxInput.required = false;
-        trxInput.value = '';
-        payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি:</strong><br>পণ্য হাতে পেয়ে সম্পূর্ণ টাকা দিন।`;
-    } else {
-        trxGroup.style.display = 'block';
-        trxInput.required = true;
-        payInfo.innerHTML = `<strong>💳 পেমেন্ট নম্বর:</strong><br>বিকাশ/নগদ: <b>01878877746</b><br>পেমেন্ট করে TrxID দিন।`;
-    }
+    trxGroup.style.display = 'block';
+    trxInput.required = true;
+    const methodName = { Bkash: 'বিকাশ', Nagad: 'নগদ', Rocket: 'রকেট' }[method] || 'ডিজিটাল';
+    payInfo.innerHTML = `<strong>💳 ${methodName} পেমেন্ট:</strong><br>${methodName}: <b>01878877746</b> (Send Money)<br>পেমেন্ট করে TrxID দিন।`;
 }
 function openModal(name, price) {
     document.getElementById('prodName').value = name;
@@ -1674,6 +1722,8 @@ async function submitOrder(e) {
     const rawPrice = document.getElementById('prodPrice').value;
     const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
     const method = document.getElementById('payMethod').value;
+    const trx = document.getElementById('trxId').value.trim();
+    if (!trx) { alert('TrxID দিন'); btn.textContent = '✅ কনফার্ম অর্ডার'; btn.disabled = false; return; }
     const order = {
         product_name: document.getElementById('prodName').value,
         price: parsedPrice,
@@ -1681,7 +1731,7 @@ async function submitOrder(e) {
         phone: document.getElementById('custPhone').value,
         address: document.getElementById('custAddress').value,
         payment_method: method,
-        transaction_id: method === 'COD' ? 'COD' : document.getElementById('trxId').value,
+        transaction_id: trx,
         status: 'চলমান'
     };
     try {
@@ -1759,8 +1809,7 @@ let currentDetailProduct = null;
 function openDetailById(pid) {
     const p = productsData.find(x => x.id == pid);
     if (!p) return;
-    const index = productsData.indexOf(p);
-    openDetailModal(index);
+    openDetailModal(p);
 }
 
 function openDetailModal(p) {
@@ -1952,6 +2001,39 @@ document.addEventListener('visibilitychange', function() {
         startReviewAuto();
     }
 });
+
+// ========== DRAG/Swipe to scroll (কারাউজেল/হরাইজন্টাল স্ক্রল) ==========
+function enableDragScroll(el) {
+    if (!el || el.dataset.dragScrollBound === '1') return;
+    el.dataset.dragScrollBound = '1';
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    const down = (pageX) => {
+        isDown = true;
+        el.classList.add('grabbing');
+        startX = pageX;
+        scrollLeft = el.scrollLeft;
+    };
+    const move = (pageX) => {
+        if (!isDown) return;
+        const walk = (pageX - startX);
+        el.scrollLeft = scrollLeft - walk;
+    };
+    const up = () => {
+        isDown = false;
+        el.classList.remove('grabbing');
+    };
+
+    el.addEventListener('mousedown', (e) => down(e.pageX));
+    window.addEventListener('mousemove', (e) => move(e.pageX));
+    window.addEventListener('mouseup', up);
+
+    el.addEventListener('touchstart', (e) => down(e.touches[0].pageX), { passive: true });
+    el.addEventListener('touchmove', (e) => move(e.touches[0].pageX), { passive: true });
+    el.addEventListener('touchend', up);
+}
 </script>
 
 <!-- প্রোডাক্ট ডিটেইল মডাল -->

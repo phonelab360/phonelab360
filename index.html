@@ -816,6 +816,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        #home-products .card { min-width:155px; max-width:155px; flex-shrink:0; }
         @media (min-width: 600px) {
             .product-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
             .prayer-grid { grid-template-columns: repeat(5, 1fr); }
@@ -924,37 +925,6 @@
         }
     </style>
 </head>
-    <!-- ===== ক্যাশ অন ডেলিভারি ট্রাস্ট ব্যাজ ===== -->
-<div style="background: #f8f9fa; padding: 25px 0; text-align: center; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; margin: 30px 0;">
-  <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; align-items: center;">
-    
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span style="font-size: 35px;">🚚</span>
-      <div style="text-align: left;">
-        <strong style="font-size: 18px; color: #27ae60;">ক্যাশ অন ডেলিভারি</strong><br>
-        <small style="color: #555;">পণ্য হাতে পেয়ে টাকা দিন</small>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span style="font-size: 35px;">💰</span>
-      <div style="text-align: left;">
-        <strong style="font-size: 18px;">কোনো অগ্রিম টাকা লাগবে না</strong><br>
-        <small style="color: #555;">সারাদেশে উপলব্ধ</small>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span style="font-size: 35px;">📦</span>
-      <div style="text-align: left;">
-        <strong style="font-size: 18px;">২-৪ দিনে ডেলিভারি</strong><br>
-        <small style="color: #555;">ঢাকাসহ সারা বাংলাদেশ</small>
-      </div>
-    </div>
-
-  </div>
-</div>
-<!-- ===== COD সেকশন শেষ ===== -->
 <body>
 
 <!-- নোটিশ বার -->
@@ -1282,10 +1252,8 @@
 </div>
 
 <!-- WhatsApp ফ্লোটিং বাটন -->
-<a href="https://wa.me/8801878877746?text=আমি%20এই%20প্রোডাক্ট%20ক্যাশ%20অন%20ডেলিভারিতে%20কিনতে%20চাই।%20প্রোডাক্ট%3A%20[প্রোডাক্টের%20নাম]" 
-   target="_blank" 
-   style="background:#25D366; color:white; padding:12px 25px; border-radius:8px; text-decoration:none;">
-  📲 WhatsApp-এ অর্ডার করুন (COD)
+<a href="https://wa.me/8801878877746" target="_blank" class="wa-float" title="WhatsApp এ কথা বলুন">
+    <i class="fa-brands fa-whatsapp"></i>
 </a>
 
 <!-- বটম নেভিগেশন -->
@@ -1591,29 +1559,33 @@ async function getProducts() {
     }
 }
 
-function createProductHTML(p, index) {
-    const name = (p.name || 'অজানা পণ্য').replace(/'/g, "\\'");
+function createProductHTML(p) {
+    const globalIdx = productsData.indexOf(p);
+    const pid = globalIdx >= 0 ? globalIdx : 0;
+    const name = (p.name || 'অজানা পণ্য').replace(/'/g, "\'");
     const price = p.price || '0';
-    const pid = (p && p.id !== undefined && p.id !== null) ? p.id : index;
+    const stockOk = !(p.stock !== undefined && Number(p.stock) <= 0);
+    const stockTag = stockOk ? '<span class="tag tag-stock">✅ স্টকে আছে</span>' : '<span class="tag" style="color:#eb4d4b;background:rgba(235,77,75,0.1)">❌ স্টক নেই</span>';
+    const warrantyTag = p.warranty ? `<span class="tag tag-warranty">🛡️ ${p.warranty}</span>` : `<span class="tag tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>`;
+    const condTag = p.condition ? `<span class="tag" style="color:#3b82f6;background:rgba(59,130,246,0.1)">${p.condition}</span>` : '';
     return `
-        <div class="card" data-product-id="${pid}">
+        <div class="card" data-pid="${pid}">
             ${Math.random() > 0.6 ? '<div class="card-badge">HOT</div>' : ''}
-            <div class="card-img-wrapper" onclick="openDetailById('${pid}')" style="cursor:pointer;">
-                <img src="${p.image || 'https://placehold.co/150x150/f8fafc/002c4b?text=PhoneLab'}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f8fafc/002c4b?text=No+Image'">
+            <div class="card-img-wrapper" onclick="openDetailByIdx(${pid})" style="cursor:pointer;">
+                <img src="${p.image || 'https://placehold.co/150x150/f8fafc/002c4b?text=PhoneLab'}" alt="${p.name || ''}" loading="lazy" onerror="this.src='https://placehold.co/150x150/f8fafc/002c4b?text=No+Image'">
             </div>
-            <h3>${p.name || 'অজানা পণ্য'}</h3>
+            <h3 onclick="openDetailByIdx(${pid})" style="cursor:pointer;">${p.name || 'অজানা পণ্য'}</h3>
             <div class="product-meta">
-                <span class="tag tag-stock">✅ স্টকে আছে</span>
-                <span class="tag tag-warranty">${p.brand || 'প্রিমিয়াম'}</span>
+                ${stockTag}${warrantyTag}${condTag}
             </div>
-            <span class="price">৳ ${price}</span>
-            <button type="button" onclick="openDetailById('${pid}')" class="order-btn" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));margin-bottom:6px;">🔍 বিস্তারিত দেখুন</button>
-            <button type="button" onclick="openModal('${name}', '${price}')" class="order-btn">🛒 অর্ডার করুন</button>
+            <span class="price">৳ ${Number(price).toLocaleString('bn-BD')}</span>
+            <button type="button" onclick="openDetailByIdx(${pid})" class="order-btn" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));margin-bottom:6px;">🔍 বিস্তারিত দেখুন</button>
+            <button type="button" onclick="openOrderByIdx(${pid})" class="order-btn">🛒 অর্ডার করুন</button>
             <div class="share-btn-group">
-                <button type="button" class="share-btn share-facebook" onclick="setShareProduct('${name}', '${price}'); shareToFacebook()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
-                <button type="button" class="share-btn share-whatsapp" onclick="setShareProduct('${name}', '${price}'); shareToWhatsApp()" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
-                <button type="button" class="share-btn share-twitter" onclick="setShareProduct('${name}', '${price}'); shareToTwitter()" title="Twitter"><i class="fa-brands fa-twitter"></i></button>
-                <button type="button" class="share-btn share-copy" onclick="setShareProduct('${name}', '${price}'); copyShareLink()" title="কপি"><i class="fa-solid fa-link"></i></button>
+                <button type="button" class="share-btn share-facebook" onclick="setShareByIdx(${pid});shareToFacebook()" title="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                <button type="button" class="share-btn share-whatsapp" onclick="setShareByIdx(${pid});shareToWhatsApp()" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+                <button type="button" class="share-btn share-twitter" onclick="setShareByIdx(${pid});shareToTwitter()" title="Twitter"><i class="fa-brands fa-twitter"></i></button>
+                <button type="button" class="share-btn share-copy" onclick="setShareByIdx(${pid});copyShareLink()" title="কপি"><i class="fa-solid fa-link"></i></button>
             </div>
         </div>`;
 }
@@ -1621,7 +1593,7 @@ function createProductHTML(p, index) {
 function renderGrids(data, updateHome = true) {
     const shopEl = document.getElementById('shop-products');
     if (shopEl) shopEl.innerHTML = data.length
-        ? data.map((p, i) => createProductHTML(p, i)).join('')
+        ? data.map(p => createProductHTML(p)).join('')
         : '<div class="empty-state"><i class="fa-solid fa-box-open"></i>কোনো পণ্য পাওয়া যায়নি</div>';
     // Home page — শুধু প্রথমবার লোড হলে আপডেট হবে
     if (updateHome) renderHomeProducts();
@@ -1631,9 +1603,9 @@ function renderHomeProducts() {
     const homeEl = document.getElementById('home-products');
     if (!homeEl) return;
     // সর্বশেষ যোগ হওয়া ৬টি পণ্য দেখাবে (id অনুযায়ী descending)
-    const latest = [...productsData].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 6);
+    const latest = productsData.slice(-6).reverse();
     homeEl.innerHTML = latest.length
-        ? latest.map((p, i) => createProductHTML(p, i)).join('')
+        ? latest.map(p => createProductHTML(p)).join('')
         : '';
     // হোম প্রোডাক্টে স্বাইপ/ড্র্যাগ স্ক্রল সক্রিয় করো
     enableDragScroll(homeEl);
@@ -1725,6 +1697,17 @@ function copyShareLink() {
 }
 
 // ========== ORDER MODAL ==========
+function selectPayMethod(method, el) {
+    document.getElementById('payMethod').value = method;
+    document.querySelectorAll('#payBtns > div').forEach(d => {
+        d.style.border = '2px solid var(--border)';
+        d.style.background = '';
+    });
+    el.style.border = '2px solid var(--accent)';
+    el.style.background = '#f0fdf4';
+    toggleTrxField();
+}
+
 function toggleTrxField() {
     const method = document.getElementById('payMethod').value;
     const trxGroup = document.getElementById('trxGroup');
@@ -1835,15 +1818,24 @@ function setShareByPid(pid) {
     if (p) setShareProduct(p.name || '', p.price || '');
 }
 
-// ========== PRODUCT DETAIL MODAL ==========
-let currentDetailProduct = null;
-
-// ID দিয়ে product খোঁজো — filtered index সমস্যা নেই
-function openDetailById(pid) {
-    const p = productsData.find(x => x.id == pid);
+// ========== PRODUCT HELPER ==========
+function openDetailByIdx(idx) {
+    const p = productsData[Number(idx)];
     if (!p) return;
     openDetailModal(p);
 }
+function openOrderByIdx(idx) {
+    const p = productsData[Number(idx)];
+    if (!p) return;
+    openModal(p.name || '', p.price || '');
+}
+function setShareByIdx(idx) {
+    const p = productsData[Number(idx)];
+    if (p) setShareProduct(p.name || '', p.price || '');
+}
+
+// ========== PRODUCT DETAIL MODAL ==========
+let currentDetailProduct = null;
 
 function openDetailModal(p) {
     if (!p) return;

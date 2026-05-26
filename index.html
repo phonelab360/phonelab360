@@ -1270,7 +1270,7 @@
         <button class="close-btn" onclick="closeModal()">×</button>
         <div class="modal-title">🛍️ অর্ডার কনফার্ম করুন</div>
         <div class="payment-info" id="paymentInstructions">
-            <strong>💳 ডিজিটাল পেমেন্ট:</strong><br>বিকাশ/নগদ/রকেট: <b>01878877746</b> (Send Money)<br>পেমেন্ট করে TrxID দিন।
+            <strong>💵 ক্যাশ অন ডেলিভারি (COD):</strong><br>পণ্য হাতে পেয়ে টাকা দিন।<br><small style="color:rgba(255,255,255,0.85);font-weight:600;">✅ সহজ, নিরাপদ এবং দ্রুত</small>
         </div>
         <form id="orderForm" onsubmit="submitOrder(event)">
             <input type="hidden" id="prodName">
@@ -1281,14 +1281,14 @@
             <div class="form-group">
                 <label>পেমেন্ট পদ্ধতি *</label>
                 <select id="payMethod" onchange="toggleTrxField()">
-                    <option value="Bkash" selected>বিকাশ (Bkash)</option>
+                    <option value="COD" selected>ক্যাশ অন ডেলিভারি (COD)</option>
+                    <option value="Bkash">বিকাশ (Bkash)</option>
                     <option value="Nagad">নগদ (Nagad)</option>
-                    <option value="Rocket">রকেট (Rocket)</option>
                 </select>
             </div>
-            <div class="form-group" id="trxGroup" style="display:block;">
+            <div class="form-group" id="trxGroup" style="display:none;">
                 <label>ট্রানজেকশন আইডি (TrxID) *</label>
-                <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z" required>
+                <input type="text" id="trxId" placeholder="যেমন: 8N7X9W2Z">
             </div>
             <button type="submit" class="order-btn" id="submitBtn" style="margin-bottom:0; padding:12px; font-size:14px; border-radius:10px;">✅ কনফার্ম অর্ডার</button>
         </form>
@@ -1676,10 +1676,13 @@ function checkProductFromURL() {
 }
 
 // ========== SHARING ==========
-function setShareProduct(name, price) { currentShareProduct = { name, price }; }
+function setShareProduct(name, price, image) { currentShareProduct = { name, price, image }; }
 function getShareText() {
     if (!currentShareProduct) return "PhoneLab360 - প্রিমিয়াম পার্টস স্টোর";
-    return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি\n📞 01878877746`;
+    // নোট: সোশ্যাল শেয়ার প্রিভিউতে ইমেজ দেখাতে সাধারণত OG meta লাগে (হোস্টেড পেজে)। 
+    // এখানে প্রোডাক্ট ইমেজ লিংক টেক্সটের সাথে দিচ্ছি যাতে WhatsApp/কিছু অ্যাপে ইমেজ/লিংক দেখা যেতে পারে।
+    const imgLine = currentShareProduct.image ? `🖼️ ছবি: ${currentShareProduct.image}\n\n` : '';
+    return `${currentShareProduct.name} - ৳ ${currentShareProduct.price}\n\n${imgLine}🛍️ PhoneLab360 এ কিনুন\n✅ 100% অরিজিনাল\n🚚 দ্রুত ডেলিভারি\n📞 01878877746`;
 }
 function getShareLink() {
     const baseUrl = 'https://phone360.pages.dev/github.io/phonelab360-website';
@@ -1713,9 +1716,16 @@ function toggleTrxField() {
     const trxGroup = document.getElementById('trxGroup');
     const trxInput = document.getElementById('trxId');
     const payInfo = document.getElementById('paymentInstructions');
+    if (method === 'COD') {
+        trxGroup.style.display = 'none';
+        trxInput.required = false;
+        trxInput.value = '';
+        payInfo.innerHTML = `<strong>💵 ক্যাশ অন ডেলিভারি (COD):</strong><br>পণ্য হাতে পেয়ে টাকা দিন।<br><small style="color:rgba(255,255,255,0.85);font-weight:600;">✅ সহজ, নিরাপদ এবং দ্রুত</small>`;
+        return;
+    }
     trxGroup.style.display = 'block';
     trxInput.required = true;
-    const methodName = { Bkash: 'বিকাশ', Nagad: 'নগদ', Rocket: 'রকেট' }[method] || 'ডিজিটাল';
+    const methodName = { Bkash: 'বিকাশ', Nagad: 'নগদ' }[method] || 'ডিজিটাল';
     payInfo.innerHTML = `<strong>💳 ${methodName} পেমেন্ট:</strong><br>${methodName}: <b>01878877746</b> (Send Money)<br>পেমেন্ট করে TrxID দিন।`;
 }
 function openModal(name, price) {
@@ -1739,7 +1749,7 @@ async function submitOrder(e) {
     const parsedPrice = parseInt(rawPrice.replace(/[^0-9]/g, ''), 10) || 0;
     const method = document.getElementById('payMethod').value;
     const trx = document.getElementById('trxId').value.trim();
-    if (!trx) { alert('TrxID দিন'); btn.textContent = '✅ কনফার্ম অর্ডার'; btn.disabled = false; return; }
+    if (method !== 'COD' && !trx) { alert('TrxID দিন'); btn.textContent = '✅ কনফার্ম অর্ডার'; btn.disabled = false; return; }
     const order = {
         product_name: document.getElementById('prodName').value,
         price: parsedPrice,
@@ -1747,7 +1757,7 @@ async function submitOrder(e) {
         phone: document.getElementById('custPhone').value,
         address: document.getElementById('custAddress').value,
         payment_method: method,
-        transaction_id: trx,
+        transaction_id: method === 'COD' ? 'COD' : trx,
         status: 'চলমান'
     };
     try {
@@ -1815,7 +1825,7 @@ function openOrderByPid(pid) {
 
 function setShareByPid(pid) {
     const p = productsData.find(x => Number(x.id) === Number(pid));
-    if (p) setShareProduct(p.name || '', p.price || '');
+    if (p) setShareProduct(p.name || '', p.price || '', p.image || '');
 }
 
 // ========== PRODUCT HELPER ==========
@@ -1831,7 +1841,7 @@ function openOrderByIdx(idx) {
 }
 function setShareByIdx(idx) {
     const p = productsData[Number(idx)];
-    if (p) setShareProduct(p.name || '', p.price || '');
+    if (p) setShareProduct(p.name || '', p.price || '', p.image || '');
 }
 
 // ========== PRODUCT DETAIL MODAL ==========
@@ -1899,7 +1909,7 @@ function openDetailModal(p) {
     const specTable = document.getElementById('detailSpecTable');
     if (specs.length > 0) {
         specTable.innerHTML = specs.map(([k, v, cls]) =>
-            `<tr><td>${k}</td><td class="${cls === 'green' ? 'green-val' : ''}">${v}</td></tr>`
+            `<tr><th>${k}</th><td class="${cls === 'green' ? 'green-val' : ''}">${v}</td></td>`
         ).join('');
     } else {
         specTable.innerHTML = '<tr><td colspan="2" style="color:var(--text-muted);font-size:12px;padding:8px 0;">তথ্য যোগ করা হয়নি</td></tr>';
@@ -2089,7 +2099,7 @@ function enableDragScroll(el) {
             </div>
             <div class="detail-section">
                 <div class="detail-section-title"><i class="fa-solid fa-list-ul"></i> স্পেসিফিকেশন</div>
-                <table class="detail-spec-table" id="detailSpecTable"></table>
+                <table class="detail-spec-table" id="detailSpecTable"><table>
             </div>
             <div class="detail-section" id="detailDescSection">
                 <div class="detail-section-title"><i class="fa-solid fa-circle-info"></i> পণ্যের বিবরণ</div>

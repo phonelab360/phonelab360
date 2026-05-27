@@ -2,7 +2,12 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- WebView (AppsGeyser) এ "Desktop mode" চালু থাকলে অনেক সময় সাইটটি ছোট হয়ে স্কেল-ডাউন হয়ে যায়।
+         নিচের viewport + JS ফিক্স শুধুমাত্র সেই অবস্থায় মোবাইল লেআউট ঠিকভাবে দেখাতে সাহায্য করবে। -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="width">
+    <meta name="format-detection" content="telephone=no">
     <title>PhoneLab360 - প্রিমিয়াম মোবাইল পার্টস স্টোর | অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে</title>
     <meta name="description" content="PhoneLab360 - বাংলাদেশের বিশ্বস্ত মোবাইল পার্টস স্টোর। 100% অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে এবং অন্যান্য পার্টস।">
     <meta name="keywords" content="মোবাইল পার্টস, ফোন ব্যাটারি, মোবাইল চার্জার, ফোন ডিসপ্লে, অরিজিনাল পার্টস, ঢাকা, বাংলাদেশ">
@@ -33,6 +38,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Exo+2:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // --- AppsGeyser Desktop-mode Fix ---
+        // কিছু WebView (বিশেষ করে "Desktop mode") viewport meta ঠিকমতো মানে না/ওভাররাইড করে,
+        // ফলে page width বড় (যেমন 980px) ধরে নিয়ে পুরো সাইট ছোট করে স্কেল করে ফেলে।
+        // ছোট ডিভাইসে যদি innerWidth অস্বাভাবিকভাবে বড় হয়, তাহলে force-mobile ক্লাস বসিয়ে
+        // মোবাইল-ফ্রেন্ডলি CSS ও viewport বাধ্যতামূলক করা হয়।
+        (function () {
+            try {
+                var deviceMin = Math.min(screen.width || 0, screen.height || 0) || 0;
+                var isSmallDevice = deviceMin && deviceMin <= 700;
+                var isDesktopModeLike = isSmallDevice && window.innerWidth && window.innerWidth >= (deviceMin * 1.4);
+
+                if (isDesktopModeLike) {
+                    document.documentElement.classList.add('force-mobile');
+                    var vp = document.querySelector('meta[name="viewport"]');
+                    if (vp) {
+                        vp.setAttribute(
+                            'content',
+                            'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no'
+                        );
+                    }
+                }
+            } catch (e) { /* noop */ }
+        })();
+    </script>
 
     <style>
         :root {
@@ -923,6 +954,27 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* ===== APPSGEYSER / WEBVIEW "DESKTOP MODE" রেসপনসিভ ফিক্স =====
+           এই স্টাইলগুলো শুধুমাত্র উপরের JS যখন html-এ .force-mobile যোগ করে তখনই কাজ করবে।
+           তাই স্বাভাবিক ব্রাউজার/ডেস্কটপ ভিউ আগের মতোই থাকবে। */
+        html.force-mobile,
+        html.force-mobile body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        html.force-mobile body {
+            /* Desktop-mode overview scale কমিয়ে অ্যাপে কনটেন্ট বড়/পড়তে সহজ রাখা */
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        html.force-mobile .container { max-width: 100%; }
+        html.force-mobile .product-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+        html.force-mobile .prayer-grid { grid-template-columns: repeat(3, 1fr); }
+        html.force-mobile #home-products .card { min-width:155px; max-width:155px; flex-shrink:0; }
     </style>
 </head>
 <body>

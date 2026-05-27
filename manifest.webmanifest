@@ -1,0 +1,24 @@
+{
+  "name": "PhoneLab360",
+  "short_name": "PhoneLab360",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#002c4b",
+  "description": "PhoneLab360 - প্রিমিয়াম মোবাইল পার্টস স্টোর",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.postimg.cc/GhQHhLsw/01878877746-20260519-212254-0000.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

@@ -2,12 +2,13 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <!-- WebView (AppsGeyser) এ "Desktop mode" চালু থাকলে অনেক সময় সাইটটি ছোট হয়ে স্কেল-ডাউন হয়ে যায়।
-         নিচের viewport + JS ফিক্স শুধুমাত্র সেই অবস্থায় মোবাইল লেআউট ঠিকভাবে দেখাতে সাহায্য করবে। -->
+    <!-- AppsGeyser/WebView-এ যাতে সবসময় মোবাইল লেআউট থাকে (mobile mode) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no">
     <meta name="HandheldFriendly" content="true">
     <meta name="MobileOptimized" content="width">
     <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#002c4b">
+    <link rel="manifest" href="manifest.webmanifest">
     <title>PhoneLab360 - প্রিমিয়াম মোবাইল পার্টস স্টোর | অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে</title>
     <meta name="description" content="PhoneLab360 - বাংলাদেশের বিশ্বস্ত মোবাইল পার্টস স্টোর। 100% অরিজিনাল ব্যাটারি, চার্জার, ডিসপ্লে এবং অন্যান্য পার্টস।">
     <meta name="keywords" content="মোবাইল পার্টস, ফোন ব্যাটারি, মোবাইল চার্জার, ফোন ডিসপ্লে, অরিজিনাল পার্টস, ঢাকা, বাংলাদেশ">
@@ -40,18 +41,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // --- AppsGeyser Desktop-mode Fix ---
-        // কিছু WebView (বিশেষ করে "Desktop mode") viewport meta ঠিকমতো মানে না/ওভাররাইড করে,
-        // ফলে page width বড় (যেমন 980px) ধরে নিয়ে পুরো সাইট ছোট করে স্কেল করে ফেলে।
-        // ছোট ডিভাইসে যদি innerWidth অস্বাভাবিকভাবে বড় হয়, তাহলে force-mobile ক্লাস বসিয়ে
-        // মোবাইল-ফ্রেন্ডলি CSS ও viewport বাধ্যতামূলক করা হয়।
+        // --- AppsGeyser "Mobile Mode" Fix ---
+        // WebView/AppsGeyser-এ অনেক সময় ডিফল্টভাবে Desktop-mode-এর মতো স্কেলিং হয়ে যায়।
+        // নিচের কোড WebView/AppsGeyser ডিটেক্ট করলে force-mobile ক্লাস বসিয়ে মোবাইল CSS বাধ্যতামূলক করে।
         (function () {
             try {
+                var ua = (navigator.userAgent || '').toLowerCase();
+                var isAppsGeyser = ua.includes('appsgeyser');
+                var isAndroidWebView = ua.includes(' wv') || ua.includes('; wv)') || (ua.includes('android') && ua.includes('version/') && ua.includes('chrome'));
+                var isWebViewLike = isAppsGeyser || isAndroidWebView;
+
+                // Desktop-mode-like fallback (কিছু ক্ষেত্রে UA ধরা না-ও পড়তে পারে)
                 var deviceMin = Math.min(screen.width || 0, screen.height || 0) || 0;
                 var isSmallDevice = deviceMin && deviceMin <= 700;
                 var isDesktopModeLike = isSmallDevice && window.innerWidth && window.innerWidth >= (deviceMin * 1.4);
 
-                if (isDesktopModeLike) {
+                if (isWebViewLike || isDesktopModeLike) {
                     document.documentElement.classList.add('force-mobile');
                     var vp = document.querySelector('meta[name="viewport"]');
                     if (vp) {
@@ -614,6 +619,66 @@
         .nav-item.active { color: var(--accent); }
         .nav-item.active i { transform: scale(1.15); }
 
+        /* ===== APPSGEYSER / WEBVIEW FORCED MOBILE STYLE =====
+           শুধুমাত্র html.force-mobile থাকলে কাজ করবে, তাই ডেস্কটপ ব্রাউজারে কোনো পরিবর্তন হবে না। */
+        html.force-mobile,
+        html.force-mobile body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        html.force-mobile body {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        html.force-mobile .container { max-width: 100%; }
+        html.force-mobile .product-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+        html.force-mobile .prayer-grid { grid-template-columns: repeat(3, 1fr); }
+
+        /* ===== PWA INSTALL BAR (ওয়েবসাইটের নিচে Install App বাটন) ===== */
+        .pwa-install-bar {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 74px; /* bottom-nav এর উপর */
+            background: rgba(255,255,255,0.96);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 10px 10px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            z-index: 1200;
+            backdrop-filter: blur(8px);
+        }
+        .pwa-install-text { flex: 1; font-size: 12px; font-weight: 700; color: var(--primary); line-height: 1.2; }
+        .pwa-install-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            white-space: nowrap;
+            box-shadow: 0 6px 16px rgba(5,196,107,0.25);
+        }
+        .pwa-close-btn {
+            background: transparent;
+            border: none;
+            font-size: 18px;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 0 6px;
+            line-height: 1;
+        }
+        body.pwa-bar-visible { padding-bottom: 140px; }
+
         /* ===== PAGES ===== */
         .page-content { display: none; }
         .page-content.active { display: block; }
@@ -954,27 +1019,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* ===== APPSGEYSER / WEBVIEW "DESKTOP MODE" রেসপনসিভ ফিক্স =====
-           এই স্টাইলগুলো শুধুমাত্র উপরের JS যখন html-এ .force-mobile যোগ করে তখনই কাজ করবে।
-           তাই স্বাভাবিক ব্রাউজার/ডেস্কটপ ভিউ আগের মতোই থাকবে। */
-        html.force-mobile,
-        html.force-mobile body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
-        html.force-mobile body {
-            /* Desktop-mode overview scale কমিয়ে অ্যাপে কনটেন্ট বড়/পড়তে সহজ রাখা */
-            max-width: 520px;
-            margin: 0 auto;
-        }
-        html.force-mobile .container { max-width: 100%; }
-        html.force-mobile .product-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
-        html.force-mobile .prayer-grid { grid-template-columns: repeat(3, 1fr); }
-        html.force-mobile #home-products .card { min-width:155px; max-width:155px; flex-shrink:0; }
     </style>
 </head>
 <body>
@@ -1308,6 +1352,13 @@
     <i class="fa-brands fa-whatsapp"></i>
 </a>
 
+<!-- PWA Install Bar (ওয়েবসাইটের একদম নিচে Install App বাটন) -->
+<div class="pwa-install-bar" id="pwaInstallBar" aria-hidden="true">
+    <div class="pwa-install-text">📲 অ্যাপ হিসেবে ইন্সটল করুন (Install App)</div>
+    <button class="pwa-install-btn" id="pwaInstallBtn" type="button">Install App</button>
+    <button class="pwa-close-btn" id="pwaInstallClose" type="button" title="বন্ধ">×</button>
+</div>
+
 <!-- বটম নেভিগেশন -->
 <div class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('home', this)"><i class="fa-solid fa-house"></i>হোম</button>
@@ -1315,6 +1366,75 @@
     <button class="nav-item" onclick="switchTab('track', this)"><i class="fa-solid fa-truck-fast"></i>ট্র্যাকিং</button>
     <a href="https://wa.me/8801878877746" target="_blank" class="nav-item"><i class="fa-brands fa-whatsapp"></i>হেল্প</a>
 </div>
+
+<script>
+// ===================== PWA SETUP (Install App বাটন) =====================
+// নোট:
+// 1) কাজ করার জন্য সাইটটি অবশ্যই HTTPS-এ হোস্ট করা থাকতে হবে (GitHub Pages ঠিক আছে)
+// 2) manifest.webmanifest + sw.js একই ফোল্ডারে থাকতে হবে (index.html এর পাশে)
+// 3) iPhone (iOS Safari) এ নেটিভ "Install" পপআপ আসে না—ওখানে Add to Home Screen নির্দেশনা দেখানো হয়
+(function () {
+    // Service Worker register
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('./sw.js').catch(function () { /* ignore */ });
+        });
+    }
+
+    var bar = document.getElementById('pwaInstallBar');
+    var btn = document.getElementById('pwaInstallBtn');
+    var closeBtn = document.getElementById('pwaInstallClose');
+    if (!bar || !btn || !closeBtn) return;
+
+    function showBar() {
+        bar.style.display = 'flex';
+        bar.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('pwa-bar-visible');
+    }
+    function hideBar() {
+        bar.style.display = 'none';
+        bar.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('pwa-bar-visible');
+    }
+
+    closeBtn.addEventListener('click', hideBar);
+
+    // iOS fallback
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent || '');
+    var isStandaloneIOS = (window.navigator.standalone === true);
+    if (isIOS && !isStandaloneIOS) {
+        showBar();
+        btn.addEventListener('click', function () {
+            alert('iPhone এ ইন্সটল করতে: Safari এর Share বাটন → "Add to Home Screen" সিলেক্ট করুন।');
+        });
+        return;
+    }
+
+    // Android/Chrome/Edge etc. native prompt
+    var deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        showBar();
+    });
+
+    window.addEventListener('appinstalled', function () {
+        deferredPrompt = null;
+        hideBar();
+    });
+
+    btn.addEventListener('click', async function () {
+        if (!deferredPrompt) {
+            alert('Install অপশন এখনো রেডি হয়নি। দয়া করে একবার রিফ্রেশ করুন (আর নিশ্চিত করুন HTTPS + manifest + service worker ঠিক আছে)।');
+            return;
+        }
+        deferredPrompt.prompt();
+        try { await deferredPrompt.userChoice; } catch (e) { /* ignore */ }
+        deferredPrompt = null;
+        hideBar();
+    });
+})();
+</script>
 
 <!-- অর্ডার মডাল -->
 <div class="modal" id="orderModal">
